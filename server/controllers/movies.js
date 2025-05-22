@@ -1,36 +1,36 @@
-const movieList = require("../model/movies")
+import movieList from "../model/movies.js";
 
-exports.retrieveAllMovies = async (req, res) => {
+export const fetchAllMovies = async (req, res) => {
   try {
-    const result = await movieList.find();
-    res.status(200).send(result)
-  } catch (e) {
-    console.log(`There has been an error with retrieveAllMovies:`, e)
-    res.status(500).send(`Internal Server Error`)
+    const response = await movieList.find({}).select();
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(`Error with fetchAllMovies:`, error);
+    res.status(500).json(`Internal Server Error`);
   }
-}
+};
 
-exports.addMovie = async (req, res) => {
-  console.log("body", req.body);
+export const addMovie = async (req, res) => {
   try {
-    if (!req.body.imdbId) {
-      return res.status(400).send("Missing imdbId");
-    } else {
-      const result = await movieList.create(req.body);
-      res.status(200).send({msg:`The requested movie has been added: ${result}`})
-    }
-  } catch (e) {
-    console.log(`There has been an error with addMovie:`, e)
-    res.status(500).send(`Internal Server Error`)
+    const { imdbId } = req.body;
+    if (!imdbId) return res.status(400).json("Missing imdbId");
+    const response = await movieList.create(imdbId);
+    res
+      .status(200)
+      .json({ msg: `The requested movie has been added: ${response}` });
+  } catch (error) {
+    console.log(`Error with addMovie:`, error);
+    res.status(500).json(`Internal Server Error`);
   }
-}
+};
 
-exports.removeMovie = async (req, res) => {
+export const removeMovie = async (req, res) => {
   try {
-    const { imdbId } = req.body.params;
-    const result = await deleteOne({ imdbId: imdbId});
-  } catch (e) {
-    console.log(`There has been an error with removeMovie:`, e)
-    res.status(500).send(`Internal Server Error`)
+    const { imdbId } = req.params;
+    const response = await deleteOne({ imdbId: imdbId });
+    return res.status(500).json(`Successfully deleted ${imdbId} from list`);
+  } catch (error) {
+    console.log(`Error with removeMovie:`, error);
+    res.status(500).json(`Internal Server Error`);
   }
-}
+};
