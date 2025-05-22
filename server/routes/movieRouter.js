@@ -1,12 +1,12 @@
 import express from "express";
 import {
-  retrieveAllMovies,
+  fetchAllMovies,
   addMovie,
   removeMovie,
-} from "./controllers/movies.js";
+} from "../controllers/movieController.js";
 const router = express.Router();
 
-router.get("/movielist", retrieveAllMovies);
+router.get("/movielist", fetchAllMovies);
 router.post("/movie", addMovie);
 router.delete("/movie", removeMovie);
 
