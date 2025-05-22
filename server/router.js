@@ -6,8 +6,8 @@ import {
 } from "./controllers/movies.js";
 const router = express.Router();
 
-router.get("/", retrieveAllMovies);
-router.post("/", addMovie);
-router.delete("/", removeMovie);
+router.get("/movielist", retrieveAllMovies);
+router.post("/movie", addMovie);
+router.delete("/movie", removeMovie);
 
 export default router;
