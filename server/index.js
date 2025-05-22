@@ -1,24 +1,26 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import router from "./router.js";
+
+dotenv.config();
+
 const app = express();
-var bodyParser = require("body-parser");
-var cors = require("cors");
-const mongoose = require("./model");
+const PORT = process.env.PORT || 3000;
 
-const port = 3000;
-const router = require("./router");
-
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 app.use(router);
 
-(async function () {
+(async function main() {
   try {
-    mongoose.connect("mongodb://127.0.0.1:27017/WhatToWatch");
-    app.listen(port);
+    await mongoose.connect(process.env.MONGODB_URI);
+    app.listen(PORT);
     console.log(
-      `Server running on PORT ${port} and Database has successfully connected!🕊️`
+      `Server running on PORT ${PORT} and Database has successfully connected!🕊️`
     );
-  } catch (e) {
-    console.log(`Database could not connect:`, e);
+  } catch (error) {
+    console.log(`Database could not connect:`, error);
   }
 })();
