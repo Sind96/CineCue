@@ -9,7 +9,7 @@ const SignInPage = () => {
 
   const handleSignIn = async () => {
     try {
-      console.log(email, password);
+      console.log("test");
     } catch (error) {
       console.log(`Error with handleSignIn:`, error);
     }
