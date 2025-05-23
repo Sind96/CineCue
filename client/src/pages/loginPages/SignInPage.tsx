@@ -1,10 +1,18 @@
-import { useNavigate } from "react-router";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router";
 
 const SignInPage = () => {
-  const navigate = useNavigate();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  // const navigate = useNavigate();
 
-  const signUpNow = () => {
-    navigate("/signup");
+  const handleSignIn = async () => {
+    try {
+      console.log(email, password);
+    } catch (error) {
+      console.log(`Error with handleSignIn:`, error);
+    }
   };
 
   return (
@@ -16,15 +24,29 @@ const SignInPage = () => {
         <p>Enter your credentials to login</p>
       </div>
 
-      <form>
-        <input type="text" placeholder="email@domain.com" />
-        <input type="password" placeholder="password" />
+      <form onSubmit={handleSignIn}>
+        <input
+          type="text"
+          placeholder="email@domain.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoComplete="current-email"
+        />
+        <input
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          autoComplete="current-password"
+        />
         <button type="submit">Login</button>
       </form>
 
       <div>
         <p>
-          First time? <span onClick={signUpNow}>Sign up now!</span>
+          First time? <Link to="/signup">Sign up now!</Link>
         </p>
       </div>
     </div>
