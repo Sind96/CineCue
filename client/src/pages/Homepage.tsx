@@ -1,4 +1,4 @@
-import TitleAndLogo from "../components/TitleAndLogo";
+import Title from "../components/Title.js";
 
 const Homepage = () => {
   const title = (
@@ -9,7 +9,7 @@ const Homepage = () => {
 
   return (
     <div>
-      <TitleAndLogo title={title} />
+      <Title title={title} />
     </div>
   );
 };

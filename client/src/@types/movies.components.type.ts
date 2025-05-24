@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
 
-export interface TitleAndLogoProps {
+export interface TitleProps {
   title: ReactNode;
 }
