@@ -1,6 +1,6 @@
-import Title from "../components/Title.js";
+import TitleAndLogo from "../components/_universal/Title";
 
-const Homepage = () => {
+const HomePage = () => {
   const title = (
     <p>
       Cine<span>Cue</span>
@@ -9,9 +9,9 @@ const Homepage = () => {
 
   return (
     <div>
-      <Title title={title} />
+      <TitleAndLogo title={title} />
     </div>
   );
 };
 
-export default Homepage;
+export default HomePage;
