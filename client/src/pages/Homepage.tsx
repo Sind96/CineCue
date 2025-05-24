@@ -1,7 +1,15 @@
+import TitleAndLogo from "../components/TitleAndLogo";
+
 const Homepage = () => {
+  const title = (
+    <p>
+      Cine<span>Cue</span>
+    </p>
+  );
+
   return (
     <div>
-      <p>Homepage</p>
+      <TitleAndLogo title={title} />
     </div>
   );
 };
