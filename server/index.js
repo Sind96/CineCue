@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import router from "./routes/favouriteRouter.js";
+import favouriteRouter from "./routes/favouriteRoutes.js";
+import movieRouter from "./routes/movieRoutes.js";
 
 dotenv.config();
 
@@ -11,7 +12,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
-app.use(router);
+app.use("/favourites", favouriteRouter);
+app.use("/movies", movieRouter);
 
 (async function main() {
   try {
