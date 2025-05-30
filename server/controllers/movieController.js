@@ -1,9 +1,13 @@
 import dotenv from "dotenv";
-
 dotenv.config();
 
 export const apiMovieCall = async (req, res) => {
   const { query } = req.body;
+
+  if (!query)
+    return res.status(400).json({ message: "Missing movie title query" });
+
+  console.log("This is query:", query);
 
   const url = `https://moviesdatabase.p.rapidapi.com/titles/search/title/${query}?exact=false&titleType=movie`;
   const options = {
@@ -17,7 +21,8 @@ export const apiMovieCall = async (req, res) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
-    console.log(result);
+    console.log(result.results);
+    return res.json(result.results);
   } catch (error) {
     console.log("Error with apiMovieCall", error);
     res.status(500).json("Internal Server Error");
