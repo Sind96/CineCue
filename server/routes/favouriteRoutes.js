@@ -10,4 +10,4 @@ router.get("/MovieList", fetchMoviesFromFavouriteList);
 router.post("/addMovie", addMovieToFavouriteList);
 router.delete("/removeMovie", removeMovieFromFavouriteList);
 
-export default favouriteRouter;
+export default router;

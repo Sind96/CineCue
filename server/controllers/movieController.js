@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const apiMovieCall = async (req, res) => {
-  const query = req.query.q;
+  const query = req.body.query;
+  console.log("This is query:", query);
 
   const options = {
     method: "GET",

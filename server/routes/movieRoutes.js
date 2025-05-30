@@ -1,7 +1,7 @@
 import express from "express";
-import { apiMovieCall } from "../controllers/movieController";
+import { apiMovieCall } from "../controllers/movieController.js";
 const router = express.Router();
 
-router.get("/apiCall", apiMovieCall);
+router.get("/call", apiMovieCall);
 
-export default movieRouter;
+export default router;

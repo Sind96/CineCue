@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 app.use("/favourites", favouriteRouter);
-app.use("/movies", movieRouter);
+app.use(movieRouter);
 
 (async function main() {
   try {
