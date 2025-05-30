@@ -1,22 +1,29 @@
 import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import axios from "axios";
+import type { searchResultsType } from "../../@types/movies.components.type";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  // console.log("This is searchTerm:", searchTerm);
-  const [searchResults, setSearchResults] = useState();
-  // console.log("This is searchResults:", searchResults);
+  console.log(searchTerm);
+  const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
+  console.log(searchResults);
 
   const handleSearch = async () => {
-    const response = await axios.get(`/call`, {
-      data: {
-        query: searchTerm,
-      },
-    });
-    console.log("This is response", response);
-    // console.log("test", response.json(response.data);)
-    setSearchResults(response.data.results);
+    try {
+      const response = await fetch("http://127.0.0.1:3000/call", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: searchTerm }),
+      });
+
+      const data = await response.json();
+      console.log("Search results:", data);
+      setSearchResults(data);
+    } catch (error) {
+      console.log("Error with handleSearch", error);
+    }
   };
 
   return (
@@ -30,12 +37,11 @@ const SearchBar = () => {
         />
         <CiSearch onClick={handleSearch} />
       </div>
-      {/* <div>
+      <div>
         {searchResults.map((movie) => (
-          <li key={movie.imdbId}>
-            {movie.title} </li>>
-        )}
-      </div> */}
+          <li key={movie.id}>{movie.titleText.text}</li>
+        ))}
+      </div>
     </div>
   );
 };
