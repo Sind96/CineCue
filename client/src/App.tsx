@@ -5,13 +5,13 @@ import Homepage from "./pages/HomePage";
 import WatchListPage from "./pages/WatchListPage";
 import IndividualMoviePage from "./pages/IndividualMoviePage";
 import SignUpPage from "./pages/loginPages/SignUpPage";
-import SearchBar from "./components/HomePage/SearchBar";
+// import SearchBar from "./components/HomePage/SearchBar";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SearchBar />} />
+        <Route path="/" element={<IndividualMoviePage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/home" element={<Homepage />} />
         <Route path="/watchlist" element={<WatchListPage />} />
