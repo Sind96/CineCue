@@ -4,9 +4,8 @@ import type { searchResultsType } from "../../@types/movies.components.type";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(searchTerm);
   const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
-  console.log(searchResults);
+  const 
 
   const handleSearch = async () => {
     try {
