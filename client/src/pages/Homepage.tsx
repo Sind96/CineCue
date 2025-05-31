@@ -1,4 +1,5 @@
 import TitleAndLogo from "../components/_universal/Title";
+import SearchBar from "../components/HomePage/SearchBar";
 
 const HomePage = () => {
   const title = (
@@ -10,6 +11,7 @@ const HomePage = () => {
   return (
     <div>
       <TitleAndLogo title={title} />
+      <SearchBar />
     </div>
   );
 };
