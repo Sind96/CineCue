@@ -1,4 +1,5 @@
 import { MdOutlineStarOutline } from "react-icons/md";
+import AddToWatchList from "../components/IndividualMoviePage/AddToWatchList";
 
 const IndividualMoviePage = () => {
   return (
@@ -29,6 +30,7 @@ const IndividualMoviePage = () => {
             </a>
           </div>
         </div>
+        <AddToWatchList />
       </div>
     </div>
   );
