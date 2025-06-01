@@ -25,7 +25,7 @@ const SearchBar = () => {
 
   return (
     <div>
-      <div className="flex justify-center-safe">
+      <div className="flex justify-between">
         <input
           type="text"
           placeholder="Seach for a movie..."
