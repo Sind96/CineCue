@@ -3,7 +3,7 @@ import "./index.css";
 import WatchListPage from "./pages/WatchListPage";
 import IndividualMoviePage from "./pages/IndividualMoviePage";
 import SignUpPage from "./pages/loginPages/SignUpPage";
-import Navbar from "./components/_universal/NavBar/Navbar";
+import Navbar from "./components/_universal/Navbar";
 import HomePage from "./pages/Homepage";
 import SignInPage from "./pages/loginPages/SignInPage";
 

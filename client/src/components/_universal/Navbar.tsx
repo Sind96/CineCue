@@ -1,7 +1,7 @@
-import NavBarItem from "./NavBarItem";
-import SearchBar from "./SearchBar";
-import SignUpAndSignIn from "./SignUpAndSignIn";
-import Title from "./Title";
+import NavBarItem from "./NavBar/NavBarItem";
+import SearchBar from "./NavBar/SearchBar";
+import SignUpAndSignIn from "./NavBar/SignUpAndSignIn";
+import Title from "./NavBar/Title";
 
 const Navbar = () => {
   return (
