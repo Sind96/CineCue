@@ -1,7 +1,9 @@
+import Title from "./Title";
+
 const Navbar = () => {
   return (
     <div>
-      <p>Navbar</p>
+      <Title />
     </div>
   );
 };
