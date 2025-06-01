@@ -1,4 +1,4 @@
-import Navbar from "../components/_universal/Navbar";
+import Navbar from "../components/_universal/NavBar/_Navbar";
 
 const WatchListPage = () => {
   return (
