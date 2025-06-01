@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/_universal/NavBar/_Navbar";
 // import { useNavigate } from "react-router";
 
 const SignInPage = () => {
@@ -17,6 +18,7 @@ const SignInPage = () => {
 
   return (
     <div>
+      <Navbar />
       <div>
         <p>
           Welcome<span>Back</span>

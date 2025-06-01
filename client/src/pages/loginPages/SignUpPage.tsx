@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/_universal/NavBar/_Navbar";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -21,6 +22,7 @@ const SignUpPage = () => {
 
   return (
     <div>
+      <Navbar />
       <div>
         <p>
           Sign<span>Up</span>
