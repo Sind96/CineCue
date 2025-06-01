@@ -1,7 +1,7 @@
 const MovieListItem = () => {
   return (
     <div>
-      <p>MovieListItem</p>
+      <img />
     </div>
   );
 };
