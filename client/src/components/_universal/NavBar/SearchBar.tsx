@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import type { searchResultsType } from "../../@types/movies.components.type";
+import type { searchResultsType } from "../../../@types/movies.components.type";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<searchResultsType[]>([]); 
+  const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
 
   const handleSearch = async () => {
     try {
@@ -25,7 +25,7 @@ const SearchBar = () => {
 
   return (
     <div>
-      <div>
+      <div className="flex justify-center-safe">
         <input
           type="text"
           placeholder="Seach for a movie..."
