@@ -1,4 +1,18 @@
+import { useEffect, useState } from "react";
+
 const MovieList = () => {
+  const [actionMovie, setActionMovie] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const res = await fetch("http://localhost:3000/stream/Action");
+      const data = await res.json();
+      console.log(data);
+      setActionMovie(data);
+    };
+    fetchMovies();
+  }, []);
+
   return (
     <div>
       <div>
@@ -14,6 +28,7 @@ const MovieList = () => {
       <div>
         <p>Action</p>
       </div>
+      {/* {actionMovie.shows} */}
       <div></div>
 
       {/* <div>
