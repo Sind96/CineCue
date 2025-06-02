@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import favouriteRouter from "./routes/favouriteRoutes.js";
-import movieRouter from "./routes/movieRoutes.js";
+import movieRouter from "./routes/moviesDatabaseRoutes.js";
 
 dotenv.config();
 
