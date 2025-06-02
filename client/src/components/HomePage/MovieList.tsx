@@ -16,7 +16,7 @@ const MovieList = () => {
       </div>
       <div></div>
 
-      <div>
+      {/* <div>
         <p>Adventure</p>
       </div>
       <div></div>
@@ -119,7 +119,7 @@ const MovieList = () => {
       <div>
         <p>Western</p>
       </div>
-      <div></div>
+      <div></div> */}
     </div>
   );
 };
