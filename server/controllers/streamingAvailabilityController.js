@@ -2,7 +2,7 @@ import * as streamingAvailability from "streaming-availability";
 import dotenv from "dotenv";
 
 export const streamingAvailabilityApi = async (req, res) => {
-  const genre = req.params;
+  const { genre } = req.params;
   const url = `https://streaming-availability.p.rapidapi.com/shows/search/filters?country=gb&genres=${genre}&order_direction=asc&order_by=rating&genres_relation=or&output_language=en&show_type=movie`;
   const options = {
     method: "GET",
