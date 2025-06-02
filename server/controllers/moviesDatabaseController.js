@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-export const apiMovieCall = async (req, res) => {
+export const apiMoviesDatabase = async (req, res) => {
   const { query } = req.body;
 
   if (!query)
