@@ -1,7 +1,9 @@
-const MovieListItem = () => {
+import type { MovieListItemProps } from "../../@types/movies.components.type";
+
+const MovieListItem = ({ src, alt }: MovieListItemProps) => {
   return (
     <div>
-      <img />
+      <img src={src} alt={alt} />
     </div>
   );
 };
