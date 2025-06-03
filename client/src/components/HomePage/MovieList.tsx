@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import MovieListItem from "./MovieListItem";
+import type { streamingAvailabilityProps } from "../../@types/streamingAvailability/_streamingAvailability.type";
 
 const MovieList = () => {
-  const [actionMovie, setActionMovie] = useState([]);
+  const [actionMovie, setActionMovie] = useState<streamingAvailabilityProps[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -28,7 +33,16 @@ const MovieList = () => {
       <div>
         <p>Action</p>
       </div>
-      {/* {actionMovie.shows} */}
+      {actionMovie.map((movie) => (
+        <li key={movie.id}>
+          <Link to={`/movie/${movie.imdbId}`}>
+            <MovieListItem
+              src={movie.imageSet?.verticalPoster?.w720}
+              alt={movie.title}
+            />
+          </Link>
+        </li>
+      ))}
       <div></div>
 
       {/* <div>

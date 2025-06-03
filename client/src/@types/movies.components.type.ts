@@ -7,3 +7,8 @@ export interface searchResultsType {
     url: string;
   };
 }
+
+export interface MovieListItemProps {
+  src: string;
+  alt: string;
+}
