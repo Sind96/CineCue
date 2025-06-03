@@ -7,15 +7,16 @@ export const streamingAvailabilityApi = async (req, res) => {
   const options = {
     method: "GET",
     headers: {
-      "x-rapidapi-key": "c17209a989msh99a90a2cefb1ff7p1a1912jsn62171610f641",
+      "x-rapidapi-key": process.env.X_RAPIDAPI_KEY,
       "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
     },
   };
 
   try {
     const response = await fetch(url, options);
-    const result = await response.text();
-    return res.status(200).json(result);
+    const result = await response.json();
+    console.log(result);
+    return res.status(200).json(result.shows);
   } catch (error) {
     console.log("Error with streamingAvailabilityApi:", error);
     res.status(500).json("Internal Server Error");
