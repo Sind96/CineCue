@@ -12,7 +12,7 @@ export interface streamingAvailabilityProps {
   overview: string;
   releaseYear: number;
   originalTitle: string;
-  genre: Genre[];
+  genres: Genre[];
   directors: string[];
   cast: string[];
   rating: number;
