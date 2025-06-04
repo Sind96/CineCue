@@ -15,7 +15,7 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/watchlist" element={<WatchListPage />} />
-        <Route path="/page/:imdbID" element={<IndividualMoviePage />} />
+        <Route path="/movie/:imdbID" element={<IndividualMoviePage />} />
         <Route path="/test" element={<Navbar />} />
       </Routes>
     </BrowserRouter>
