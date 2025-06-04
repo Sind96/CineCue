@@ -1,7 +1,11 @@
 import express from "express";
-import { streamingAvailabilityApi } from "../controllers/streamingAvailabilityController.js";
+import {
+  streamingAvailabilityGenreApi,
+  streamingAvailabilityimdbIdApi,
+} from "../controllers/streamingAvailabilityController.js";
 const router = express.Router();
 
-router.get("/stream/:genre", streamingAvailabilityApi);
+router.get("/stream/:genre", streamingAvailabilityGenreApi);
+router.get("/streamimdbId/:imdbId", streamingAvailabilityimdbIdApi);
 
 export default router;
