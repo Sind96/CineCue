@@ -37,7 +37,7 @@ const MovieList = () => {
         <li key={movie.id}>
           <Link to={`/movie/${movie.imdbId}`}>
             <MovieListItem
-              src={movie.imageSet?.verticalPoster?.w720}
+              src={movie.imageSet?.horizontalPoster?.w1440}
               alt={movie.title}
             />
           </Link>
