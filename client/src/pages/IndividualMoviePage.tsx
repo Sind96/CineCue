@@ -1,14 +1,12 @@
-import { MdOutlineStarOutline } from "react-icons/md";
-import AddToWatchList from "../components/IndividualMoviePage/AddToWatchList";
+// import { MdOutlineStarOutline } from "react-icons/md";
+// import AddToWatchList from "../components/IndividualMoviePage/AddToWatchList";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { streamingAvailabilityProps } from "../@types/streamingAvailability/_streamingAvailability.type";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
-  console.log(imdbID);
   const [movie, setMovie] = useState<streamingAvailabilityProps | null>(null);
-  console.log("Thisismovie", movie);
 
   useEffect(() => {
     const fetchMovieByImdbId = async () => {
@@ -16,7 +14,6 @@ const IndividualMoviePage = () => {
         `http://localhost:3000/streamimdbId/${imdbID}`
       );
       const data = await response.json();
-      console.log(data);
       setMovie(data);
     };
     fetchMovieByImdbId();

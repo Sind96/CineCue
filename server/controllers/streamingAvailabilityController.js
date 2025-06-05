@@ -17,7 +17,6 @@ export const streamingAvailabilityGenreApi = async (req, res) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
-    console.log(result);
     return res.status(200).json(result.shows);
   } catch (error) {
     console.log("Error with streamingAvailabilityApi:", error);
@@ -27,8 +26,6 @@ export const streamingAvailabilityGenreApi = async (req, res) => {
 
 export const streamingAvailabilityimdbIdApi = async (req, res) => {
   const { imdbId } = req.params;
-  console.log(imdbId)
-  console.log("thisisimdbid", imdbId);
   const url = `https://streaming-availability.p.rapidapi.com/shows/${imdbId}?output_language=en&country=gb`;
   const options = {
     method: "GET",
@@ -41,7 +38,6 @@ export const streamingAvailabilityimdbIdApi = async (req, res) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
-    console.log("this is result from backend", result);
     return res.status(200).json(result);
   } catch (error) {
     console.log("Error with streamingAvailabilityimdbIdApi:", error);

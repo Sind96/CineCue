@@ -6,10 +6,6 @@ import { Link } from "react-router-dom";
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
-  console.log(
-    "Thus is search results",
-    searchResults.map((i) => i.id)
-  );
 
   const handleSearch = async () => {
     try {
