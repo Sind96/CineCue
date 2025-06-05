@@ -27,6 +27,7 @@ export const streamingAvailabilityGenreApi = async (req, res) => {
 
 export const streamingAvailabilityimdbIdApi = async (req, res) => {
   const { imdbId } = req.params;
+  console.log(imdbId)
   console.log("thisisimdbid", imdbId);
   const url = `https://streaming-availability.p.rapidapi.com/shows/${imdbId}?output_language=en&country=gb`;
   const options = {
