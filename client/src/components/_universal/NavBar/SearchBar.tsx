@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import type { searchResultsType } from "../../../@types/movies.components.type";
+import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
+  console.log(
+    "Thus is search results",
+    searchResults.map((i) => i.id)
+  );
 
   const handleSearch = async () => {
     try {
@@ -36,7 +41,9 @@ const SearchBar = () => {
       </div>
       <div>
         {searchResults.map((movie) => (
-          <li key={movie.id}>{movie.titleText.text}</li>
+          <Link to={`/movie/${movie.id}`} key={movie.id}>
+            <li>{movie.titleText.text}</li>
+          </Link>
         ))}
       </div>
     </div>
