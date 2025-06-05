@@ -1,5 +1,6 @@
 export interface searchResultsType {
   id: string;
+  imdbId: string;
   titleText: {
     text: string;
   };
