@@ -6,6 +6,7 @@ import type { streamingAvailabilityProps } from "../@types/streamingAvailability
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
+  console.log(imdbID);
   const [movie, setMovie] = useState<streamingAvailabilityProps | null>(null);
   console.log("Thisismovie", movie);
 
