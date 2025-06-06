@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import favouriteRouter from "./routes/favouriteRoutes.js";
-import moviesDatabaseRouter from "./routes/moviesDatabaseRoutes.js";
 import streamingAvailabilityRouter from "./routes/streamingAvailabilityRoutes.js";
 
 dotenv.config();
@@ -14,7 +13,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 app.use("/favourites", favouriteRouter);
-app.use(moviesDatabaseRouter);
 app.use(streamingAvailabilityRouter);
 
 (async function main() {
