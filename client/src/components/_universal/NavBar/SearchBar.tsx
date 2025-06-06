@@ -68,7 +68,7 @@ const SearchBar = () => {
       <div className="flex justify-between">
         <input
           type="text"
-          placeholder="Seach for a movie..."
+          placeholder="Search for a movie..."
           value={searchTerm}
           onChange={handleInputChange}
           onClick={handleSearch}
