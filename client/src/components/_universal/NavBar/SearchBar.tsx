@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import type { searchResultsType } from "../../../@types/movies.components.type";
-import { Link } from "react-router-dom";
+// import type { searchResultsType } from "../../../@types/movies.components.type";
+// import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+
+  // const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
+
+  useEffect(() => {
+    
+  }, [])
+
+  const handleInputChange = async (e) => {
+    try {
+      const searchTerm = e.target.value;
+
+      if (!searchTerm.length) {
+        setFilteredMovies([]);
+        setSearchTerm("");
+        return true;
+      }
+      setSearchTerm(searchTerm);
+
+      const filteredItems = 
+    } catch (error) {
+      console.log("Error with handleInputChange:", error);
+    }
+  };
 
   const handleSearch = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:3000/call", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query: searchTerm }),
-      });
-
-      const data = await response.json();
-      setSearchResults(data);
+      console.log("test");
     } catch (error) {
       console.log("Error with handleSearch", error);
     }
@@ -31,16 +45,9 @@ const SearchBar = () => {
           type="text"
           placeholder="Seach for a movie..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleInputChange}
         />
         <CiSearch onClick={handleSearch} />
-      </div>
-      <div>
-        {searchResults.map((movie) => (
-          <Link to={`/movie/${movie.id}`} key={movie.id}>
-            <li>{movie.titleText.text}</li>
-          </Link>
-        ))}
       </div>
     </div>
   );
