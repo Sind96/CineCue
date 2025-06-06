@@ -1,19 +1,40 @@
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import type { streamingAvailabilityProps } from "../../../@types/streamingAvailability/_streamingAvailability.type";
+import { useNavigate } from "react-router-dom";
 // import type { searchResultsType } from "../../../@types/movies.components.type";
 // import { Link } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredMovies, setFilteredMovies] = useState([]);
-
-  // const [searchResults, setSearchResults] = useState<searchResultsType[]>([]);
+  const [searchResults, setSearchResults] = useState<
+    streamingAvailabilityProps[]
+  >([]);
+  const [filteredMovies, setFilteredMovies] = useState<
+    streamingAvailabilityProps[]
+  >([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    
-  }, [])
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/stream/title`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ searchTerm }),
+        });
+        const data = await response.json();
+        setSearchResults(data);
+      } catch (error) {
+        console.log("Error with fetchMovies:", error);
+      }
+    };
+    fetchMovies();
+  }, [searchTerm]);
 
-  const handleInputChange = async (e) => {
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const searchTerm = e.target.value;
 
@@ -24,7 +45,10 @@ const SearchBar = () => {
       }
       setSearchTerm(searchTerm);
 
-      const filteredItems = 
+      const filteredItems = searchResults.filter((movie) =>
+        movie.title.toLowerCase().startsWith(newTerm.toLowerCase())
+      );
+      setFilteredMovies(filteredItems.slice(0, 5));
     } catch (error) {
       console.log("Error with handleInputChange:", error);
     }
@@ -32,7 +56,8 @@ const SearchBar = () => {
 
   const handleSearch = async () => {
     try {
-      console.log("test");
+      const imdbId = searchResults.imdbId;
+      navigate(`/movie/${imdbId}`);
     } catch (error) {
       console.log("Error with handleSearch", error);
     }
@@ -46,8 +71,9 @@ const SearchBar = () => {
           placeholder="Seach for a movie..."
           value={searchTerm}
           onChange={handleInputChange}
+          onClick={handleSearch}
         />
-        <CiSearch onClick={handleSearch} />
+        <CiSearch />
       </div>
     </div>
   );
