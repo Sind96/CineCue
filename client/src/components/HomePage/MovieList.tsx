@@ -29,19 +29,21 @@ const MovieList = () => {
       </div>
       <div></div>
 
-      <div>
-        <p>Action</p>
+      <p>Action</p>
+      <div className="flex justify-between align-middle">
+        {actionMovie.map((movie) => (
+          <ul>
+            <li key={movie.id}>
+              <Link to={`/movie/${movie.imdbId}`}>
+                <MovieListItem
+                  src={movie.imageSet?.horizontalPoster?.w1440}
+                  alt={movie.title}
+                />
+              </Link>
+            </li>
+          </ul>
+        ))}
       </div>
-      {actionMovie.map((movie) => (
-        <li key={movie.id}>
-          <Link to={`/movie/${movie.imdbId}`}>
-            <MovieListItem
-              src={movie.imageSet?.horizontalPoster?.w1440}
-              alt={movie.title}
-            />
-          </Link>
-        </li>
-      ))}
       <div></div>
 
       {/* <div>
