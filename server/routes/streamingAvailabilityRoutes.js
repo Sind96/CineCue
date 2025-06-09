@@ -1,13 +1,13 @@
 import express from "express";
 import {
-  streamingAvailabilityGenreApi,
-  streamingAvailabilityimdbIdApi,
-  streamingAvailabilityTitleApi,
+  getMoviesByTitle,
+  getMoviesByGenre,
+  getMoviesByImdbId,
 } from "../controllers/streamingAvailabilityController.js";
 const router = express.Router();
 
-router.post("/stream/title", streamingAvailabilityTitleApi);
-router.get("/streamgenre/:genre", streamingAvailabilityGenreApi);
-router.get("/streamimdbId/:imdbId", streamingAvailabilityimdbIdApi);
+router.post("/stream/title", getMoviesByTitle);
+router.get("/streamgenre/:genre", getMoviesByGenre);
+router.get("/streamimdbId/:imdbId", getMoviesByImdbId);
 
 export default router;
