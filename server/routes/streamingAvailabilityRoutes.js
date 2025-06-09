@@ -6,7 +6,7 @@ import {
 } from "../controllers/streamingAvailabilityController.js";
 const router = express.Router();
 
-router.post("/stream/title", getMoviesByTitle);
+router.post("/title", getMoviesByTitle);
 router.get("/streamgenre/:genre", getMoviesByGenre);
 router.get("/streamimdbId/:imdbId", getMoviesByImdbId);
 
