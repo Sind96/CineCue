@@ -28,7 +28,7 @@ const SearchBar = () => {
 
     const fetchMovies = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/stream/title`, {
+        const response = await fetch(`http://localhost:3000/title`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -10,7 +10,7 @@ const MovieList = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const res = await fetch("http://localhost:3000/stream/Action");
+      const res = await fetch("http://localhost:3000/streamgenre/Action");
       const data = await res.json();
       setActionMovie(data);
     };
@@ -33,7 +33,7 @@ const MovieList = () => {
       <div className="flex justify-between align-middle">
         {actionMovie.map((movie) => (
           <ul>
-            <li key={movie.id}>
+            <li key={movie.imdbId}>
               <Link to={`/movie/${movie.imdbId}`}>
                 <MovieListItem
                   src={movie.imageSet?.horizontalPoster?.w1440}
