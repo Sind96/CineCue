@@ -44,7 +44,7 @@ const SearchBar = () => {
         );
         setFilteredMovies(filteredItems.slice(0, 8));
       } catch (error) {
-        console.log("Error with fetchMovies:", error);
+        console.error("Error with fetchMovies:", error);
       }
     };
     fetchMovies();
@@ -54,7 +54,7 @@ const SearchBar = () => {
     try {
       setSearchTerm(e.target.value);
     } catch (error) {
-      console.log("Error with handleInputChange:", error);
+      console.error("Error with handleInputChange:", error);
     }
   };
 
@@ -64,7 +64,7 @@ const SearchBar = () => {
         navigate(`/movie/${filteredMovies[0].imdbId}`);
       }
     } catch (error) {
-      console.log("Error with handleSearch", error);
+      console.error("Error with handleSearch", error);
     }
   };
 

@@ -3,7 +3,7 @@ const AddToWatchList = () => {
     try {
       // const response = await
     } catch (error) {
-      console.log("Error with addMovieToFavourites:", error);
+      console.error("Error with addMovieToFavourites:", error);
     }
   };
 
