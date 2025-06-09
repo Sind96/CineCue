@@ -17,7 +17,7 @@ export const streamingAvailabilityTitleApi = async (req, res) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
-    return res.status(500).json(result);
+    return res.status(200).json(result);
   } catch (error) {
     console.log("Error with streamingAvailabilityApi:", error);
     res.status(500).json("Internal Server Error");
