@@ -25,7 +25,14 @@ export const getMoviesByTitle = async (req, res) => {
 };
 
 export const getMoviesByGenre = async (req, res) => {
+  const genreCache = {};
+
   const { genre } = req.params;
+
+  if (genreCache[genre]) {
+    return res.status(200).json(genreCache[genre]);
+  }
+
   const url = `https://streaming-availability.p.rapidapi.com/shows/search/filters?country=gb&genres=${genre}&order_direction=asc&order_by=rating&genres_relation=or&output_language=en&show_type=movie`;
   const options = {
     method: "GET",
@@ -38,6 +45,9 @@ export const getMoviesByGenre = async (req, res) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
+
+    genreCache[genre] = result.shows;
+
     return res.status(200).json(result.shows);
   } catch (error) {
     console.error("Error with getMoviesByGenre:", error);
