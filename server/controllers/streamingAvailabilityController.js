@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// Retrieve Movies by Title
 export const getMoviesByTitle = async (req, res) => {
   const { searchTerm } = req.body;
 
@@ -24,6 +25,7 @@ export const getMoviesByTitle = async (req, res) => {
   }
 };
 
+// Retrieve Movies by Genre
 export const getMoviesByGenre = async (req, res) => {
   const { genre } = req.params;
   const url = `https://streaming-availability.p.rapidapi.com/shows/search/filters?country=gb&genres=${genre}&order_direction=asc&order_by=rating&genres_relation=or&output_language=en&show_type=movie`;
@@ -45,6 +47,7 @@ export const getMoviesByGenre = async (req, res) => {
   }
 };
 
+// Retrieve Movies by IMDBId
 export const getMoviesByImdbId = async (req, res) => {
   const { imdbId } = req.params;
   const url = `https://streaming-availability.p.rapidapi.com/shows/${imdbId}?output_language=en&country=gb`;
