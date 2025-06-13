@@ -1,5 +1,6 @@
 import * as streamingAvailability from "streaming-availability";
 import dotenv from "dotenv";
+import { GENRES } from "../utils/constants.js";
 
 dotenv.config();
 
@@ -26,31 +27,37 @@ export const getMoviesByTitle = async (req, res) => {
 };
 
 // Retrieve Movies by Genre
-export const getMoviesByGenre = async (req, res) => {
-  const genreCache = {};
+const genreCache = {};
 
-  const { genre } = req.params;
-
-  if (genreCache[genre]) {
-    return res.status(200).json(genreCache[genre]);
-  }
-
-  const url = `https://streaming-availability.p.rapidapi.com/shows/search/filters?country=gb&genres=${genre}&order_direction=asc&order_by=rating&genres_relation=or&output_language=en&show_type=movie`;
-  const options = {
-    method: "GET",
-    headers: {
-      "x-rapidapi-key": process.env.X_RAPIDAPI_KEY,
-      "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
-    },
-  };
-
+export const getAllMoviesByGenre = async (req, res) => {
   try {
-    const response = await fetch(url, options);
-    const result = await response.json();
+    const result = [];
 
-    genreCache[genre] = result.shows;
+    for (const genre of GENRES) {
+      if (genreCache[genre]) {
+        result.push({ genre, movies: genreCache[genre] });
+        continue;
+      }
+      const url = `https://streaming-availability.p.rapidapi.com/shows/search/filters?country=gb&genres=${genre}&order_direction=asc&order_by=rating&genres_relation=or&output_language=en&show_type=movie`;
+      const options = {
+        method: "GET",
+        headers: {
+          "x-rapidapi-key": process.env.X_RAPIDAPI_KEY,
+          "x-rapidapi-host": "streaming-availability.p.rapidapi.com",
+        },
+      };
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        console.error(`Failed to fetch for genre:${genre}`);
+        continue;
+      }
+      const data = await response.json();
+      const movies = data?.shows || [];
+      genreCache[genre] = movies;
+      result.push({ genre, movies });
+    }
 
-    return res.status(200).json(result.shows);
+    return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getMoviesByGenre:", error);
     res.status(500).json("Internal Server Error");
