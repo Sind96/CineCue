@@ -20,3 +20,8 @@ export interface streamingAvailabilityProps {
   imageSet: ImageSet;
   streamingOptions: Record<string, StreamingOption[]>;
 }
+
+export interface GenreGroup {
+  genre: string;
+  movies: streamingAvailabilityProps[];
+}
