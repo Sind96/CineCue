@@ -1,8 +1,9 @@
-// import { MdOutlineStarOutline } from "react-icons/md";
-// import AddToWatchList from "../components/IndividualMoviePage/AddToWatchList";
+import { MdOutlineStarOutline } from "react-icons/md";
+import AddToWatchList from "../components/IndividualMoviePage/AddToWatchList";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { streamingAvailabilityProps } from "../@types/streamingAvailability/_streamingAvailability.type";
+import Navbar from "../components/_universal/NavBar/_Navbar";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
@@ -21,36 +22,43 @@ const IndividualMoviePage = () => {
 
   return (
     <div>
-      {/* <img src="" />
+      <Navbar />
+      <img src={movie?.imageSet.horizontalPoster.w1440} alt={movie?.title} />
 
       <div>
         <div>
           <div>
-            <p>{}</p> */}
-      <p>
-        {movie && <p>Genre: {movie.genres.map((g) => g.name).join(" ,")}</p>}
-      </p>
-      {/* </div>
+            <p>{movie?.title}</p>
+            <div>
+              {movie && (
+                <p>Genre: {movie.genres.map((g) => g.name).join(", ")}</p>
+              )}
+            </div>
+          </div>
           <p>
             <span>
               <MdOutlineStarOutline />
             </span>
-            ({}/100)
+            ({movie?.rating}/100)
           </p>
         </div>
-        <p>{}</p>
-        <p>Director: {}</p>
-        <p>Stars: {}</p>
+        <p>{movie?.overview}</p>
+        <p>Director: {movie?.directors}</p>
+        <p>Stars: {movie?.cast.join(", ")}</p>
         <div>
           <div>
             <p>Watch Now On:</p>
-            <a href="">
-              <img src={""} />
+            <a href={movie?.streamingOptions.gb[0].link}>
+              <img
+                src={
+                  movie?.streamingOptions.gb[0].service.imageSet.lightThemeImage
+                }
+              />
             </a>
           </div>
         </div>
         <AddToWatchList />
-      </div> */}
+      </div>
     </div>
   );
 };
