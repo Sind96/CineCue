@@ -5,8 +5,14 @@ import { GENRES } from "../utils/constants.js";
 dotenv.config();
 
 // Retrieve Movies by Title
+const titleCache = {};
+
 export const getMoviesByTitle = async (req, res) => {
   const { searchTerm } = req.body;
+
+  if (titleCache[searchTerm]) {
+    return res.status(200).json(titleCache[searchTerm]);
+  }
 
   const url = `https://streaming-availability.p.rapidapi.com/shows/search/title?country=gb&title=${searchTerm}&series_granularity=show&show_type=movie&output_language=en`;
   const options = {
@@ -19,6 +25,8 @@ export const getMoviesByTitle = async (req, res) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
+    titleCache[searchTerm] = result;
+
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getMoviesByTitle:", error);
