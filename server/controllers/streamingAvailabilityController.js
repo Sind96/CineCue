@@ -65,8 +65,15 @@ export const getAllMoviesByGenre = async (req, res) => {
 };
 
 // Retrieve Movies by IMDBId
+const imdbCache = {};
+
 export const getMoviesByImdbId = async (req, res) => {
   const { imdbId } = req.params;
+
+  if (imdbCache[imdbId]) {
+    return res.status(200).json(imdbCache[imdbId]);
+  }
+
   const url = `https://streaming-availability.p.rapidapi.com/shows/${imdbId}?output_language=en&country=gb`;
   const options = {
     method: "GET",
@@ -79,6 +86,8 @@ export const getMoviesByImdbId = async (req, res) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
+    imdbCache[imdbId] = result;
+
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getMoviesByImdbId:", error);
