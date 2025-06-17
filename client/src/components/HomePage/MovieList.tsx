@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { GenreGroup } from "../../@types/streamingAvailability/_streamingAvailability.type";
+import MovieListItem from "./MovieListItem";
 
 const MovieList = () => {
   const [genreMovies, setGenreMovies] = useState<GenreGroup[]>([]);
@@ -30,7 +31,7 @@ const MovieList = () => {
           <div className="flex autoflow-x">
             {group.movies.map((movie) => (
               <div key={movie.imdbId}>
-                <img
+                <MovieListItem
                   src={movie.imageSet.horizontalPoster.w1080}
                   alt={movie.title}
                 />
