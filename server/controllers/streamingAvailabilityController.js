@@ -30,7 +30,7 @@ export const getTop20IMDBMovies = async (req, res) => {
       pageSize: 40,
     });
     const result = data.shows;
-    top20Cache[data.shows] = result;
+    top20Cache["top20"] = result;
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getTop20IMDBMovies:", error);
