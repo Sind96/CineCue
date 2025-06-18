@@ -4,6 +4,40 @@ import { GENRES } from "../utils/constants.js";
 
 dotenv.config();
 
+// Retrieve IMDB top 100 movies
+const top20Cache = {};
+
+export const getTop20IMDBMovies = async (req, res) => {
+  try {
+    if (top20Cache["top20"]) {
+      return res.status(200).json(top20Cache["top20"]);
+    }
+
+    const client = new streamingAvailability.Client(
+      new streamingAvailability.Configuration({
+        apiKey: process.env.X_RAPIDAPI_KEY,
+      })
+    );
+
+    const data = await client.showsApi.searchShowsByFilters({
+      country: "gb",
+      showType: "movie",
+      rating_min: "85",
+      orderBy: "rating",
+      yearMin: 1970,
+      orderDirection: "desc",
+      page: 1,
+      pageSize: 40,
+    });
+    const result = data.shows;
+    top20Cache[data.shows] = result;
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error with getTop20IMDBMovies:", error);
+    res.status(500).json("Internal Server Error");
+  }
+};
+
 // Retrieve Movies by Title
 const titleCache = {};
 
