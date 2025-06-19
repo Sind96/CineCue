@@ -4,6 +4,7 @@ import {
   type GenreGroup,
 } from "../../@types/streamingAvailability/_streamingAvailability.type";
 import MovieListItem from "./MovieListItem";
+import { Link } from "react-router-dom";
 
 const MovieList = () => {
   const [topMovies, setTopMovies] = useState<streamingAvailabilityProps[]>([]);
@@ -41,10 +42,12 @@ const MovieList = () => {
         <div className="flex autoflow-x">
           {topMovies.map((movie) => (
             <div key={movie.imdbId}>
-              <MovieListItem
-                src={movie.imageSet?.horizontalPoster?.w1080}
-                alt={movie.title}
-              />
+              <Link to={`movie/${movie.imdbId}`}>
+                <MovieListItem
+                  src={movie.imageSet?.horizontalPoster?.w1080}
+                  alt={movie.title}
+                />
+              </Link>
               <p>{movie.title}</p>
             </div>
           ))}
@@ -56,10 +59,12 @@ const MovieList = () => {
           <div className="flex autoflow-x">
             {group.movies.map((movie) => (
               <div key={movie.imdbId}>
-                <MovieListItem
-                  src={movie.imageSet?.horizontalPoster?.w1080}
-                  alt={movie.title}
-                />
+                <Link to={`movie/${movie.imdbId}`}>
+                  <MovieListItem
+                    src={movie.imageSet?.horizontalPoster?.w1080}
+                    alt={movie.title}
+                  />
+                </Link>
                 <p>{movie.title}</p>
               </div>
             ))}
