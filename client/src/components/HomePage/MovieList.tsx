@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
-import type { GenreGroup } from "../../@types/streamingAvailability/_streamingAvailability.type";
+import {
+  type streamingAvailabilityProps,
+  type GenreGroup,
+} from "../../@types/streamingAvailability/_streamingAvailability.type";
 import MovieListItem from "./MovieListItem";
 
 const MovieList = () => {
+  const [topMovies, setTopMovies] = useState<streamingAvailabilityProps[]>([]);
   const [genreMovies, setGenreMovies] = useState<GenreGroup[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await fetch("http://localhost:3000/streamgenre");
-        const data = await res.json();
-        setGenreMovies(data);
+        const [topRes, genreRes] = await Promise.all([
+          fetch("http://localhost:3000/top20"),
+          fetch("http://localhost:3000/streamgenre"),
+        ]);
+        const [topData, genreData] = await Promise.all([
+          topRes.json(),
+          genreRes.json(),
+        ]);
+        setTopMovies(topData);
+        setGenreMovies(genreData);
       } catch (error) {
         console.error("Error with fetchMovies", error);
       } finally {
@@ -25,6 +36,20 @@ const MovieList = () => {
 
   return (
     <div>
+      <div>
+        <h2>Top Rated Movies</h2>
+        <div className="flex autoflow-x">
+          {topMovies.map((movie) => (
+            <div key={movie.imdbId}>
+              <MovieListItem
+                src={movie.imageSet?.horizontalPoster?.w1080}
+                alt={movie.title}
+              />
+              <p>{movie.title}</p>
+            </div>
+          ))}
+        </div>
+      </div>
       {genreMovies.map((group) => (
         <div key={group.genre}>
           <h2>{group.genre}</h2>
@@ -32,7 +57,7 @@ const MovieList = () => {
             {group.movies.map((movie) => (
               <div key={movie.imdbId}>
                 <MovieListItem
-                  src={movie.imageSet.horizontalPoster.w1080}
+                  src={movie.imageSet?.horizontalPoster?.w1080}
                   alt={movie.title}
                 />
                 <p>{movie.title}</p>
