@@ -1,7 +1,5 @@
-// import { useNavigate } from "react-router-dom";
-
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/_universal/NavBar/_Navbar";
 
 const SignUpPage = () => {
@@ -9,12 +7,28 @@ const SignUpPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const navigate = useNavigate();
 
-  // const navigate = useNavigate();
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
     try {
-      console.log("test");
+      await fetch("http://localhost:3000/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+      navigate("/signin");
     } catch (error) {
       console.log(`Error with handleSignUp:`, error);
     }
