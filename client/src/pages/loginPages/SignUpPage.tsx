@@ -17,7 +17,7 @@ const SignUpPage = () => {
       return;
     }
     try {
-      await fetch("http://localhost:3000/user/register", {
+      const response = await fetch("http://localhost:3000/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,6 +28,10 @@ const SignUpPage = () => {
           password,
         }),
       });
+      const data = await response.json();
+      if (!response.ok) {
+        alert(data.message || "Signup failed");
+      }
       navigate("/signin");
     } catch (error) {
       console.log(`Error with handleSignUp:`, error);

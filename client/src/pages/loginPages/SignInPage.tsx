@@ -11,7 +11,7 @@ const SignInPage = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await fetch("http://localhost:3000/user/login", {
+      const response = await fetch("http://localhost:3000/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,6 +21,13 @@ const SignInPage = () => {
           password,
         }),
       });
+
+      const data = await response.json();
+      if (!response.ok) {
+        alert(data.message || "Login Failed");
+        return;
+      }
+
       navigate("/");
     } catch (error) {
       console.log(`Error with handleSignIn:`, error);
