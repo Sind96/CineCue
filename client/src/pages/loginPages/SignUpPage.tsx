@@ -46,7 +46,7 @@ const SignUpPage = () => {
 
       <form onSubmit={handleSignUp}>
         <input
-          type="test"
+          type="text"
           placeholder="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}

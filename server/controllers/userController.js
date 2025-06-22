@@ -15,3 +15,18 @@ export const registerUser = async (req, res) => {
     res.status(500).json("Internal Server Error");
   }
 };
+
+export const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user || !(await user.comparePassword(password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    res.status(200).json("Login Successful");
+  } catch (error) {
+    console.error("Error with loginUser:", error);
+    res.startus(500).json("Internal Server Error");
+  }
+};

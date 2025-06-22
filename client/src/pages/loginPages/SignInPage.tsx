@@ -1,16 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/_universal/NavBar/_Navbar";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      console.log("test");
+      await fetch("http://localhost:3000/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      navigate("/");
     } catch (error) {
       console.log(`Error with handleSignIn:`, error);
     }
