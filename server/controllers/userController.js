@@ -27,6 +27,6 @@ export const loginUser = async (req, res) => {
     res.status(200).json("Login Successful");
   } catch (error) {
     console.error("Error with loginUser:", error);
-    res.startus(500).json("Internal Server Error");
+    res.status(500).json("Internal Server Error");
   }
 };
