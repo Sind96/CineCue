@@ -3,6 +3,9 @@ import User from "../model/User.js";
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
     const userExists = await User.findOne({ email });
     if (userExists)
@@ -19,6 +22,9 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
+    }
     const user = await User.findOne({ email });
 
     if (!user || !(await user.comparePassword(password))) {
