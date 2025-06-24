@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import favouriteRouter from "./routes/favouriteRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import streamingAvailabilityRouter from "./routes/streamingAvailabilityRoutes.js";
@@ -12,7 +13,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use("/user", userRouter);
 app.use("/favourites", favouriteRouter);
 app.use(streamingAvailabilityRouter);
