@@ -12,9 +12,10 @@ export const fetchMoviesFromFavouriteList = async (req, res) => {
 
 export const addMovieToFavouriteList = async (req, res) => {
   try {
-    const { imdbId } = req.body;
-    if (!imdbId) return res.status(400).json("Missing imdbId");
-    const response = await favouriteList.create(imdbId);
+    const { imdbId, title, imageURL } = req.body;
+    if (!imdbId || !title || !imageURL)
+      return res.status(400).json("Missing required movie data");
+    const response = await favouriteList.create({ imdbId, title, imageURL });
     res
       .status(200)
       .json({ msg: `The requested movie has been added: ${response}` });
