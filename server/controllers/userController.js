@@ -1,4 +1,14 @@
 import User from "../model/User.js";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+
+dotenv.config();
+
+const generateAccessToken = (user) => {
+  return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
+};
 
 export const registerUser = async (req, res) => {
   try {
@@ -30,6 +40,14 @@ export const loginUser = async (req, res) => {
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
+    const token = generateAccessToken(user);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     res.status(200).json("Login Successful");
   } catch (error) {
     console.error("Error with loginUser:", error);
