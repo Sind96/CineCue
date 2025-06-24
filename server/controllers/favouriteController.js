@@ -27,8 +27,14 @@ export const addMovieToFavouriteList = async (req, res) => {
 
 export const removeMovieFromFavouriteList = async (req, res) => {
   try {
-    const { imdbId } = req.params;
-    const response = await deleteOne({ imdbId: imdbId });
+    const { imdbId } = req.body;
+    if (!imdbId) return res.status(400).json("Missing imdbId");
+
+    const response = await favouriteList.deleteOne({ imdbId });
+    if (response.deletedCount === 0) {
+      return res.status(400).json("Movie not found");
+    }
+
     return res.status(500).json(`Successfully deleted ${imdbId} from list`);
   } catch (error) {
     console.log(`Error with removeMovieFromFavouriteList:`, error);
