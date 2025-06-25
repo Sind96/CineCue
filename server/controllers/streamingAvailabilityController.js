@@ -34,7 +34,7 @@ export const getTop20IMDBMovies = async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getTop20IMDBMovies:", error);
-    res.status(500).json("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -64,7 +64,7 @@ export const getMoviesByTitle = async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getMoviesByTitle:", error);
-    res.status(500).json("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -102,7 +102,7 @@ export const getAllMoviesByGenre = async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getMoviesByGenre:", error);
-    res.status(500).json("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -133,6 +133,6 @@ export const getMoviesByImdbId = async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     console.error("Error with getMoviesByImdbId:", error);
-    return res.status(500).json("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

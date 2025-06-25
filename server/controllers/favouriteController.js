@@ -6,7 +6,7 @@ export const fetchMoviesFromFavouriteList = async (req, res) => {
     res.status(200).json(response);
   } catch (error) {
     console.log(`Error with fetchMoviesFromFavouriteList:`, error);
-    res.status(500).json(`Internal Server Error`);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -26,7 +26,7 @@ export const addMovieToFavouriteList = async (req, res) => {
       .json({ msg: `The requested movie has been added: ${response}` });
   } catch (error) {
     console.log(`Error with addMovieToFavouriteList:`, error);
-    res.status(500).json(`Internal Server Error`);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -46,6 +46,6 @@ export const removeMovieFromFavouriteList = async (req, res) => {
     return res.status(200).json(`Successfully deleted ${imdbId} from list`);
   } catch (error) {
     console.log(`Error with removeMovieFromFavouriteList:`, error);
-    res.status(500).json(`Internal Server Error`);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

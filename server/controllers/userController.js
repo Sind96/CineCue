@@ -22,10 +22,13 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
 
     const user = await User.create({ username, email, password });
-    res.status(201).json({ message: "User registered" });
+    res.status(201).json({
+      message: "User registered",
+      user: { id: user._id, email: user.email },
+    });
   } catch (error) {
     console.error("Error with registerUser:", error);
-    res.status(500).json("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -48,9 +51,22 @@ export const loginUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json("Login Successful");
+    res.status(200).json({
+      mmessage: "Login Successful",
+      user: { id: user._id, email: user.email },
+    });
   } catch (error) {
     console.error("Error with loginUser:", error);
-    res.status(500).json("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json("Logged out successfully");
+  } catch (error) {
+    console.error("Error with logoutUser:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
