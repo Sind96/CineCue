@@ -52,7 +52,7 @@ export const loginUser = async (req, res) => {
     });
 
     res.status(200).json({
-      mmessage: "Login Successful",
+      message: "Login Successful",
       user: { id: user._id, email: user.email },
     });
   } catch (error) {
