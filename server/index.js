@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import favouriteRouter from "./routes/favouriteRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import authRouter from "./routes/authRoutes.js";
 import streamingAvailabilityRouter from "./routes/streamingAvailabilityRoutes.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(
   })
 );
 app.use("/user", userRouter);
+app.use("/auth", authRouter);
 app.use("/favourites", favouriteRouter);
 app.use(streamingAvailabilityRouter);
 
