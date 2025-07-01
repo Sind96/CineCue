@@ -1,11 +1,10 @@
 import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import favouriteRouter from "./routes/favouriteRoutes.js";
-import userRouter from "./routes/userRoutes.js";
+import dotenv from "dotenv";
+import cors from "cors";
 import authRouter from "./routes/authRoutes.js";
+import favouriteRouter from "./routes/favouriteRoutes.js";
 import streamingAvailabilityRouter from "./routes/streamingAvailabilityRoutes.js";
 
 dotenv.config();
@@ -21,8 +20,7 @@ app.use(
     credentials: true,
   })
 );
-app.use("/user", userRouter);
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/favourites", favouriteRouter);
 app.use(streamingAvailabilityRouter);
 
