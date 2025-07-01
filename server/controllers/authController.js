@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken";
 
 dotenv.config();
 
-const generateAccessToken = (user) => {
-  return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
+const generateAccessToken = (userId) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
   });
 };
 
@@ -22,9 +22,17 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
 
     const user = await User.create({ username, email, password });
+    const token = generateAccessToken(user._id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
     res.status(201).json({
       message: "User registered",
-      user: { id: user._id, email: user.email },
+      user: { username, email },
     });
   } catch (error) {
     console.error("Error with registerUser:", error);
