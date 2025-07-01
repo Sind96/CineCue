@@ -1,5 +1,4 @@
 import express from "express";
-import { router } from "./authRoutes.js";
 import {
   loginUser,
   registerUser,
