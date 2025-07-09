@@ -9,7 +9,7 @@ export const protect = (req, res, next) => {
   if (!token) return res.status(401).json({ message: "Not authorised" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = decoded.userId;
     next();
   } catch (error) {
     console.error("Error with protect:", error);

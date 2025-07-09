@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRouter from "./routes/authRoutes.js";
 import favouriteRouter from "./routes/favouriteRoutes.js";
+import protectedRoutes from "./routes/protectedRoutes.js";
 import streamingAvailabilityRouter from "./routes/streamingAvailabilityRoutes.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(
   })
 );
 app.use("/api/auth", authRouter);
+app.use("/api/protected", protectedRoutes);
 app.use("/favourites", favouriteRouter);
 app.use(streamingAvailabilityRouter);
 

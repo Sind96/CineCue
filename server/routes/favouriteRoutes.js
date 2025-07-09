@@ -4,11 +4,10 @@ import {
   addMovieToFavouriteList,
   removeMovieFromFavouriteList,
 } from "../controllers/favouriteController.js";
-import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-router.get("/MovieList", protect, fetchMoviesFromFavouriteList);
-router.post("/addMovie", protect, addMovieToFavouriteList);
-router.delete("/removeMovie", protect, removeMovieFromFavouriteList);
+router.get("/MovieList", fetchMoviesFromFavouriteList);
+router.post("/addMovie", addMovieToFavouriteList);
+router.delete("/removeMovie", removeMovieFromFavouriteList);
 
 export default router;
