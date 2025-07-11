@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API from "../../api/axios.js";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/_universal/NavBar/_Navbar";
 import { useNavigate } from "react-router";
@@ -11,23 +12,7 @@ const SignInPage = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        alert(data.message || "Login Failed");
-        return;
-      }
-
+      await API.post("/auth/login", { email, password });
       navigate("/");
     } catch (error) {
       console.log(`Error with handleSignIn:`, error);

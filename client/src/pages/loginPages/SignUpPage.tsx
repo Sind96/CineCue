@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import API from "../../api/axios.js";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/_universal/NavBar/_Navbar";
 
@@ -17,24 +18,10 @@ const SignUpPage = () => {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3000/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        alert(data.message || "Signup failed");
-      }
+      await API.post("/auth/register", { username, email, password });
       navigate("/signin");
     } catch (error) {
-      console.log(`Error with handleSignUp:`, error);
+      console.error(`Error with handleSignUp:`, error);
     }
   };
 
