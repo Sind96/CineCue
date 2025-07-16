@@ -6,18 +6,21 @@ import SignUpPage from "./pages/loginPages/SignUpPage";
 import Navbar from "./components/_universal/NavBar/_Navbar";
 import HomePage from "./pages/Homepage";
 import SignInPage from "./pages/loginPages/SignInPage";
+import { AuthProvider } from "./hooks/AuthContext";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/signin" element={<SignInPage />} />
-        <Route path="/watchlist" element={<WatchListPage />} />
-        <Route path="/movie/:imdbID" element={<IndividualMoviePage />} />
-        <Route path="/test" element={<Navbar />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/watchlist" element={<WatchListPage />} />
+          <Route path="/movie/:imdbID" element={<IndividualMoviePage />} />
+          <Route path="/test" element={<Navbar />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 };

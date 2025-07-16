@@ -7,7 +7,7 @@ const SignUpAndSignIn = () => {
         <Link to="/signup">Sign Up</Link>
       </button>
       <button>
-        <Link to="/signin">Sign Up</Link>
+        <Link to="/signin">Sign In</Link>
       </button>
     </div>
   );

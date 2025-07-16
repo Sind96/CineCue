@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import API from "../../api/axios.js";
+import API from "../../services/axios.js";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/_universal/NavBar/_Navbar";
 
@@ -45,7 +45,7 @@ const SignUpPage = () => {
           autoComplete="username"
         />
         <input
-          type="text"
+          type="email"
           placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

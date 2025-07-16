@@ -1,19 +1,17 @@
 import { useState } from "react";
-import API from "../../api/axios.js";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/_universal/NavBar/_Navbar";
-import { useNavigate } from "react-router";
+import { useAuth } from "../../hooks/AuthContext.js";
 
 const SignInPage = () => {
+  const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await API.post("/auth/login", { email, password });
-      navigate("/");
+      await login(email, password);
     } catch (error) {
       console.log(`Error with handleSignIn:`, error);
     }
