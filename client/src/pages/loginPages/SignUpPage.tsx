@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import API from "../../services/axios.js";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/_universal/NavBar/_Navbar";
+import Navbar from "../../components/NavBar/_Navbar.js";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState<string>("");

@@ -83,3 +83,12 @@ export const logoutUser = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const checkUser = (req, res) => {
+  try {
+    return res.status(200).json({ authenticated: true });
+  } catch (error) {
+    console.error("Error with check:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

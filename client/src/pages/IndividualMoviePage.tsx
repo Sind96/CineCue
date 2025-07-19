@@ -1,9 +1,9 @@
 import { MdOutlineStarOutline } from "react-icons/md";
-import AddToWatchList from "../components/IndividualMoviePage/AddToWatchList";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { streamingAvailabilityProps } from "../@types/streamingAvailability/_streamingAvailability.type";
-import Navbar from "../components/_universal/NavBar/_Navbar";
+import Navbar from "../components/NavBar/_Navbar";
+import AddToWatchListButton from "../components/IndividualMoviePage/AddToWatchListButton";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
@@ -57,7 +57,11 @@ const IndividualMoviePage = () => {
             </a>
           </div>
         </div>
-        <AddToWatchList />
+        <AddToWatchListButton
+          imdbId={movie?.imdbId}
+          title={movie?.title}
+          imageURL={movie?.imageSet.horizontalPoster.w1440}
+        />
       </div>
     </div>
   );

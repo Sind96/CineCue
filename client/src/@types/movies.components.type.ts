@@ -15,7 +15,7 @@ export interface MovieListItemProps {
 }
 
 export interface AddToWatchListProps {
-  imdbId: string;
-  title: string;
-  imageURL: string;
+  imdbId: string | undefined;
+  title: string | undefined;
+  imageURL: string | undefined;
 }

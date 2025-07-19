@@ -1,4 +1,4 @@
-import Navbar from "../components/_universal/NavBar/_Navbar";
+import Navbar from "../components/NavBar/_Navbar";
 import MovieList from "../components/HomePage/MovieList";
 
 const HomePage = () => {

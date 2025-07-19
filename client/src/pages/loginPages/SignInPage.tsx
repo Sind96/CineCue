@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../components/_universal/NavBar/_Navbar";
+import Navbar from "../../components/NavBar/_Navbar.js";
 import { useAuth } from "../../hooks/AuthContext.js";
 
 const SignInPage = () => {
@@ -14,6 +14,7 @@ const SignInPage = () => {
       await login(email, password);
     } catch (error) {
       console.log(`Error with handleSignIn:`, error);
+      alert("Invalid Credentials");
     }
   };
 

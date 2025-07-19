@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import type { streamingAvailabilityProps } from "../../../@types/streamingAvailability/_streamingAvailability.type";
+import type { streamingAvailabilityProps } from "../../@types/streamingAvailability/_streamingAvailability.type";
 import { useNavigate } from "react-router-dom";
 
 let debounceTimeout: NodeJS.Timeout;

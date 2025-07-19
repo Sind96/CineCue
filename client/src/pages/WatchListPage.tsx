@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/_universal/NavBar/_Navbar";
+import Navbar from "../components/NavBar/_Navbar";
 import type { watchListType } from "../@types/watchList.page.type";
+import { useAuth } from "../hooks/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const WatchListPage = () => {
   const [watchList, setWatchList] = useState<watchListType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWatchList = async () => {
+      if (!isAuthenticated) {
+        navigate("/signin");
+        return;
+      }
       try {
         const res = await fetch(
           "http://127.0.0.1:3000/api/protected/watchlist",
@@ -18,7 +26,6 @@ const WatchListPage = () => {
         );
         if (!res.ok) throw new Error("Not authorised");
         const data = await res.json();
-        console.log(data);
         setWatchList(data);
       } catch (error) {
         console.error("Error with fetchWatchList:", error);
@@ -28,7 +35,7 @@ const WatchListPage = () => {
       }
     };
     fetchWatchList();
-  }, []);
+  }, [isAuthenticated, navigate]);
 
   if (loading) return <p>Loading...</p>;
 
