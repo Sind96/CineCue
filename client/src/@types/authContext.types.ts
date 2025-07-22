@@ -4,4 +4,10 @@ export interface AuthContextType {
   checkAuth: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  user: User | null;
+}
+
+export interface User {
+  username: string;
+  email: string;
 }
