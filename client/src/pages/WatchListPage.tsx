@@ -3,6 +3,7 @@ import Navbar from "../components/NavBar/_Navbar";
 import type { watchListType } from "../@types/watchList.page.type";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
+import API from "../services/axios";
 
 const WatchListPage = () => {
   const [watchList, setWatchList] = useState<watchListType[]>([]);
@@ -17,16 +18,8 @@ const WatchListPage = () => {
         return;
       }
       try {
-        const res = await fetch(
-          "http://127.0.0.1:3000/api/protected/watchlist",
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (!res.ok) throw new Error("Not authorised");
-        const data = await res.json();
-        setWatchList(data);
+        const res = await API.get("/protected/watchlist");
+        setWatchList(res.data);
       } catch (error) {
         console.error("Error with fetchWatchList:", error);
         setWatchList([]);
@@ -41,17 +34,17 @@ const WatchListPage = () => {
 
   return (
     <div>
+      <Navbar />
       <h2>Your Watchlist</h2>
       {watchList.length === 0 ? (
         <p> No movies in your watchList.</p>
       ) : (
         <ul>
           {watchList.map((movie) => (
-            <li key={movie.imdbId}>{movie.title}</li>
+            <li key={movie.imdbId}>{movie.title}{}</li>
           ))}
         </ul>
       )}
-      <Navbar />
     </div>
   );
 };

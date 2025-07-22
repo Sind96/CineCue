@@ -15,6 +15,16 @@ export const addMovieToFavouriteList = async (req, res) => {
     const { imdbId, title, imageURL } = req.body;
     if (!imdbId || !title || !imageURL)
       return res.status(400).json("Missing required movie data");
+
+    const existingMovie = await favouriteList.findOne({
+      imdbId,
+      userId: req.user.id,
+    });
+    console.log(existingMovie);
+    if (existingMovie)
+      return res
+        .status(409)
+        .json({ message: "Movie already exists in Watchlist" });
     const response = await favouriteList.create({
       imdbId,
       title,

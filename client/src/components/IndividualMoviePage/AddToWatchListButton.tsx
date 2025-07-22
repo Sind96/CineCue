@@ -13,6 +13,7 @@ const AddToWatchListButton = ({
 
   const handleClick = async () => {
     if (!isAuthenticated) {
+      alert("Please login to add to watchlist.");
       navigate("/signin");
       return;
     }
@@ -22,8 +23,15 @@ const AddToWatchListButton = ({
         title,
         imageURL,
       });
-    } catch (error) {
-      console.error("Error with handleClick:", error);
+      alert("Movie has been added to watchlist!");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        alert("This movie is already in your watchlist.");
+      } else {
+        console.error("Error with handleClick:", error);
+        alert("Something went wrong. Please try again later.");
+      }
     }
   };
 
