@@ -20,7 +20,7 @@ export const addMovieToFavouriteList = async (req, res) => {
       imdbId,
       userId: req.user.id,
     });
-    console.log(existingMovie);
+    
     if (existingMovie)
       return res
         .status(409)
