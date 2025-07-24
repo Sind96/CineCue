@@ -32,16 +32,18 @@ const WatchListPage = () => {
 
   const handleRemove = async (imdbId: string) => {
     try {
-      await API.delete("/protected/watchlist");
+      await API.delete("/protected/watchlist", {
+        data: { imdbId },
+      });
       setWatchList((prev) => prev.filter((movie) => movie.imdbId !== imdbId));
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      // if (error.response && error.response.status === 400) {
-      //   alert("Movie does not exist in watchlist.");
-      // } else {
-      console.error("Error with handleRemove:", error);
-      alert("Something went wrong. Please try again later.");
-      // }
+      if (error.response && error.response.status === 400) {
+        alert("Movie does not exist in watchlist.");
+      } else {
+        console.error("Error with handleRemove:", error);
+        alert("Something went wrong. Please try again later.");
+      }
     }
   };
 
