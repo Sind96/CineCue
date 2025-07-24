@@ -7,6 +7,7 @@ import Navbar from "./components/NavBar/_Navbar";
 import HomePage from "./pages/Homepage";
 import SignInPage from "./pages/loginPages/SignInPage";
 import { AuthProvider } from "./hooks/AuthContext";
+import ProtectedRoute from "./pages/loginPages/ProtectedRoute";
 
 const App = () => {
   return (
@@ -16,7 +17,14 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/signin" element={<SignInPage />} />
-          <Route path="/watchlist" element={<WatchListPage />} />
+          <Route
+            path="/watchlist"
+            element={
+              <ProtectedRoute>
+                <WatchListPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/movie/:imdbID" element={<IndividualMoviePage />} />
           <Route path="/test" element={<Navbar />} />
         </Routes>

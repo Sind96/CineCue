@@ -8,6 +8,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   const checkAuth = async () => {
@@ -15,10 +16,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await API.get("/auth/check");
       if (res.status === 200) {
         setIsAuthenticated(true);
-        setUser(res.data.user);
+        setUser(res.data.user || null);
       }
     } catch {
       setIsAuthenticated(false);
+      setUser(null);
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -52,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{ isAuthenticated, user, checkAuth, login, logout }}
     >
-      {children}
+      {!authLoading && children}
     </AuthContext.Provider>
   );
 };

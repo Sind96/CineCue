@@ -86,7 +86,8 @@ export const logoutUser = async (req, res) => {
 
 export const checkUser = async (req, res) => {
   try {
-    res.status(200).json({ authenticated: true });
+    const user = await User.findById(req.user.id).select("username email");
+    res.status(200).json({ authenticated: true, user });
   } catch (error) {
     console.error("Error with check:", error);
     res.status(500).json({ message: "Internal Server Error" });
