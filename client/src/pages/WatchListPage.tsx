@@ -8,6 +8,8 @@ import API from "../services/axios";
 const WatchListPage = () => {
   const [watchList, setWatchList] = useState<watchListType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -20,8 +22,10 @@ const WatchListPage = () => {
       try {
         const res = await API.get("/protected/watchlist");
         setWatchList(res.data);
+        setError(null);
       } catch (error) {
         console.error("Error with fetchWatchList:", error);
+        setError("Failed to load watchlist. Please try again.");
         setWatchList([]);
       } finally {
         setLoading(false);
@@ -32,6 +36,7 @@ const WatchListPage = () => {
 
   const handleRemove = async (imdbId: string) => {
     try {
+      setDeleting(imdbId);
       await API.delete("/protected/watchlist", {
         data: { imdbId },
       });
@@ -44,6 +49,8 @@ const WatchListPage = () => {
         console.error("Error with handleRemove:", error);
         alert("Something went wrong. Please try again later.");
       }
+    } finally {
+      setDeleting(null);
     }
   };
 
@@ -53,14 +60,23 @@ const WatchListPage = () => {
     <div>
       <Navbar />
       <h2>Your Watchlist</h2>
-      {watchList.length === 0 ? (
+      {loading ? (
+        <p>Loading your playlist</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : watchList.length === 0 ? (
         <p> No movies in your watchList.</p>
       ) : (
         <ul>
           {watchList.map((movie) => (
             <li key={movie.imdbId}>
               <span>{movie.title}</span>
-              <button onClick={() => handleRemove(movie.imdbId)}>Remove</button>
+              <button
+                onClick={() => handleRemove(movie.imdbId)}
+                disabled={deleting === movie.imdbId}
+              >
+                {deleting === movie.imdbId ? "Removing..." : "Remove"}
+              </button>
             </li>
           ))}
         </ul>
