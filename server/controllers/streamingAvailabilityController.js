@@ -80,7 +80,7 @@ export const getAllMoviesByGenre = async (req, res) => {
         result.push({ genre, movies: genreCache[genre] });
         continue;
       }
-      const url = `https://streaming-availability.p.rapidapi.com/shows/search/filters?country=gb&genres=${genre}&order_direction=asc&order_by=rating&genres_relation=or&output_language=en&show_type=movie`;
+      const url = `https://streaming-availability.p.rapidapi.com/shows/search/filters?country=gb&genres=${genre}&order_direction=desc&order_by=rating&genres_relation=or&output_language=en&show_type=movie`;
       const options = {
         method: "GET",
         headers: {
