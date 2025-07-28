@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import API from "../../services/axios.js";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar/_Navbar.js";
+import { Bounce, toast } from "react-toastify";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -14,12 +15,33 @@ const SignUpPage = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       return;
     }
     try {
       await API.post("/auth/register", { username, email, password });
-      navigate("/signin");
+      toast.success("Account created. Please log in.", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setTimeout(() => navigate("/signin"), 1500);
     } catch (error) {
       console.error(`Error with handleSignUp:`, error);
     }

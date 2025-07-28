@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import type { AddToWatchListProps } from "../../@types/movies.components.type";
 import { useAuth } from "../../hooks/AuthContext";
 import API from "../../services/axios";
+import { Bounce, toast } from "react-toastify";
 
 const AddToWatchListButton = ({
   imdbId,
@@ -23,14 +24,44 @@ const AddToWatchListButton = ({
         title,
         imageURL,
       });
-      alert("Movie has been added to watchlist!");
+      toast.success("Movie has been added to watchlist!", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response && error.response.status === 409) {
-        alert("This movie is already in your watchlist.");
+        toast.info("This movie is already in your watchlist.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       } else {
         console.error("Error with handleClick:", error);
-        alert("Something went wrong. Please try again later.");
+        toast.error("Something went wrong. Please try again later.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       }
     }
   };

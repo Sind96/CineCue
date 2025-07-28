@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { AuthContextType, User } from "../@types/authContext.types";
 import { useNavigate } from "react-router-dom";
 import API from "../services/axios";
+import { Bounce, toast } from "react-toastify";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -35,7 +36,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        alert("Invalid email or password");
+        toast.error("Invalid email or password", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       } else {
         console.error("Login Failed:", error);
       }

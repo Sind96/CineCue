@@ -4,6 +4,7 @@ import type { watchListType } from "../@types/watchList.page.type";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 import API from "../services/axios";
+import { Bounce, toast } from "react-toastify";
 
 const WatchListPage = () => {
   const [watchList, setWatchList] = useState<watchListType[]>([]);
@@ -41,13 +42,44 @@ const WatchListPage = () => {
         data: { imdbId },
       });
       setWatchList((prev) => prev.filter((movie) => movie.imdbId !== imdbId));
+      toast.success("Movie removed from watchlist", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
-        alert("Movie does not exist in watchlist.");
+        toast.error("Movie does not exist in watchlist.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       } else {
         console.error("Error with handleRemove:", error);
-        alert("Something went wrong. Please try again later.");
+        toast.error("Something went wrong. Please try again later.", {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       }
     } finally {
       setDeleting(null);
