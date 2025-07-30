@@ -4,22 +4,31 @@ import { useEffect, useState } from "react";
 import type { streamingAvailabilityProps } from "../@types/streamingAvailability/_streamingAvailability.type";
 import Navbar from "../components/NavBar/_Navbar";
 import AddToWatchListButton from "../components/IndividualMoviePage/AddToWatchListButton";
+import { ScaleLoader } from "react-spinners";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
   const [movie, setMovie] = useState<streamingAvailabilityProps | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchMovieByImdbId = async () => {
-      const response = await fetch(
-        `http://localhost:3000/streamimdbId/${imdbID}`
-      );
-      const data = await response.json();
-      setMovie(data);
+      try {
+        const response = await fetch(
+          `http://localhost:3000/streamimdbId/${imdbID}`
+        );
+        const data = await response.json();
+        setMovie(data);
+      } catch (error) {
+        console.error("Error with fetchMovieByImdbId:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchMovieByImdbId();
   }, [imdbID]);
 
+  if (loading) return <ScaleLoader />;
   return (
     <div>
       <Navbar />

@@ -5,6 +5,7 @@ import {
 } from "../../@types/streamingAvailability/_streamingAvailability.type";
 import MovieListItem from "./MovieListItem";
 import { Link } from "react-router-dom";
+import { ScaleLoader } from "react-spinners";
 
 const MovieList = () => {
   const [topMovies, setTopMovies] = useState<streamingAvailabilityProps[]>([]);
@@ -33,7 +34,7 @@ const MovieList = () => {
     fetchMovies();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <ScaleLoader color="#000000" />;
 
   return (
     <div>

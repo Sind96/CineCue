@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 import API from "../services/axios";
 import { Bounce, toast } from "react-toastify";
+import { ScaleLoader } from "react-spinners";
 
 const WatchListPage = () => {
   const [watchList, setWatchList] = useState<watchListType[]>([]);
@@ -86,7 +87,7 @@ const WatchListPage = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <ScaleLoader />;
 
   return (
     <div>
