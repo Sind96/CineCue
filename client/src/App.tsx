@@ -8,8 +8,8 @@ import HomePage from "./pages/Homepage";
 import SignInPage from "./pages/loginPages/SignInPage";
 import { AuthProvider } from "./hooks/AuthContext";
 import ProtectedRoute from "./pages/loginPages/ProtectedRoute";
+import ErrorPage from "./pages/ErrorPage";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
@@ -20,6 +20,8 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/signin" element={<SignInPage />} />
+            <Route path="/error" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage />} />
             <Route
               path="/watchlist"
               element={

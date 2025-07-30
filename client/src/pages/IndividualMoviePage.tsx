@@ -1,5 +1,5 @@
 import { MdOutlineStarOutline } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { streamingAvailabilityProps } from "../@types/streamingAvailability/_streamingAvailability.type";
 import Navbar from "../components/NavBar/_Navbar";
@@ -10,6 +10,7 @@ const IndividualMoviePage = () => {
   const { imdbID } = useParams();
   const [movie, setMovie] = useState<streamingAvailabilityProps | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovieByImdbId = async () => {
@@ -17,7 +18,17 @@ const IndividualMoviePage = () => {
         const response = await fetch(
           `http://localhost:3000/streamimdbId/${imdbID}`
         );
+
+        if (!response.ok) {
+          navigate("/error", { replace: true });
+          return;
+        }
         const data = await response.json();
+
+        if (!data || !data.imdbId) {
+          navigate("/error", { replace: true });
+          return;
+        }
         setMovie(data);
       } catch (error) {
         console.error("Error with fetchMovieByImdbId:", error);
