@@ -10,6 +10,7 @@ import { AuthProvider } from "./hooks/AuthContext";
 import ProtectedRoute from "./pages/loginPages/ProtectedRoute";
 import ErrorPage from "./pages/ErrorPage";
 import { ToastContainer } from "react-toastify";
+import GenrePage from "./pages/GenrePage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/error" element={<ErrorPage />} />
             <Route path="*" element={<ErrorPage />} />
+            <Route path="/genre/:genre" element={<GenrePage />} />
             <Route
               path="/watchlist"
               element={
