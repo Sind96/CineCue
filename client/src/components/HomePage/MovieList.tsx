@@ -56,7 +56,7 @@ const MovieList = () => {
       </div>
       {genreMovies.map((group) => (
         <div key={group.genre}>
-          <Link to={`/genre/${group.genre.toLocaleUpperCase()}`}>
+          <Link to={`/genre/${group.genre.toLowerCase()}`}>
             <h2>{group.genre}</h2>
           </Link>
           <div className="flex autoflow-x">
