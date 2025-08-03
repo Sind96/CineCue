@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
 import NavBarItem from "./NavBarItem";
 import SearchBar from "./SearchBar";
@@ -6,6 +7,10 @@ import Title from "./Title";
 
 const Navbar = () => {
   const { isAuthenticated, logout, user } = useAuth();
+  const location = useLocation();
+
+  const hideSearchBar =
+    location.pathname === "/signin" || location.pathname === "/signup";
 
   return (
     <div className="flex justify-between">
@@ -13,7 +18,7 @@ const Navbar = () => {
         <Title />
         {isAuthenticated && <NavBarItem />}
       </div>
-      <SearchBar />
+      {!hideSearchBar && <SearchBar />}
       {!isAuthenticated && (
         <div className="flex justify-between">
           <SignUpAndSignIn />
