@@ -103,7 +103,7 @@ const WatchListPage = () => {
         <ul>
           {watchList.map((movie) => (
             <li key={movie.imdbId}>
-              <span>{movie.title}</span>
+              <img src={movie.imageURL} />
               <button
                 onClick={() => handleRemove(movie.imdbId)}
                 disabled={deleting === movie.imdbId}
