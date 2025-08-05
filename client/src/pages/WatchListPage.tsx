@@ -3,7 +3,7 @@ import Navbar from "../components/NavBar/_Navbar";
 import ImFeelingLuckyButton from "../components/WatchListPage/ImFeelingLuckyButton";
 import type { watchListType } from "../@types/watchList.page.type";
 import { useAuth } from "../hooks/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../services/axios";
 import { Bounce, toast } from "react-toastify";
 import { ScaleLoader } from "react-spinners";
@@ -104,7 +104,9 @@ const WatchListPage = () => {
         <ul>
           {watchList.map((movie) => (
             <li key={movie.imdbId}>
-              <img src={movie.imageURL} />
+              <Link to={`/movie/${movie.imdbId}`}>
+                <img src={movie.imageURL} />
+              </Link>
               <button
                 onClick={() => handleRemove(movie.imdbId)}
                 disabled={deleting === movie.imdbId}
