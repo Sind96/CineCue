@@ -3,3 +3,7 @@ export interface watchListType {
   title: string;
   imageURL: string;
 }
+
+export interface ImFeelingLuckyButtonProps {
+  watchList: watchListType[];
+}

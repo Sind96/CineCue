@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/NavBar/_Navbar";
+import ImFeelingLuckyButton from "../components/WatchListPage/ImFeelingLuckyButton";
 import type { watchListType } from "../@types/watchList.page.type";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -114,6 +115,7 @@ const WatchListPage = () => {
           ))}
         </ul>
       )}
+      <ImFeelingLuckyButton watchList={watchList} />
     </div>
   );
 };
