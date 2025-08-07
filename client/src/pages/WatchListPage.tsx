@@ -94,9 +94,7 @@ const WatchListPage = () => {
     <div>
       <Navbar />
       <h2>Your Watchlist</h2>
-      {loading ? (
-        <p>Loading your playlist</p>
-      ) : error ? (
+      {error ? (
         <p>{error}</p>
       ) : watchList.length === 0 ? (
         <p> No movies in your watchList.</p>
