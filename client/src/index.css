@@ -1,3 +1,19 @@
 @import "tailwindcss";
 @import "@fontsource/inter/400.css";
 @import "@fontsource/inter/700.css";
+
+@theme {
+  /* Colors */
+  --color-primary: #e50914;
+  --color-secondary: #141414;
+  --color-accent: #b81d24;
+
+  /* Fonts */
+  --font-sans: "Inter", var(--font-sans);
+
+  /* Border radius */
+  --radius-xl: 1rem;
+
+  /* Shadows */
+  --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
