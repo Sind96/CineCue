@@ -48,17 +48,17 @@ const SignUpPage = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-secondary font-sans text-white">
       <Navbar />
 
-      <main>
-        <div>
-          <h1>
-            Sign<span>Up</span>
+      <main className="flex flex-1 items-center justify-center px-4">
+        <div className="bg-black bg-opacity-70 p-8 rounded-xl shadow-card max-w-md w-full">
+          <h1 className="text-3xl font-bold mb-2">
+            Sign<span className="text-primary">Up</span>
           </h1>
-          <p>Create your account</p>
+          <p className="text-gray-300 mb-6">Create your account</p>
 
-          <form onSubmit={handleSignUp}>
+          <form onSubmit={handleSignUp} className="space-y-4">
             <input
               type="text"
               placeholder="username"
@@ -66,6 +66,7 @@ const SignUpPage = () => {
               onChange={(e) => setUsername(e.target.value)}
               required
               autoComplete="username"
+              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
             <input
               type="email"
@@ -74,6 +75,7 @@ const SignUpPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
             <input
               type="password"
@@ -82,6 +84,7 @@ const SignUpPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
+              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
             <input
               type="password"
@@ -90,12 +93,21 @@ const SignUpPage = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               autoComplete="confirm-password"
+              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
-            <button type="submit">Sign Up</button>
+            <button
+              type="submit"
+              className="w-full bg-primary hover:bg-accent transition-colors duration-200 p-3 rounded-lg font-semibold"
+            >
+              Sign Up
+            </button>
           </form>
 
-          <p>
-            Already have an account? <Link to="/signin">Login</Link>
+          <p className="mt-4 text-sm text-gray-400">
+            Already have an account?{" "}
+            <Link to="/signin" className="text-primary hover:underline">
+              Login
+            </Link>
           </p>
         </div>
       </main>

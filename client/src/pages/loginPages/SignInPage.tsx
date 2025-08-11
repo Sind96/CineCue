@@ -37,7 +37,7 @@ const SignInPage = () => {
         <div className="bg-black bg-opacity-70 p-8 rounded-xl shadow-card max-w-md w-full">
           {/* Heading */}
           <h1 className="text-3xl font-bold mb-2">
-            Welcome <span className="text-primary">Back</span>
+            Welcome<span className="text-primary">Back</span>
           </h1>
           <p className="text-gray-300 mb-6">Enter your credentials to login</p>
 
