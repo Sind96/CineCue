@@ -43,7 +43,7 @@ const SignInPage = () => {
 
           <form onSubmit={handleSignIn} className="space-y-4">
             <input
-              type="text"
+              type="email"
               placeholder="email@domain.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
