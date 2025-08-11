@@ -50,54 +50,55 @@ const SignUpPage = () => {
   return (
     <div>
       <Navbar />
-      <div>
-        <p>
-          Sign<span>Up</span>
-        </p>
-        <p>Create your account</p>
-      </div>
 
-      <form onSubmit={handleSignUp}>
-        <input
-          type="text"
-          placeholder="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          autoComplete="username"
-        />
-        <input
-          type="email"
-          placeholder="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          autoComplete="current-email"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          autoComplete="current-password"
-        />
-        <input
-          type="password"
-          placeholder="confirm password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          autoComplete="confirm-password"
-        />
-        <button type="submit">Sign Up</button>
-      </form>
+      <main>
+        <div>
+          <h1>
+            Sign<span>Up</span>
+          </h1>
+          <p>Create your account</p>
 
-      <div>
-        <p>
-          Already have an account? <Link to="/signin">Login</Link>
-        </p>
-      </div>
+          <form onSubmit={handleSignUp}>
+            <input
+              type="text"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="username"
+            />
+            <input
+              type="email"
+              placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+            <input
+              type="password"
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+            <input
+              type="password"
+              placeholder="confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              autoComplete="confirm-password"
+            />
+            <button type="submit">Sign Up</button>
+          </form>
+
+          <p>
+            Already have an account? <Link to="/signin">Login</Link>
+          </p>
+        </div>
+      </main>
     </div>
   );
 };
