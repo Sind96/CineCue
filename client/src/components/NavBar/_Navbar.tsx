@@ -13,24 +13,42 @@ const Navbar = () => {
     location.pathname === "/signin" || location.pathname === "/signup";
 
   return (
-    <div className="flex justify-between">
-      <div className="flex justify-between">
-        <Title />
-        {isAuthenticated && <NavBarItem />}
-      </div>
-      {!hideSearchBar && <SearchBar />}
-      {!isAuthenticated && (
-        <div className="flex justify-between">
-          <SignUpAndSignIn />
+    <header className="fixed top-0 left-0 w-full z-50 bg-secondary bg-opacity-90 backdrop-blur-md shadow-sm">
+      <nav className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
+        <div className="flex items-center gap-8">
+          <Title />
+          {isAuthenticated && <NavBarItem />}
         </div>
-      )}
-      {isAuthenticated && (
-        <>
-          <p>Hello {user?.username}</p>
-          <button onClick={logout}>Logout</button>
-        </>
-      )}
-    </div>
+
+        {!hideSearchBar && (
+          <div className="flex-1 max-w-md hidden md:block">
+            {" "}
+            <SearchBar />
+          </div>
+        )}
+
+        <div className="flex items-center gap-4">
+          {!isAuthenticated && <SignUpAndSignIn />}
+          {isAuthenticated && (
+            <>
+              <p className="hidden sm:block text-sm text-gray-300">
+                Welcome back{" "}
+                <span className="text-white font-semibold">
+                  {" "}
+                  {user?.username}
+                </span>
+              </p>
+              <button
+                onClick={logout}
+                className="bg-primary hover:bg-accent px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
   );
 };
 
