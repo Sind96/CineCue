@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import type { streamingAvailabilityProps } from "../../@types/streamingAvailability/_streamingAvailability.type";
 import { useNavigate } from "react-router-dom";
@@ -12,12 +12,13 @@ const SearchBar = () => {
     streamingAvailabilityProps[]
   >([]);
   const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm.trim());
-    }, 500);
+    }, 200);
   }, [searchTerm]);
 
   useEffect(() => {
@@ -42,21 +43,13 @@ const SearchBar = () => {
             .toLowerCase()
             .startsWith(debouncedSearchTerm.toLowerCase())
         );
-        setFilteredMovies(filteredItems.slice(0, 8));
+        setFilteredMovies(filteredItems.slice(0, 10));
       } catch (error) {
         console.error("Error with fetchMovies:", error);
       }
     };
     fetchMovies();
   }, [debouncedSearchTerm]);
-
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      setSearchTerm(e.target.value);
-    } catch (error) {
-      console.error("Error with handleInputChange:", error);
-    }
-  };
 
   const handleSearch = async () => {
     try {
@@ -75,28 +68,37 @@ const SearchBar = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between">
+    <div className="relative w-full">
+      <div className="flex items-center bg-gray-800 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-primary transition">
         <input
           type="text"
           placeholder="Search for a movie..."
           value={searchTerm}
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSearch();
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearchTerm(value);
+            if (value.trim() === "") {
+              setFilteredMovies([]);
+            }
           }}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          className="bg-transparent flex-1 text-sm text-white placeholder-gray-400 focus:outline-none"
         />
-        <button onClick={handleSearch}>
-          <CiSearch />
+        <button
+          onClick={handleSearch}
+          className="text-gray-400 hover:text-primary transition-colors"
+        >
+          <CiSearch size={20} />
         </button>
       </div>
 
       {filteredMovies.length > 0 && (
-        <ul>
+        <ul className="absolute mt-2 w-full bg-secondary rounded-lg shadow-lg max-h-64 overflow-y-auto z-50 custom-scrollbar">
           {filteredMovies.map((movie) => (
             <li
               key={movie.imdbId}
               onClick={() => handleMovieClick(movie.imdbId)}
+              className="px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 cursor-pointer transition"
             >
               {movie.title}
             </li>
