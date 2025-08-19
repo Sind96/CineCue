@@ -34,45 +34,55 @@ const MovieList = () => {
     fetchMovies();
   }, []);
 
-  if (loading) return <ScaleLoader color="#000000" />;
+  if (loading)
+    return (
+      <div className="flex justify-center mt-20">
+        {" "}
+        <ScaleLoader color="#e50914" />
+      </div>
+    );
 
   return (
-    <div>
-      <div>
-        <h2>Top Rated Movies</h2>
-        <div className="flex autoflow-x">
+    <div className="pt-20 px-6 space-y-10">
+      <section>
+        <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+          Top Rated Movies
+        </h2>
+
+        <div className="flex overflow-x-auto overflow-y-hidden gap-4 no-scrollbar snap-x snap-mandatory">
           {topMovies.map((movie) => (
-            <div key={movie.imdbId}>
-              <Link to={`movie/${movie.imdbId}`}>
+            <Link
+              key={movie.imdbId}
+              to={`movie/${movie.imdbId}`}
+              className="snap-start"
+            >
+              <MovieListItem
+                src={movie.imageSet?.horizontalPoster?.w1080}
+                alt={movie.title}
+              />
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {genreMovies.map((group) => (
+        <section key={group.genre}>
+          <Link to={`/genre/${group.genre.toLowerCase()}`}>
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 hover:text-accent transition-colors">
+              {group.genre}
+            </h2>
+          </Link>
+          <div className="flex overflow-x-auto overflow-y-hidden gap-4 no-scrollbar">
+            {group.movies.map((movie) => (
+              <Link key={movie.imdbId} to={`movie/${movie.imdbId}`}>
                 <MovieListItem
                   src={movie.imageSet?.horizontalPoster?.w1080}
                   alt={movie.title}
                 />
               </Link>
-              <p>{movie.title}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-      {genreMovies.map((group) => (
-        <div key={group.genre}>
-          <Link to={`/genre/${group.genre.toLowerCase()}`}>
-            <h2>{group.genre}</h2>
-          </Link>
-          <div className="flex autoflow-x">
-            {group.movies.map((movie) => (
-              <div key={movie.imdbId}>
-                <Link to={`movie/${movie.imdbId}`}>
-                  <MovieListItem
-                    src={movie.imageSet?.horizontalPoster?.w1080}
-                    alt={movie.title}
-                  />
-                </Link>
-                <p>{movie.title}</p>
-              </div>
             ))}
           </div>
-        </div>
+        </section>
       ))}
     </div>
   );

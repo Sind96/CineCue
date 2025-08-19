@@ -1,3 +1,5 @@
+import type { streamingAvailabilityProps } from "./streamingAvailability/_streamingAvailability.type";
+
 export interface searchResultsType {
   id: string;
   imdbId: string;
@@ -18,4 +20,8 @@ export interface AddToWatchListProps {
   imdbId: string | undefined;
   title: string | undefined;
   imageURL: string | undefined;
+}
+
+export interface HeroBannerProps {
+  movie: streamingAvailabilityProps;
 }

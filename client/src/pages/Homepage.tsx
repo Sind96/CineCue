@@ -3,7 +3,7 @@ import MovieList from "../components/HomePage/MovieList";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="bg-secondary min-h-screen text-white">
       <Navbar />
       <MovieList />
     </div>
