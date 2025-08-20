@@ -9,11 +9,11 @@ const ErrorPage = () => {
       <main className="flex flex-1 items-center justify-center px-6">
         <div className="text-center space-y-6 max-w-lg">
           <h1 className="text-4xl md:text-5xl font-bold text-primary">
-            Movie Not Found 😞
+            404 😞
           </h1>
           <p className="text-lg text-muted-foreground">
-            Sorry, we couldn't find what you were looking for. <br />
-            It may have been removed or doesn't exist.
+            Page not found. <br />
+            The page you're looking for doesn't exist.
           </p>
           <Link
             to="/"
