@@ -37,7 +37,7 @@ const IndividualMoviePage = () => {
       }
     };
     fetchMovieByImdbId();
-  }, [imdbID]);
+  }, [imdbID, navigate]);
 
   if (loading) return <ScaleLoader />;
   return (
