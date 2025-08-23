@@ -37,7 +37,7 @@ const App = () => {
           </Routes>
           <ToastContainer position="top-center" autoClose={3000} />
         </>
-      </AuthProvider> 
+      </AuthProvider>
     </BrowserRouter>
   );
 };
