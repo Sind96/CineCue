@@ -63,7 +63,7 @@ const IndividualMoviePage = () => {
           </p>
         </div>
         <p>{movie?.overview}</p>
-        <p>Director: {movie?.directors}</p>
+        <p>Director: {movie?.directors.join(", ")}</p>
         <p>Stars: {movie?.cast.join(", ")}</p>
         <div>
           <div>
