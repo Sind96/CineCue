@@ -41,14 +41,27 @@ const IndividualMoviePage = () => {
 
   if (loading) return <ScaleLoader />;
   return (
-    <div>
+    <div className="min-h-screen bg-black text-white flex flex-col">
       <Navbar />
-      <img src={movie?.imageSet.horizontalPoster.w1440} alt={movie?.title} />
+
+      <section className="relative w-full h-[55vh] sm:h-[60vh] lg:h-[70vh]">
+        <img
+          src={movie?.imageSet.horizontalPoster.w1440}
+          alt={movie?.title}
+          className="absolute inset-0 w-full h-full"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/70 ">
+          <div className="absolute bottom-8 left-6 md:left-12 max-w-4xl">
+            <h1 className="text-3xl md:text-5xl font-bold drop-shadow-lg">
+              {movie?.title}
+            </h1>
+          </div>
+        </div>
+      </section>
 
       <div>
         <div>
           <div>
-            <p>{movie?.title}</p>
             <div>
               {movie && (
                 <p>Genre: {movie.genres.map((g) => g.name).join(", ")}</p>
