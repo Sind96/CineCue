@@ -39,7 +39,14 @@ const IndividualMoviePage = () => {
     fetchMovieByImdbId();
   }, [imdbID, navigate]);
 
-  if (loading) return <ScaleLoader />;
+  if (loading)
+    return (
+      <div className="flex justify-center pt-100 bg-secondary">
+        {" "}
+        <ScaleLoader color="#e50914" />
+      </div>
+    );
+    
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       <Navbar />
