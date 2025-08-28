@@ -10,8 +10,8 @@ const ImFeelingLuckyButton = ({ watchList }: ImFeelingLuckyButtonProps) => {
           watchList[Math.floor(Math.random() * watchList.length)];
         toast.success(
           <span>
-            You should watch:{" "}
-            <Link to={`/movie/${randomMovie.imdbId}`}>
+            🎬 You should watch:{" "}
+            <Link to={`/movie/${randomMovie.imdbId}`} className="underline">
               {" "}
               {randomMovie.title}`
             </Link>
@@ -49,8 +49,21 @@ const ImFeelingLuckyButton = ({ watchList }: ImFeelingLuckyButtonProps) => {
   };
 
   return (
-    <div>
-      <button onClick={handlerImFeelingLucky}>I'm Feeling Lucky</button>
+    <div className="flex justify-center">
+      <button
+        onClick={handlerImFeelingLucky}
+        className="
+          relative px-6 py-3 
+          text-white font-semibold text-lg 
+          rounded-full shadow-lg
+          bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+          hover:from-yellow-500 hover:via-red-500 hover:to-pink-500
+          transition-all duration-300 
+          transform hover:scale-105 active:scale-95
+        "
+      >
+        🎲 I'm Feeling Lucky
+      </button>
     </div>
   );
 };
