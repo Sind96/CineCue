@@ -23,8 +23,7 @@ app.use(
 );
 app.use("/api/auth", authRouter);
 app.use("/api/protected", protectedRoutes);
-// app.use("/favourites", favouriteRouter);
-app.use(streamingAvailabilityRouter);
+app.use("/api", streamingAvailabilityRouter);
 
 (async function main() {
   try {
