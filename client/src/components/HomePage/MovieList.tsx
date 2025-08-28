@@ -6,6 +6,7 @@ import {
 import MovieListItem from "./MovieListItem";
 import { Link } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+import API from "../../services/axios";
 
 const MovieList = () => {
   const [topMovies, setTopMovies] = useState<streamingAvailabilityProps[]>([]);
@@ -16,15 +17,12 @@ const MovieList = () => {
     const fetchMovies = async () => {
       try {
         const [topRes, genreRes] = await Promise.all([
-          fetch("http://localhost:3000/top20"),
-          fetch("http://localhost:3000/streamgenre"),
+          API.get("/top20"),
+          API.get("/streamgenre"),
         ]);
-        const [topData, genreData] = await Promise.all([
-          topRes.json(),
-          genreRes.json(),
-        ]);
-        setTopMovies(topData);
-        setGenreMovies(genreData);
+
+        setTopMovies(topRes.data);
+        setGenreMovies(genreRes.data);
       } catch (error) {
         console.error("Error with fetchMovies", error);
       } finally {
