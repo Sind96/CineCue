@@ -34,7 +34,7 @@ const MovieList = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center pt-100 bg-black">
+      <div className="flex justify-center pt-100 bg-secondary">
         {" "}
         <ScaleLoader color="#e50914" />
       </div>
