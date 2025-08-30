@@ -49,36 +49,51 @@ const IndividualMoviePage = () => {
         <img
           src={movie?.imageSet.horizontalPoster.w1440}
           alt={movie?.title}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full object-top object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/70 ">
-          <div className="absolute bottom-8 left-6 md:left-12 max-w-4xl">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/90 flex items-end">
+          <div className="px-6 md:px-12 pb-10 max-w-4xl">
             <h1 className="text-3xl md:text-5xl font-bold drop-shadow-lg">
               {movie?.title}
             </h1>
+            <div className="flex items-center gap-2 mt-4">
+              <MdOutlineStarOutline className="text-yellow-400 text-3xl" />
+              <p className="text-lg font-semibold">
+                {movie?.rating ? `${movie.rating}/100` : "N/A"}
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      <div>
-        <div>
-          <div>
-            <div>
-              {movie && (
-                <p>Genre: {movie.genres.map((g) => g.name).join(", ")}</p>
-              )}
-            </div>
+      <section className="px-6 md:px-12 py-8 space-y-6">
+        {movie?.genres && (
+          <div className="flex flex-wrap gap-2">
+            {movie.genres.map((g) => (
+              <span
+                key={g.id}
+                className="bg-red-600 px-3 py-1 rounded-full text-sm font-medium"
+              >
+                {g.name}
+              </span>
+            ))}
           </div>
+        )}
+
+        <p className="text-gray-300 leading-relaxed">{movie?.overview}</p>
+        <div className="space-y-2">
           <p>
-            <span>
-              <MdOutlineStarOutline />
-            </span>
-            ({movie?.rating}/100)
+            <span className="font-bold">Director:</span>{" "}
+            {movie?.directors?.join(", ")}
+          </p>
+          <p>
+            <span className="font-bold">Stars:</span>{" "}
+            {movie?.cast?.slice(0, 5).join(", ")}
           </p>
         </div>
-        <p>{movie?.overview}</p>
-        <p>Director: {movie?.directors.join(", ")}</p>
-        <p>Stars: {movie?.cast.join(", ")}</p>
+      </section>
+
+      <div>
         <div>
           <div>
             <p>Watch Now On:</p>
