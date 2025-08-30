@@ -117,11 +117,13 @@ const IndividualMoviePage = () => {
         )}
 
         {movie && (
-          <AddToWatchListButton
-            imdbId={movie?.imdbId}
-            title={movie?.title}
-            imageURL={movie?.imageSet.horizontalPoster.w1440}
-          />
+          <div className="flex justify-center">
+            <AddToWatchListButton
+              imdbId={movie?.imdbId}
+              title={movie?.title}
+              imageURL={movie?.imageSet.horizontalPoster.w1440}
+            />
+          </div>
         )}
       </section>
     </div>

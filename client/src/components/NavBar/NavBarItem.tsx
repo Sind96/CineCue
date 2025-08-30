@@ -9,6 +9,18 @@ const NavBarItem = () => {
       >
         Watch List
       </Link>
+      <Link
+        to="/update"
+        className="text-gray-300 hover:text-primary transition-colors text-sm font-medium"
+      >
+        Trending
+      </Link>
+      <Link
+        to="/update"
+        className="text-gray-300 hover:text-primary transition-colors text-sm font-medium"
+      >
+        Settings
+      </Link>
     </div>
   );
 };

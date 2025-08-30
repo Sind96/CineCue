@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import type { streamingAvailabilityProps } from "../../@types/streamingAvailability/_streamingAvailability.type";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +12,6 @@ const SearchBar = () => {
     streamingAvailabilityProps[]
   >([]);
   const navigate = useNavigate();
-  const containerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
@@ -29,7 +27,7 @@ const SearchBar = () => {
 
     const fetchMovies = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/title`, {
+        const response = await fetch(`http://localhost:3000/api/title`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
