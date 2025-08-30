@@ -55,8 +55,9 @@ const MovieList = () => {
               className="snap-start"
             >
               <MovieListItem
-                src={movie.imageSet?.horizontalPoster?.w1080}
+                src={movie.imageSet?.verticalPoster?.w720}
                 alt={movie.title}
+                fixedAspect
               />
             </Link>
           ))}

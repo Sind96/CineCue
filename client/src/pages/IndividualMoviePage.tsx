@@ -45,13 +45,14 @@ const IndividualMoviePage = () => {
     <div className="min-h-screen bg-black text-white flex flex-col">
       <Navbar />
 
-      <section className="relative w-full h-[55vh] sm:h-[60vh] lg:h-[70vh]">
+      <section className="relative w-full h-[65vh] sm:h-[70vh] lg:h-[80vh]">
         <img
           src={movie?.imageSet.horizontalPoster.w1440}
           alt={movie?.title}
           className="absolute inset-0 w-full h-full object-top object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-black/90 flex items-end">
+
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent/80 to-black flex items-end">
           <div className="px-6 md:px-12 pb-10 max-w-4xl">
             <h1 className="text-3xl md:text-5xl font-bold drop-shadow-lg">
               {movie?.title}
@@ -91,27 +92,38 @@ const IndividualMoviePage = () => {
             {movie?.cast?.slice(0, 5).join(", ")}
           </p>
         </div>
-      </section>
 
-      <div>
-        <div>
+        {movie?.streamingOptions?.gb && (
           <div>
-            <p>Watch Now On:</p>
-            <a href={movie?.streamingOptions.gb[0].link}>
-              <img
-                src={
-                  movie?.streamingOptions.gb[0].service.imageSet.lightThemeImage
-                }
-              />
-            </a>
+            <p className="font-bold mb-2">Watch Now On:</p>
+            <div className="flex gap-4">
+              {movie.streamingOptions.gb.map((opt, idx) => (
+                <a
+                  key={idx}
+                  href={opt.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transform hover:scale-105 transition duration-300"
+                >
+                  <img
+                    src={opt.service.imageSet.lightThemeImage}
+                    alt={opt.service.name}
+                    className="w-20 rounded-md shadow-md"
+                  />
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-        <AddToWatchListButton
-          imdbId={movie?.imdbId}
-          title={movie?.title}
-          imageURL={movie?.imageSet.horizontalPoster.w1440}
-        />
-      </div>
+        )}
+
+        {movie && (
+          <AddToWatchListButton
+            imdbId={movie?.imdbId}
+            title={movie?.title}
+            imageURL={movie?.imageSet.horizontalPoster.w1440}
+          />
+        )}
+      </section>
     </div>
   );
 };
