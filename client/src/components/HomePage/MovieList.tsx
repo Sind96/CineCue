@@ -41,7 +41,7 @@ const MovieList = () => {
     );
 
   return (
-    <div className="pt-20 px-6 space-y-10">
+    <div className="pt-20 px-6 space-y-10 pb-5">
       <section>
         <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
           Top Rated Movies
