@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String @id @default(uuid())
+  name         String
+  email        String @unique
+  passwordHash String
+
+  collections       Collection[]
+  collectionMembers CollectionMember[]
+  addedMovies       CollectionMovie[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Movie {
+  id             String   @id @default(uuid())
+  imdbId         String   @unique
+  title          String
+  year           Int?
+  posterUrl      String?
+  overview       String?
+  runtimeMinutes Int?
+  genres         String[]
+  externalSource String
+  lastSyncedAt   DateTime?
+
+  collectionItems CollectionMovie[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Collection {
+  id          String               @id @default(uuid())
+  ownerId     String
+  name        String
+  description String?
+  visibility  CollectionVisibility @default(PRIVATE)
+
+  owner   User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  members CollectionMember[]
+  movies  CollectionMovie[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([ownerId, name])
+  @@index([ownerId])
+}
+
+model CollectionMovie {
+  id           String @id @default(uuid())
+  collectionId String
+  movieId      String
+  addedById    String
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  movie      Movie      @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  addedBy    User       @relation(fields: [addedById], references: [id])
+
+  watched   Boolean   @default(false)
+  watchedAt DateTime?
+  rating    Int?
+  notes     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([collectionId, movieId])
+  @@index([collectionId])
+  @@index([movieId])
+  @@index([addedById])
+  @@index([watched])
+}
+
+model CollectionMember {
+  id           String         @id @default(uuid())
+  collectionId String
+  userId       String
+  role         CollectionRole @default(OWNER)
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([collectionId, userId])
+  @@index([userId])
+}
+
+enum CollectionVisibility {
+  PRIVATE
+  SHARED
+  PUBLIC
+}
+
+enum CollectionRole {
+  OWNER
+  EDITOR
+  VIEWER
+}

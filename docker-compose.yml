@@ -1,0 +1,17 @@
+# docker-compose.yml
+services:
+  postgres:
+    image: postgres:16
+    container_name: cinecue-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: cinecue
+      POSTGRES_PASSWORD: cinecue_password
+      POSTGRES_DB: cinecue
+    volumes:
+      - cinecue_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  cinecue_postgres_data:
