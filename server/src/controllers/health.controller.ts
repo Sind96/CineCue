@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { prisma } from "../lib/prisma.js";
+import { checkHealth } from "../services/health.service.js";
 
 export const getHealth = async (
   _req: Request,
@@ -7,12 +7,8 @@ export const getHealth = async (
   next: NextFunction,
 ) => {
   try {
-    await prisma.$queryRaw`SELECT 1`;
-
-    res.json({
-      status: "ok",
-      database: "connected",
-    });
+    const health = await checkHealth();
+    res.json(health);
   } catch (error) {
     next(error);
   }
