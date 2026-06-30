@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { prisma } from "./lib/prisma.js";
+import { healthRouter } from "./routes/health.routes.js";
 import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
@@ -17,18 +17,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/health", async (_req, res, next) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-
-    res.json({
-      status: "ok",
-      database: "connected",
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+app.use("/health", healthRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
