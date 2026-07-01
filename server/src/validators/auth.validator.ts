@@ -1,32 +1,47 @@
-import type { NextFunction, Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
+import { z } from "zod";
 import { AppError } from "../utils/AppError.js";
+
+export const registerSchema = z.object({
+  name: z
+    .string({
+      error: "Name is required",
+    })
+    .trim()
+    .min(1, "Name is required")
+    .max(100),
+  email: z
+    .string({
+      error: "Email is required",
+    })
+    .trim()
+    .toLowerCase()
+    .pipe(z.email({ error: "Valid email is required" })),
+  password: z
+    .string({
+      error: "Password is required",
+    })
+    .min(8, "Password must be at least 8 characters")
+    .max(100),
+});
+
+export type RegisterInput = z.infer<typeof registerSchema>;
 
 export const validateRegister = (
   req: Request,
   _res: Response,
   next: NextFunction,
 ) => {
-  const { name, email, password } = req.body;
+  const result = registerSchema.safeParse(req.body);
 
-  if (!name || typeof name !== "string") {
-    throw new AppError(400, "Name is required");
+  if (!result.success) {
+    throw new AppError(
+      400,
+      result.error.issues[0]?.message ?? "Invalid request",
+    );
   }
 
-  if (!email || typeof email !== "string") {
-    throw new AppError(400, "Valid email is required");
-  }
-
-  if (!email.includes("@")) {
-    throw new AppError(400, "Valid email is required");
-  }
-
-  if (!password || typeof password !== "string") {
-    throw new AppError(400, "Password is required");
-  }
-
-  if (password.length < 8) {
-    throw new AppError(400, "Password must be at least 8 characters");
-  }
+  req.body = result.data;
 
   next();
 };

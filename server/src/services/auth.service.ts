@@ -1,12 +1,7 @@
 import { prisma } from "../lib/prisma.js";
 import { AppError } from "../utils/AppError.js";
 import { hashPassword } from "../utils/password.js";
-
-type RegisterInput = {
-  name: string;
-  email: string;
-  password: string;
-};
+import type { RegisterInput } from "../validators/auth.validator.js";
 
 type AuthUser = {
   id: string;
