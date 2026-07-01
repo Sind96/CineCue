@@ -45,3 +45,37 @@ export const validateRegister = (
 
   next();
 };
+
+export const loginSchema = z.object({
+  email: z
+    .string({
+      error: "Email is required",
+    })
+    .trim()
+    .toLowerCase()
+    .pipe(z.email({ error: "Valid email is required" })),
+  password: z.string({
+    error: "Password is required",
+  }),
+});
+
+export type LoginInput = z.infer<typeof loginSchema>;
+
+export const validateLogin = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  const result = loginSchema.safeParse(req.body);
+
+  if (!result.success) {
+    throw new AppError(
+      400,
+      result.error.issues[0]?.message ?? "Invalid request",
+    );
+  }
+
+  req.body = result.data;
+
+  next();
+};

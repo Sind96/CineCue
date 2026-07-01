@@ -1,7 +1,10 @@
 import { prisma } from "../lib/prisma.js";
 import { AppError } from "../utils/AppError.js";
-import { hashPassword } from "../utils/password.js";
-import type { RegisterInput } from "../validators/auth.validator.js";
+import { comparePassword, hashPassword } from "../utils/password.js";
+import type {
+  LoginInput,
+  RegisterInput,
+} from "../validators/auth.validator.js";
 
 type AuthUser = {
   id: string;
@@ -35,4 +38,31 @@ export const registerUser = async (input: RegisterInput): Promise<AuthUser> => {
     },
   });
   return user;
+};
+
+export const loginUser = async (input: LoginInput): Promise<AuthUser> => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: input.email,
+    },
+  });
+
+  if (!user) {
+    throw new AppError(401, "Invalid email or password");
+  }
+
+  const passwordMatches = await comparePassword(
+    input.password,
+    user.passwordHash,
+  );
+
+  if (!passwordMatches) {
+    throw new AppError(401, "Invalid email or password");
+  }
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  };
 };
