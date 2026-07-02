@@ -40,6 +40,18 @@ export const login = async (
   }
 };
 
+export const logout = (_req: Request, res: Response) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  res.status(200).json({
+    message: "Logged out successfully",
+  });
+};
+
 export const me = async (req: Request, res: Response) => {
   res.status(200).json({
     user: req.user,
