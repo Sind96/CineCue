@@ -23,7 +23,14 @@ export const login = async (
   next: NextFunction,
 ) => {
   try {
-    const user = await loginUser(req.body);
+    const { user, accessToken } = await loginUser(req.body);
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 15 * 60 * 1000,
+    });
 
     res.status(200).json({
       user,
@@ -31,4 +38,10 @@ export const login = async (
   } catch (error) {
     next(error);
   }
+};
+
+export const me = async (req: Request, res: Response) => {
+  res.status(200).json({
+    user: req.user,
+  });
 };
