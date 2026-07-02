@@ -23,13 +23,20 @@ export const login = async (
   next: NextFunction,
 ) => {
   try {
-    const { user, accessToken } = await loginUser(req.body);
+    const { user, accessToken, refreshToken } = await loginUser(req.body);
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
       maxAge: 15 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({
@@ -42,6 +49,12 @@ export const login = async (
 
 export const logout = (_req: Request, res: Response) => {
   res.clearCookie("accessToken", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  res.clearCookie("refreshToken", {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

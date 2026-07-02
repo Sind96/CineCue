@@ -2,7 +2,7 @@ import { prisma } from "../lib/prisma.js";
 import { AuthUser } from "../types/auth.types.js";
 import { AppError } from "../utils/AppError.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
-import { signAccessToken } from "../utils/token.js";
+import { signAccessToken, signRefreshToken } from "../utils/token.js";
 import type {
   LoginInput,
   RegisterInput,
@@ -11,6 +11,7 @@ import type {
 type LoginResponse = {
   user: AuthUser;
   accessToken: string;
+  refreshToken: string;
 };
 
 export const registerUser = async (input: RegisterInput): Promise<AuthUser> => {
@@ -63,6 +64,12 @@ export const loginUser = async (input: LoginInput): Promise<LoginResponse> => {
 
   const accessToken = signAccessToken({
     userId: user.id,
+    type: "access",
+  });
+
+  const refreshToken = signRefreshToken({
+    userId: user.id,
+    type: "refresh",
   });
 
   return {
@@ -72,5 +79,6 @@ export const loginUser = async (input: LoginInput): Promise<LoginResponse> => {
       email: user.email,
     },
     accessToken,
+    refreshToken,
   };
 };
