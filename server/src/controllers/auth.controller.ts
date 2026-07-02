@@ -1,5 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import { loginUser, registerUser } from "../services/auth.service.js";
+import { baseCookieOptions } from "../config/cookies.js";
+import { AppError } from "../utils/AppError.js";
+import { signAccessToken, verifyRefreshToken } from "../utils/token.js";
 
 export const register = async (
   req: Request,
@@ -26,16 +29,12 @@ export const login = async (
     const { user, accessToken, refreshToken } = await loginUser(req.body);
 
     res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      ...baseCookieOptions,
       maxAge: 15 * 60 * 1000,
     });
 
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      ...baseCookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -48,17 +47,9 @@ export const login = async (
 };
 
 export const logout = (_req: Request, res: Response) => {
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
+  res.clearCookie("accessToken", baseCookieOptions);
 
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
+  res.clearCookie("refreshToken", baseCookieOptions);
 
   res.status(200).json({
     message: "Logged out successfully",
@@ -69,4 +60,36 @@ export const me = async (req: Request, res: Response) => {
   res.status(200).json({
     user: req.user,
   });
+};
+
+export const refresh = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      throw new AppError(401, "Authentication required");
+    }
+
+    const payload = verifyRefreshToken(refreshToken);
+
+    if (payload.type !== "refresh") {
+      throw new AppError(401, "Invalid refresh token");
+    }
+
+    const accessToken = signAccessToken({
+      userId: payload.userId,
+      type: "access",
+    });
+
+    res.cookie("accessToken", accessToken, {
+      ...baseCookieOptions,
+      maxAge: 15 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      message: "Access token refreshed",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
