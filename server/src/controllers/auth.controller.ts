@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { loginUser, registerUser } from "../services/auth.service.js";
-import { baseCookieOptions } from "../config/cookies.js";
+import { ACCESS_COOKIE_MAX_AGE, baseCookieOptions, REFRESH_COOKIE_MAX_AGE } from "../config/cookies.js";
 import { AppError } from "../utils/AppError.js";
 import { signAccessToken, verifyRefreshToken } from "../utils/token.js";
 
@@ -30,12 +30,12 @@ export const login = async (
 
     res.cookie("accessToken", accessToken, {
       ...baseCookieOptions,
-      maxAge: 15 * 60 * 1000,
+      maxAge: ACCESS_COOKIE_MAX_AGE,
     });
 
     res.cookie("refreshToken", refreshToken, {
       ...baseCookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: REFRESH_COOKIE_MAX_AGE,
     });
 
     res.status(200).json({
@@ -83,7 +83,7 @@ export const refresh = (req: Request, res: Response, next: NextFunction) => {
 
     res.cookie("accessToken", accessToken, {
       ...baseCookieOptions,
-      maxAge: 15 * 60 * 1000,
+      maxAge: ACCESS_COOKIE_MAX_AGE,
     });
 
     res.status(200).json({

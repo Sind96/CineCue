@@ -1,3 +1,4 @@
+import { publicUserSelect } from "../lib/prisma-selects.js";
 import { prisma } from "../lib/prisma.js";
 import { AuthUser } from "../types/auth.types.js";
 import { AppError } from "../utils/AppError.js";
@@ -33,11 +34,7 @@ export const registerUser = async (input: RegisterInput): Promise<AuthUser> => {
       email: input.email,
       passwordHash,
     },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-    },
+    select: publicUserSelect,
   });
   return user;
 };

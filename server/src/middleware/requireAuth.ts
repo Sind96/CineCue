@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma.js";
 import { AppError } from "../utils/AppError.js";
 import { verifyAccessToken } from "../utils/token.js";
+import { publicUserSelect } from "../lib/prisma-selects.js";
 
 export const requireAuth = async (
   req: Request,
@@ -21,11 +22,7 @@ export const requireAuth = async (
       where: {
         id: payload.userId,
       },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      },
+      select: publicUserSelect,
     });
 
     if (!user) {
