@@ -47,3 +47,14 @@ export const getGenres = async (): Promise<Genre[]> => {
 
   return data.map(mapToGenre);
 };
+
+export const getMoviesByGenre = async (
+  genreId: string,
+  countryCode = "gb",
+): Promise<MovieSummary[]> => {
+  const data = await fetchFromMovieApi<StreamingApiSearchResponse>(
+    `/shows/search/filters?country=${countryCode}&show_type=movie&genres=${genreId}&order_by=rating`,
+  );
+
+  return data.shows.map((show) => mapToMovieSummary(show, countryCode));
+};
