@@ -31,4 +31,22 @@ export const env = {
 
   JWT_REFRESH_EXPIRES_IN:
     (process.env.JWT_REFRESH_EXPIRES_IN as SignOptions["expiresIn"]) ?? "7d",
+
+  MOVIE_API_BASE_URL:
+    process.env.MOVIE_API_BASE_URL ??
+    (() => {
+      throw new Error("MOVIE_API_BASE_URL is missing");
+    })(),
+
+  MOVIE_API_KEY:
+    process.env.MOVIE_API_KEY ??
+    (() => {
+      throw new Error("MOVIE_API_KEY is missing");
+    })(),
+
+  MOVIE_API_HOST:
+    process.env.MOVIE_API_HOST ??
+    (() => {
+      throw new Error("MOVIE_API_HOST is missing");
+    })(),
 };
