@@ -12,6 +12,8 @@ type StreamingApiSearchResponse = {
   shows: StreamingApiShow[];
 };
 
+type StreamingApiTitleSearchResponse = StreamingApiShow[];
+
 const fetchFromMovieApi = async <T>(
   endpoint: string,
   options?: RequestInit,
@@ -57,4 +59,26 @@ export const getMoviesByGenre = async (
   );
 
   return data.shows.map((show) => mapToMovieSummary(show, countryCode));
+};
+
+export const searchMovies = async (
+  query: string,
+  countryCode = "gb",
+): Promise<MovieSummary[]> => {
+  const data = await fetchFromMovieApi<StreamingApiTitleSearchResponse>(
+    `/shows/search/title?country=${countryCode}&title=${encodeURIComponent(query)}&show_type=movie`,
+  );
+
+  return data.map((show) => mapToMovieSummary(show, countryCode));
+};
+
+export const getMovieByImdbId = async (
+  imdbId: string,
+  countryCode = "gb",
+): Promise<MovieSummary> => {
+  const data = await fetchFromMovieApi<StreamingApiShow>(
+    `/shows/${imdbId}?country=${countryCode}`,
+  );
+
+  return mapToMovieSummary(data, countryCode);
 };
