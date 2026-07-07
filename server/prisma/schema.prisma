@@ -16,6 +16,7 @@ model User {
   collections       Collection[]
   collectionMembers CollectionMember[]
   addedMovies       CollectionMovie[]
+  favourites        Favourite[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -108,4 +109,19 @@ enum CollectionRole {
   OWNER
   EDITOR
   VIEWER
+}
+
+model Favourite {
+  id          String   @id @default(uuid())
+  userId      String
+  imdbId      String
+  title       String
+  posterUrl   String?
+  releaseYear Int?
+  rating      Int?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, imdbId])
 }
