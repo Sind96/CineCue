@@ -13,3 +13,14 @@ export const createCollection = async (
     },
   });
 };
+
+export const getCollections = async (ownerId: string) => {
+  return prisma.collection.findMany({
+    where: {
+      ownerId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+};

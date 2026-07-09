@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { createCollectionController } from "../controllers/collection.controller.js";
+import {
+  createCollectionController,
+  getCollectionsController,
+} from "../controllers/collection.controller.js";
 import { requireAuth } from "../middleware/requireAuth.js";
 import { validateCreateCollection } from "../middleware/validateCollection.js";
 
@@ -12,3 +15,5 @@ collectionRouter.post(
   validateCreateCollection,
   createCollectionController,
 );
+
+collectionRouter.get("/", getCollectionsController);
