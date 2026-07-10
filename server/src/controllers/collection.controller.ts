@@ -2,7 +2,9 @@ import type { Request, Response, NextFunction } from "express";
 import {
   addMovieToCollection,
   createCollection,
+  getCollection,
   getCollections,
+  removeMovieFromCollection,
 } from "../services/collection.service.js";
 import { AppError } from "../utils/AppError.js";
 
@@ -66,6 +68,50 @@ export const addMovieToCollectionController = async (
 
     res.status(201).json({
       collectionMovie,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getCollectionController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.user) {
+      throw new AppError(401, "Authentication required");
+    }
+
+    const { collectionId } = req.params;
+
+    const collection = await getCollection(req.user.id, collectionId);
+
+    res.status(200).json({
+      collection,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const removeMovieFromCollectionController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.user) {
+      throw new AppError(401, "Authentication required");
+    }
+
+    const { collectionId, imdbId } = req.params;
+
+    await removeMovieFromCollection(req.user.id, collectionId, imdbId);
+
+    res.status(200).json({
+      message: "Movie removed from collection",
     });
   } catch (error) {
     next(error);

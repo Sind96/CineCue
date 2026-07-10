@@ -87,3 +87,77 @@ export const addMovieToCollection = async (
     },
   });
 };
+
+export const getCollection = async (userId: string, collectionId: string) => {
+  const collection = await prisma.collection.findFirst({
+    where: {
+      id: collectionId,
+      ownerId: userId,
+    },
+    include: {
+      movies: {
+        include: {
+          movie: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    },
+  });
+
+  if (!collection) {
+    throw new AppError(404, "Collection not found");
+  }
+
+  return collection;
+};
+
+export const removeMovieFromCollection = async (
+  userId: string,
+  collectionId: string,
+  imdbId: string,
+) => {
+  const collection = await prisma.collection.findFirst({
+    where: {
+      id: collectionId,
+      ownerId: userId,
+    },
+  });
+
+  if (!collection) {
+    throw new AppError(404, "Collection not found");
+  }
+
+  const movie = await prisma.movie.findUnique({
+    where: {
+      imdbId,
+    },
+  });
+
+  if (!movie) {
+    throw new AppError(404, "Movie not found");
+  }
+
+  const collectionMovie = await prisma.collectionMovie.findUnique({
+    where: {
+      collectionId_movieId: {
+        collectionId,
+        movieId: movie.id,
+      },
+    },
+  });
+
+  if (!collectionMovie) {
+    throw new AppError(404, "Movie not found in this collection");
+  }
+
+  return prisma.collectionMovie.delete({
+    where: {
+      collectionId_movieId: {
+        collectionId,
+        movieId: movie.id,
+      },
+    },
+  });
+};
