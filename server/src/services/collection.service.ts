@@ -161,3 +161,25 @@ export const removeMovieFromCollection = async (
     },
   });
 };
+
+export const deleteCollection = async (
+  userId: string,
+  collectionId: string,
+) => {
+  const collection = await prisma.collection.findFirst({
+    where: {
+      id: collectionId,
+      ownerId: userId,
+    },
+  });
+
+  if (!collection) {
+    throw new AppError(404, "Collection not found");
+  }
+
+  return prisma.collection.delete({
+    where: {
+      id: collectionId,
+    },
+  });
+};

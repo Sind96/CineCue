@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addMovieToCollectionController,
   createCollectionController,
+  deleteCollectionController,
   getCollectionController,
   getCollectionsController,
   removeMovieFromCollectionController,
@@ -32,3 +33,4 @@ collectionRouter.delete(
   "/:collectionId/movies/:imdbId",
   removeMovieFromCollectionController,
 );
+collectionRouter.delete("/:collectionId", deleteCollectionController);

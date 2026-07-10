@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import {
   addMovieToCollection,
   createCollection,
+  deleteCollection,
   getCollection,
   getCollections,
   removeMovieFromCollection,
@@ -112,6 +113,28 @@ export const removeMovieFromCollectionController = async (
 
     res.status(200).json({
       message: "Movie removed from collection",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteCollectionController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.user) {
+      throw new AppError(401, "Authentication required");
+    }
+
+    const { collectionId } = req.params;
+
+    await deleteCollection(req.user.id, collectionId);
+
+    res.status(200).json({
+      message: "Collection deleted successfully",
     });
   } catch (error) {
     next(error);
