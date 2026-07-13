@@ -1,6 +1,6 @@
 import { publicUserSelect } from "../lib/prisma-selects.js";
 import { prisma } from "../lib/prisma.js";
-import { AuthUser } from "../types/auth.types.js";
+import type { AuthUser } from "../types/auth.types.js";
 import { AppError } from "../utils/AppError.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 import { signAccessToken, signRefreshToken } from "../utils/token.js";

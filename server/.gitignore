@@ -1,5 +1,7 @@
 node_modules
 .env
-/generated/prisma
-dist/
 cookies.txt
+dist/
+/generated/prisma
+*.log
+.DS_Store

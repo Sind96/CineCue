@@ -22,7 +22,7 @@ export const getTopMoviesController = async (
       movies,
     });
   } catch (error) {
-    console.error(next);
+    next(error);
   }
 };
 

@@ -2,7 +2,7 @@ import { prisma } from "../lib/prisma.js";
 import type { FavouriteInput } from "../validators/favourite.validator.js";
 import { AppError } from "../utils/AppError.js";
 import { mapToFavouriteResponse } from "../utils/favourite.mapper.js";
-import { FavouriteResponse } from "../types/favourite.types.js";
+import type { FavouriteResponse } from "../types/favourite.types.js";
 
 export const addFavourite = async (
   userId: string,

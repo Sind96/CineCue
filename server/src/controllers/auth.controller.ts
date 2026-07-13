@@ -1,6 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 import { loginUser, registerUser } from "../services/auth.service.js";
-import { ACCESS_COOKIE_MAX_AGE, baseCookieOptions, REFRESH_COOKIE_MAX_AGE } from "../config/cookies.js";
+import {
+  ACCESS_COOKIE_MAX_AGE,
+  baseCookieOptions,
+  REFRESH_COOKIE_MAX_AGE,
+} from "../config/cookies.js";
 import { AppError } from "../utils/AppError.js";
 import { signAccessToken, verifyRefreshToken } from "../utils/token.js";
 
@@ -56,7 +60,7 @@ export const logout = (_req: Request, res: Response) => {
   });
 };
 
-export const me = async (req: Request, res: Response) => {
+export const me = (req: Request, res: Response) => {
   res.status(200).json({
     user: req.user,
   });
