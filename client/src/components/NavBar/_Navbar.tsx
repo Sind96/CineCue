@@ -6,11 +6,13 @@ import SignUpAndSignIn from "./SignUpAndSignIn";
 import Title from "./Title";
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   const hideSearchBar =
     location.pathname === "/signin" || location.pathname === "/signup";
+
+  const isAuthenticated = user !== null;
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-secondary bg-opacity-90 backdrop-blur-md shadow-sm">

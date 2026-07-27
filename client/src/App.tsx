@@ -6,11 +6,11 @@ import SignUpPage from "./pages/loginPages/SignUpPage";
 import Navbar from "./components/NavBar/_Navbar";
 import HomePage from "./pages/Homepage";
 import SignInPage from "./pages/loginPages/SignInPage";
-import { AuthProvider } from "./hooks/AuthContext";
 import ProtectedRoute from "./pages/loginPages/ProtectedRoute";
 import ErrorPage from "./pages/ErrorPage";
 import { ToastContainer } from "react-toastify";
 import UpdatePage from "./pages/UpdatePage";
+import { AuthProvider } from "./features/auth/context/AuthProvider";
 
 const App = () => {
   return (

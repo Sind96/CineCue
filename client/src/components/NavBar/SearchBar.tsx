@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import type { streamingAvailabilityProps } from "../../@types/streamingAvailability/_streamingAvailability.type";
 import { useNavigate } from "react-router-dom";
 
-let debounceTimeout: NodeJS.Timeout;
+let debounceTimeout: ReturnType<typeof setTimeout>;
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,7 +39,7 @@ const SearchBar = () => {
         const filteredItems = data.filter((movie) =>
           movie.title
             .toLowerCase()
-            .startsWith(debouncedSearchTerm.toLowerCase())
+            .startsWith(debouncedSearchTerm.toLowerCase()),
         );
         setFilteredMovies(filteredItems.slice(0, 10));
       } catch (error) {

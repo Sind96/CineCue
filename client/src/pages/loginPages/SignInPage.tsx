@@ -1,18 +1,24 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar/_Navbar.js";
-import { useAuth } from "../../hooks/AuthContext.js";
 import { Bounce, toast } from "react-toastify";
+import { useAuth } from "../../features/auth/hooks/useAuth.js";
 
 const SignInPage = () => {
   const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await login({
+        email,
+        password,
+      });
+
+      navigate("/");
     } catch (error) {
       console.log(`Error with handleSignIn:`, error);
       toast.error("Invalid Credentials", {
@@ -48,7 +54,7 @@ const SignInPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              autoComplete="current-email"
+              autoComplete="email"
               className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
             <input

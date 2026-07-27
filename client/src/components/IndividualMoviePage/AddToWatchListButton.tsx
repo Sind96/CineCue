@@ -10,11 +10,11 @@ const AddToWatchListButton = ({
   title,
   imageURL,
 }: AddToWatchListProps) => {
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    if (!isAuthenticated) {
+    if (!user) {
       alert("Please login to add to watchlist.");
       navigate("/signin");
       return;

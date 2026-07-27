@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/NavBar/_Navbar";
 import ImFeelingLuckyButton from "../components/WatchListPage/ImFeelingLuckyButton";
 import type { watchListType } from "../@types/watchList.page.type";
-import { useAuth } from "../hooks/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../services/axios";
 import { Bounce, toast } from "react-toastify";
@@ -14,15 +13,10 @@ const WatchListPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWatchList = async () => {
-      if (!isAuthenticated) {
-        navigate("/signin");
-        return;
-      }
       try {
         const res = await API.get("/protected/watchlist");
         setWatchList(res.data);
@@ -36,7 +30,7 @@ const WatchListPage = () => {
       }
     };
     fetchWatchList();
-  }, [isAuthenticated, navigate]);
+  }, [navigate]);
 
   const handleRemove = async (imdbId: string) => {
     try {
