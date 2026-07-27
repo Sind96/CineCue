@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../../hooks/AuthContext";
+import { useAuth } from "../../features/auth/hooks/useAuth";
 import NavBarItem from "./NavBarItem";
 import SearchBar from "./SearchBar";
 import SignUpAndSignIn from "./SignUpAndSignIn";

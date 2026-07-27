@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import type { AddToWatchListProps } from "../../@types/movies.components.type";
-import { useAuth } from "../../hooks/AuthContext";
-import API from "../../services/axios";
+import { useAuth } from "../../features/auth/hooks/useAuth";
 import { Bounce, toast } from "react-toastify";
 import { Plus } from "lucide-react";
+import { apiClient } from "../../lib/apiClient";
 
 const AddToWatchListButton = ({
   imdbId,
@@ -20,7 +20,7 @@ const AddToWatchListButton = ({
       return;
     }
     try {
-      await API.post("/protected/watchlist", {
+      await apiClient.post("/protected/watchlist", {
         imdbId,
         title,
         imageURL,

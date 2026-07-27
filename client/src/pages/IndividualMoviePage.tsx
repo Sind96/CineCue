@@ -1,22 +1,22 @@
 import { MdOutlineStarOutline } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import type { streamingAvailabilityProps } from "../@types/streamingAvailability/_streamingAvailability.type";
+import type { Movie } from "../features/movies/types/movie.types";
 import Navbar from "../components/NavBar/_Navbar";
 import AddToWatchListButton from "../components/IndividualMoviePage/AddToWatchListButton";
 import { ScaleLoader } from "react-spinners";
-import API from "../services/axios";
+import { apiClient } from "../lib/apiClient";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
-  const [movie, setMovie] = useState<streamingAvailabilityProps | null>(null);
+  const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovieByImdbId = async () => {
       try {
-        const { data } = await API.get(`/streamimdbId/${imdbID}`);
+        const { data } = await apiClient.get(`/streamimdbId/${imdbID}`);
 
         if (!data || !data.imdbId) {
           navigate("/error", { replace: true });

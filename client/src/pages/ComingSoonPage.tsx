@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/NavBar/_Navbar";
 
-const ErrorPage = () => {
+const ComingSoonPage = () => {
   return (
     <div className="bg-background min-h-screen flex flex-col">
       <Navbar />
@@ -9,11 +9,11 @@ const ErrorPage = () => {
       <main className="flex flex-1 items-center justify-center px-6">
         <div className="text-center space-y-6 max-w-lg">
           <h1 className="text-4xl md:text-5xl font-bold text-primary">
-            404 😞
+            Coming Soon 🚧
           </h1>
           <p className="text-lg text-muted-foreground">
-            Page not found. <br />
-            The page you're looking for doesn't exist.
+            This page is currently under construction. <br /> We're working hard
+            to bring it to you soon 🚧
           </p>
           <Link
             to="/"
@@ -27,4 +27,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+export default ComingSoonPage;

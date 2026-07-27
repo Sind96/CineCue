@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import type { streamingAvailabilityProps } from "../../@types/streamingAvailability/_streamingAvailability.type";
+import type { Movie } from "../../features/movies/types/movie.types";
 import { useNavigate } from "react-router-dom";
 
 let debounceTimeout: ReturnType<typeof setTimeout>;
@@ -8,9 +8,7 @@ let debounceTimeout: ReturnType<typeof setTimeout>;
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
-  const [filteredMovies, setFilteredMovies] = useState<
-    streamingAvailabilityProps[]
-  >([]);
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     clearTimeout(debounceTimeout);
@@ -34,7 +32,7 @@ const SearchBar = () => {
           },
           body: JSON.stringify({ searchTerm: debouncedSearchTerm }),
         });
-        const data: streamingAvailabilityProps[] = await response.json();
+        const data: Movie[] = await response.json();
 
         const filteredItems = data.filter((movie) =>
           movie.title

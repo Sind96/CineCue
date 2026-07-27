@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import API from "../../services/axios.js";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar/_Navbar.js";
 import { Bounce, toast } from "react-toastify";
+import { apiClient } from "../../lib/apiClient.js";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -29,7 +29,7 @@ const SignUpPage = () => {
       return;
     }
     try {
-      await API.post("/auth/register", { username, email, password });
+      await apiClient.post("/auth/register", { username, email, password });
       toast.success("Account created. Please log in.", {
         position: "top-center",
         autoClose: 1500,

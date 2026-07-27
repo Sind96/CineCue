@@ -3,10 +3,10 @@ import Navbar from "../components/NavBar/_Navbar";
 import ImFeelingLuckyButton from "../components/WatchListPage/ImFeelingLuckyButton";
 import type { watchListType } from "../@types/watchList.page.type";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../services/axios";
 import { Bounce, toast } from "react-toastify";
 import { ScaleLoader } from "react-spinners";
 import { MdDelete } from "react-icons/md";
+import { apiClient } from "../lib/apiClient";
 
 const WatchListPage = () => {
   const [watchList, setWatchList] = useState<watchListType[]>([]);
@@ -18,7 +18,7 @@ const WatchListPage = () => {
   useEffect(() => {
     const fetchWatchList = async () => {
       try {
-        const res = await API.get("/protected/watchlist");
+        const res = await apiClient.get("/protected/watchlist");
         setWatchList(res.data);
         setError(null);
       } catch (error) {
@@ -35,7 +35,7 @@ const WatchListPage = () => {
   const handleRemove = async (imdbId: string) => {
     try {
       setDeleting(imdbId);
-      await API.delete("/protected/watchlist", {
+      await apiClient.delete("/protected/watchlist", {
         data: { imdbId },
       });
       setWatchList((prev) => prev.filter((movie) => movie.imdbId !== imdbId));

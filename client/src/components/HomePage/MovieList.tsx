@@ -1,44 +1,31 @@
-import { useEffect, useState } from "react";
-import {
-  type streamingAvailabilityProps,
-  type GenreGroup,
-} from "../../@types/streamingAvailability/_streamingAvailability.type";
 import MovieListItem from "./MovieListItem";
 import { Link } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
-import API from "../../services/axios";
+import { useTopMovies } from "../../features/movies/hooks/useTopMovies";
+import { useGenreMovies } from "../../features/movies/hooks/useGenreMovies";
 
 const MovieList = () => {
-  const [topMovies, setTopMovies] = useState<streamingAvailabilityProps[]>([]);
-  const [genreMovies, setGenreMovies] = useState<GenreGroup[]>([]);
-  const [loading, setLoading] = useState(true);
+  const topMoviesQuery = useTopMovies();
+  const genreMoviesQuery = useGenreMovies();
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const [topRes, genreRes] = await Promise.all([
-          API.get("/top20"),
-          API.get("/streamgenre"),
-        ]);
+  const topMovies = topMoviesQuery.data ?? [];
+  const genreMovies = genreMoviesQuery.data ?? [];
 
-        setTopMovies(topRes.data);
-        setGenreMovies(genreRes.data);
-      } catch (error) {
-        console.error("Error with fetchMovies", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMovies();
-  }, []);
-
-  if (loading)
+  if (topMoviesQuery.isPending || genreMoviesQuery.isPending) {
     return (
       <div className="flex justify-center pt-100 bg-secondary">
-        {" "}
         <ScaleLoader color="#e50914" />
       </div>
     );
+  }
+
+  if (topMoviesQuery.isError || genreMoviesQuery.isError) {
+    return (
+      <div className="flex justify-center pt-32 text-white">
+        Unable to load movies. Please try again.
+      </div>
+    );
+  }
 
   return (
     <div className="pt-20 px-6 space-y-10 pb-5">

@@ -1,4 +1,4 @@
-import type { streamingAvailabilityProps } from "./streamingAvailability/_streamingAvailability.type";
+import type { Movie } from "../features/movies/types/movie.types";
 
 export interface searchResultsType {
   id: string;
@@ -23,5 +23,5 @@ export interface AddToWatchListProps {
 }
 
 export interface HeroBannerProps {
-  movie: streamingAvailabilityProps;
+  movie: Movie;
 }

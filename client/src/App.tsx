@@ -7,9 +7,9 @@ import Navbar from "./components/NavBar/_Navbar";
 import HomePage from "./pages/Homepage";
 import SignInPage from "./pages/loginPages/SignInPage";
 import ProtectedRoute from "./pages/loginPages/ProtectedRoute";
-import ErrorPage from "./pages/ErrorPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import { ToastContainer } from "react-toastify";
-import UpdatePage from "./pages/UpdatePage";
+import ComingSoonPage from "./pages/ComingSoonPage";
 import { AuthProvider } from "./features/auth/context/AuthProvider";
 
 const App = () => {
@@ -21,10 +21,10 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/signin" element={<SignInPage />} />
-            <Route path="/error" element={<ErrorPage />} />
-            <Route path="/update" element={<UpdatePage />} />
-            <Route path="*" element={<ErrorPage />} />
-            <Route path="/genre/:genre" element={<UpdatePage />} />
+            <Route path="/error" element={<NotFoundPage />} />
+            <Route path="/update" element={<ComingSoonPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/genre/:genre" element={<ComingSoonPage />} />
             <Route
               path="/watchlist"
               element={

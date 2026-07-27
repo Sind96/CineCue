@@ -1,8 +1,8 @@
-import type { Genre } from "./genres.type";
-import type { ImageSet } from "./imageSets.type";
-import type { StreamingOption } from "./streamingOptions.types";
+import type { Genre } from "../../../@types/streamingAvailability/genres.type";
+import type { ImageSet } from "../../../@types/streamingAvailability/imageSets.type";
+import type { StreamingOption } from "../../../@types/streamingAvailability/streamingOptions.types";
 
-export interface streamingAvailabilityProps {
+export type Movie = {
   itemType: string;
   showType: string;
   id: string;
@@ -19,9 +19,9 @@ export interface streamingAvailabilityProps {
   runtime: number;
   imageSet: ImageSet;
   streamingOptions: Record<string, StreamingOption[]>;
-}
+};
 
-export interface GenreGroup {
+export type GenreGroup = {
   genre: string;
-  movies: streamingAvailabilityProps[];
-}
+  movies: Movie[];
+};
