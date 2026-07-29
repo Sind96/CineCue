@@ -1,4 +1,4 @@
-export type FavouriteResponse = {
+export type WatchlistResponse = {
   imdbId: string;
   title: string;
   posterUrl?: string | null;

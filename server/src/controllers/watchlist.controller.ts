@@ -1,12 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import {
-  addFavourite,
-  deleteFavourite,
-  getFavourites,
-} from "../services/favourite.service.js";
+  addToWatchlist,
+  getWatchlist,
+  removeFromWatchlist,
+} from "../services/watchlist.service.js";
 import { AppError } from "../utils/AppError.js";
 
-export const addFavouriteController = async (
+export const addToWatchlistController = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -16,17 +16,17 @@ export const addFavouriteController = async (
       throw new AppError(401, "Authentication required");
     }
 
-    const favourite = await addFavourite(req.user.id, req.body);
+    const watchlistItem = await addToWatchlist(req.user.id, req.body);
 
     res.status(201).json({
-      favourite,
+      watchlistItem,
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const getFavouritesController = async (
+export const getWatchlistController = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -36,17 +36,17 @@ export const getFavouritesController = async (
       throw new AppError(401, "Authentication required");
     }
 
-    const favourites = await getFavourites(req.user.id);
+    const watchlist = await getWatchlist(req.user.id);
 
     res.status(200).json({
-      favourites,
+      watchlist,
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const deleteFavouriteController = async (
+export const removeFromWatchlistController = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -58,10 +58,10 @@ export const deleteFavouriteController = async (
 
     const { imdbId } = req.params;
 
-    await deleteFavourite(req.user.id, imdbId);
+    await removeFromWatchlist(req.user.id, imdbId);
 
     res.status(200).json({
-      message: "Movie removed from favourites",
+      message: "Movie removed from watchlist",
     });
   } catch (error) {
     next(error);

@@ -16,7 +16,7 @@ model User {
   collections       Collection[]
   collectionMembers CollectionMember[]
   addedMovies       CollectionMovie[]
-  favourites        Favourite[]
+  watchlist         Watchlist[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -111,7 +111,7 @@ enum CollectionRole {
   VIEWER
 }
 
-model Favourite {
+model Watchlist {
   id          String   @id @default(uuid())
   userId      String
   imdbId      String

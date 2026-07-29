@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const favouriteSchema = z.object({
+export const watchlistSchema = z.object({
   imdbId: z.string().min(1, "IMDb ID is required"),
   title: z.string().min(1, "Title is required"),
   posterUrl: z.url().optional(),
@@ -8,4 +8,4 @@ export const favouriteSchema = z.object({
   rating: z.number().int().optional(),
 });
 
-export type FavouriteInput = z.infer<typeof favouriteSchema>;
+export type WatchlistInput = z.infer<typeof watchlistSchema>;
