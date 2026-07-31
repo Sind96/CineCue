@@ -1,14 +1,19 @@
 import { apiClient } from "../../../lib/apiClient";
-import type { GenreGroup, Movie } from "../types/movie.types";
+import type {
+  Genre,
+  GenresResponse,
+  Movie,
+  MoviesResponse,
+} from "../types/movie.types";
 
 export const getTopMovies = async (): Promise<Movie[]> => {
-  const response = await apiClient.get<Movie[]>("/top20");
+  const { data } = await apiClient.get<MoviesResponse>("/movies/top");
 
-  return response.data;
+  return data.movies;
 };
 
-export const getMoviesByGenre = async (): Promise<GenreGroup[]> => {
-  const response = await apiClient.get<GenreGroup[]>("/streamgenre");
+export const getGenres = async (): Promise<Genre[]> => {
+  const { data } = await apiClient.get<GenresResponse>("/movies/genres");
 
-  return response.data;
+  return data.genreGroups;
 };

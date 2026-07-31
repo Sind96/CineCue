@@ -15,31 +15,48 @@ const IndividualMoviePage = () => {
 
   useEffect(() => {
     const fetchMovieByImdbId = async () => {
-      try {
-        const { data } = await apiClient.get(`/streamimdbId/${imdbID}`);
+      if (!imdbID) {
+        navigate("/error", { replace: true });
+        return;
+      }
 
-        if (!data || !data.imdbId) {
+      try {
+        const { data } = await apiClient.get<{ movie: Movie }>(
+          `/movies/${imdbID}`,
+        );
+
+        if (!data.movie?.imdbId) {
           navigate("/error", { replace: true });
           return;
         }
 
-        setMovie(data);
+        setMovie(data.movie);
       } catch (error) {
         console.error("Error with fetchMovieByImdbId:", error);
+        navigate("/error", { replace: true });
       } finally {
         setLoading(false);
       }
     };
-    fetchMovieByImdbId();
+
+    void fetchMovieByImdbId();
   }, [imdbID, navigate]);
 
-  if (loading)
+  if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-black pt-100">
-        {" "}
         <ScaleLoader color="#e50914" />
       </div>
     );
+  }
+
+  if (!movie) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-black text-white">
+        Movie details could not be loaded.
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
@@ -47,7 +64,7 @@ const IndividualMoviePage = () => {
 
       <section className="relative w-full h-[65vh] sm:h-[70vh] lg:h-[80vh]">
         <img
-          src={movie?.imageSet.horizontalPoster.w1440}
+          src={movie?.backdropUrl ?? movie?.posterUrl}
           alt={movie?.title}
           className="absolute inset-0 w-full h-full object-top object-cover"
         />
@@ -82,34 +99,29 @@ const IndividualMoviePage = () => {
         )}
 
         <p className="text-gray-300 leading-relaxed">{movie?.overview}</p>
-        <div className="space-y-2">
-          <p>
-            <span className="font-bold">Director:</span>{" "}
-            {movie?.directors?.join(", ")}
-          </p>
-          <p>
-            <span className="font-bold">Stars:</span>{" "}
-            {movie?.cast?.slice(0, 5).join(", ")}
-          </p>
-        </div>
 
-        {movie?.streamingOptions?.gb && (
+        {movie?.streamingProviders.length > 0 && (
           <div>
             <p className="font-bold mb-2">Watch Now On:</p>
-            <div className="flex gap-4">
-              {movie.streamingOptions.gb.map((opt, idx) => (
+
+            <div className="flex flex-wrap gap-4">
+              {movie.streamingProviders.map((provider) => (
                 <a
-                  key={idx}
-                  href={opt.link}
+                  key={`${provider.id}-${provider.type}-${provider.link}`}
+                  href={provider.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transform hover:scale-105 transition duration-300"
                 >
-                  <img
-                    src={opt.service.imageSet.lightThemeImage}
-                    alt={opt.service.name}
-                    className="w-20 rounded-md shadow-md"
-                  />
+                  {provider.logoUrl ? (
+                    <img
+                      src={provider.logoUrl}
+                      alt={provider.name}
+                      className="w-20 rounded-md shadow-md"
+                    />
+                  ) : (
+                    <span>{provider.name}</span>
+                  )}
                 </a>
               ))}
             </div>
@@ -119,9 +131,11 @@ const IndividualMoviePage = () => {
         {movie && (
           <div className="flex justify-center">
             <AddToWatchListButton
-              imdbId={movie?.imdbId}
-              title={movie?.title}
-              imageURL={movie?.imageSet.horizontalPoster.w1440}
+              imdbId={movie.imdbId}
+              title={movie.title}
+              posterUrl={movie.posterUrl}
+              releaseYear={movie.releaseYear}
+              rating={movie.rating}
             />
           </div>
         )}

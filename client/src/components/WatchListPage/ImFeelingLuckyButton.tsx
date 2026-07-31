@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import type { ImFeelingLuckyButtonProps } from "../../@types/watchList.page.type";
+// import type { ImFeelingLuckyButtonProps } from "../../@types/watchList.page.type";
 import { Bounce, toast } from "react-toastify";
+import type { ImFeelingLuckyButtonProps } from "../../features/watchlist/types/watchlist.types";
 
 const ImFeelingLuckyButton = ({ watchList }: ImFeelingLuckyButtonProps) => {
   const handlerImFeelingLucky = async () => {
@@ -27,7 +28,7 @@ const ImFeelingLuckyButton = ({ watchList }: ImFeelingLuckyButtonProps) => {
             progress: undefined,
             theme: "light",
             transition: Bounce,
-          }
+          },
         );
       } else {
         toast.info(`No movies available in your watchlist.`, {

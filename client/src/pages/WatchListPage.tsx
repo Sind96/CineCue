@@ -1,44 +1,48 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/NavBar/_Navbar";
 import ImFeelingLuckyButton from "../components/WatchListPage/ImFeelingLuckyButton";
-import type { watchListType } from "../@types/watchList.page.type";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import { ScaleLoader } from "react-spinners";
 import { MdDelete } from "react-icons/md";
-import { apiClient } from "../lib/apiClient";
+import {
+  getWatchlist,
+  removeFromWatchlist,
+} from "../features/watchlist/api/watchlist.api";
+import type { WatchlistItem } from "../features/watchlist/types/watchlist.types";
+import axios from "axios";
 
 const WatchListPage = () => {
-  const [watchList, setWatchList] = useState<watchListType[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [watchList, setWatchList] = useState<WatchlistItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchWatchList = async () => {
+    const fetchWatchlist = async () => {
       try {
-        const res = await apiClient.get("/protected/watchlist");
-        setWatchList(res.data);
         setError(null);
+
+        const watchlist = await getWatchlist();
+        setWatchList(watchlist);
       } catch (error) {
-        console.error("Error with fetchWatchList:", error);
-        setError("Failed to load watchlist. Please try again.");
-        setWatchList([]);
+        console.error("Error with fetchWatchlist:", error);
+        setError("Unable to load your watchlist. Please try again.");
       } finally {
         setLoading(false);
       }
     };
-    fetchWatchList();
-  }, [navigate]);
+
+    void fetchWatchlist();
+  }, []);
 
   const handleRemove = async (imdbId: string) => {
     try {
       setDeleting(imdbId);
-      await apiClient.delete("/protected/watchlist", {
-        data: { imdbId },
-      });
-      setWatchList((prev) => prev.filter((movie) => movie.imdbId !== imdbId));
+      await removeFromWatchlist(imdbId);
+      setWatchList((previousWatchlist) =>
+        previousWatchlist.filter((movie) => movie.imdbId !== imdbId),
+      );
       toast.success("Movie removed from watchlist", {
         position: "top-center",
         autoClose: 1500,
@@ -50,36 +54,26 @@ const WatchListPage = () => {
         theme: "light",
         transition: Bounce,
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      if (error.response && error.response.status === 400) {
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         toast.error("Movie does not exist in watchlist.", {
           position: "top-center",
           autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
           theme: "light",
           transition: Bounce,
         });
-      } else {
-        console.error("Error with handleRemove:", error);
-        toast.error("Something went wrong. Please try again later.", {
-          position: "top-center",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+
+        return;
       }
-    } finally {
-      setDeleting(null);
+
+      console.error("Error with handleRemove:", error);
+
+      toast.error("Something went wrong. Please try again later.", {
+        position: "top-center",
+        autoClose: 1500,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
 
@@ -118,11 +112,17 @@ const WatchListPage = () => {
             {watchList.map((movie) => (
               <li key={movie.imdbId} className="relative group">
                 <Link to={`/movie/${movie.imdbId}`}>
-                  <img
-                    src={movie.imageURL}
-                    alt={movie.title}
-                    className="w-full h-64 object-cover rounded-lg shadow-md transition-transform duration-300 group-hover:scale-105"
-                  />
+                  {movie.posterUrl ? (
+                    <img
+                      src={movie.posterUrl}
+                      alt={movie.title}
+                      className="w-full h-64 object-cover rounded-lg shadow-md transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-64 w-full items-center justify-center rounded-lg bg-gray-800 text-center text-sm text-gray-300">
+                      Poster unavailable
+                    </div>
+                  )}
                 </Link>
 
                 <button

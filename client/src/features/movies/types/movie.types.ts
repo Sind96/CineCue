@@ -1,27 +1,38 @@
-import type { Genre } from "../../../@types/streamingAvailability/genres.type";
-import type { ImageSet } from "../../../@types/streamingAvailability/imageSets.type";
-import type { StreamingOption } from "../../../@types/streamingAvailability/streamingOptions.types";
+export type Genre = {
+  id: string;
+  name: string;
+};
+
+export type GenresResponse = {
+  genreGroups: Genre[];
+};
+
+export type StreamingProvider = {
+  id: string;
+  name: string;
+  type: string;
+  link: string;
+  logoUrl?: string;
+  price?: string;
+  expiresSoon: boolean;
+  expiresOn?: number;
+  availableSince?: number;
+};
 
 export type Movie = {
-  itemType: string;
-  showType: string;
-  id: string;
+  externalId: string;
   imdbId: string;
   tmdbId: string;
   title: string;
   overview: string;
   releaseYear: number;
-  originalTitle: string;
   genres: Genre[];
-  directors: string[];
-  cast: string[];
   rating: number;
-  runtime: number;
-  imageSet: ImageSet;
-  streamingOptions: Record<string, StreamingOption[]>;
+  posterUrl?: string;
+  backdropUrl?: string;
+  streamingProviders: StreamingProvider[];
 };
 
-export type GenreGroup = {
-  genre: string;
+export type MoviesResponse = {
   movies: Movie[];
 };

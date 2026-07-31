@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
-import type { HeroBannerProps } from "../../@types/movies.components.type";
+import type { Movie } from "../../features/movies/types/movie.types";
+
+interface HeroBannerProps {
+  movie: Movie;
+}
 
 const HeroBanner = ({ movie }: HeroBannerProps) => {
   return (
     <section>
-      <img src={movie.imageSet?.horizontalPoster?.w1080} alt={movie.title} />
+      <img src={movie.backdropUrl ?? movie.posterUrl} alt={movie.title} />
       <div />
       <div>
         <h1>{movie.title}</h1>

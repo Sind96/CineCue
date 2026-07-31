@@ -1,4 +1,7 @@
-import type { MovieListItemProps } from "../../@types/movies.components.type";
+interface MovieListItemProps {
+  src: string;
+  alt: string;
+}
 
 interface ExtendedMovieListItemProps extends MovieListItemProps {
   fixedAspect?: boolean;
