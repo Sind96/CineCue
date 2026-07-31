@@ -15,5 +15,5 @@ export const getTopMovies = async (): Promise<Movie[]> => {
 export const getGenres = async (): Promise<Genre[]> => {
   const { data } = await apiClient.get<GenresResponse>("/movies/genres");
 
-  return data.genreGroups;
+  return data.genres;
 };

@@ -4,7 +4,7 @@ export type Genre = {
 };
 
 export type GenresResponse = {
-  genreGroups: Genre[];
+  genres: Genre[];
 };
 
 export type StreamingProvider = {
