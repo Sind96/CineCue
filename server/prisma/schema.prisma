@@ -70,7 +70,7 @@ model CollectionMovie {
 
   watched   Boolean   @default(false)
   watchedAt DateTime?
-  rating    Int?
+  rating    Float?
   notes     String?
 
   createdAt DateTime @default(now())
@@ -118,7 +118,7 @@ model Watchlist {
   title       String
   posterUrl   String?
   releaseYear Int?
-  rating      Int?
+  rating      Float?
   createdAt   DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
