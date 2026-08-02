@@ -1,48 +1,16 @@
 import { MdOutlineStarOutline } from "react-icons/md";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import type { Movie } from "../features/movies/types/movie.types";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/NavBar/_Navbar";
 import AddToWatchListButton from "../components/IndividualMoviePage/AddToWatchListButton";
 import { ScaleLoader } from "react-spinners";
-import { apiClient } from "../lib/apiClient";
+import { useMovie } from "../features/movies/hooks/useMovie";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const navigate = useNavigate();
+  const movieQuery = useMovie(imdbID);
+  const movie = movieQuery.data;
 
-  useEffect(() => {
-    const fetchMovieByImdbId = async () => {
-      if (!imdbID) {
-        navigate("/error", { replace: true });
-        return;
-      }
-
-      try {
-        const { data } = await apiClient.get<{ movie: Movie }>(
-          `/movies/${imdbID}`,
-        );
-
-        if (!data.movie?.imdbId) {
-          navigate("/error", { replace: true });
-          return;
-        }
-
-        setMovie(data.movie);
-      } catch (error) {
-        console.error("Error with fetchMovieByImdbId:", error);
-        navigate("/error", { replace: true });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void fetchMovieByImdbId();
-  }, [imdbID, navigate]);
-
-  if (loading) {
+  if (movieQuery.isPending) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-black pt-100">
         <ScaleLoader color="#e50914" />
@@ -50,7 +18,7 @@ const IndividualMoviePage = () => {
     );
   }
 
-  if (!movie) {
+  if (movieQuery.isError || !movie) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white">
         Movie details could not be loaded.

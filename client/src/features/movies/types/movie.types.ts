@@ -36,3 +36,7 @@ export type Movie = {
 export type MoviesResponse = {
   movies: Movie[];
 };
+
+export type MovieResponse = {
+  movie: Movie;
+};
