@@ -2,48 +2,86 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar/_Navbar.js";
 import { Bounce, toast } from "react-toastify";
-import { apiClient } from "../../lib/apiClient.js";
+import { registerUser } from "../../features/auth/api/auth.api";
+import axios from "axios";
 
 const SignUpPage = () => {
-  const [username, setUsername] = useState<string>("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignUp = async (event: React.FormEvent) => {
+    event.preventDefault();
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "light",
         transition: Bounce,
       });
+
       return;
     }
+
     try {
-      await apiClient.post("/auth/register", { username, email, password });
+      await registerUser({
+        name,
+        email,
+        password,
+      });
+
       toast.success("Account created. Please log in.", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "light",
         transition: Bounce,
       });
-      setTimeout(() => navigate("/signin"), 1500);
+
+      navigate("/signin");
     } catch (error) {
-      console.error(`Error with handleSignUp:`, error);
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+        const message = error.response?.data?.message;
+
+        if (status === 409) {
+          toast.error("That email is already registered.", {
+            position: "top-center",
+            autoClose: 1500,
+            theme: "light",
+            transition: Bounce,
+          });
+
+          return;
+        }
+
+        if (status === 400) {
+          toast.error(
+            typeof message === "string"
+              ? message
+              : "Please check your registration details.",
+            {
+              position: "top-center",
+              autoClose: 1500,
+              theme: "light",
+              transition: Bounce,
+            },
+          );
+
+          return;
+        }
+      }
+
+      console.error("Error with handleSignUp:", error);
+
+      toast.error("Unable to create your account. Please try again.", {
+        position: "top-center",
+        autoClose: 1500,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
 
@@ -61,11 +99,11 @@ const SignUpPage = () => {
           <form onSubmit={handleSignUp} className="space-y-4">
             <input
               type="text"
-              placeholder="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              placeholder="name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
               required
-              autoComplete="username"
+              autoComplete="name"
               className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
             <input
@@ -83,7 +121,7 @@ const SignUpPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              autoComplete="current-password"
+              autoComplete="new-password"
               className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
             <input
@@ -92,7 +130,7 @@ const SignUpPage = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              autoComplete="confirm-password"
+              autoComplete="new-password"
               className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
             />
             <button
