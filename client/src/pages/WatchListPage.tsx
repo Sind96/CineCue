@@ -1,87 +1,54 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/NavBar/_Navbar";
 import ImFeelingLuckyButton from "../components/WatchListPage/ImFeelingLuckyButton";
 import { Link } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
-import { ScaleLoader } from "react-spinners";
 import { MdDelete } from "react-icons/md";
-import {
-  getWatchlist,
-  removeFromWatchlist,
-} from "../features/watchlist/api/watchlist.api";
-import type { WatchlistItem } from "../features/watchlist/types/watchlist.types";
-import axios from "axios";
+import { useWatchlist } from "../features/watchlist/hooks/useWatchlist";
+import { useRemoveFromWatchlist } from "../features/watchlist/hooks/useRemoveFromWatchlist";
 
 const WatchListPage = () => {
-  const [watchList, setWatchList] = useState<WatchlistItem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchWatchlist = async () => {
-      try {
-        setError(null);
+  const watchlistQuery = useWatchlist();
+  const removeMutation = useRemoveFromWatchlist();
 
-        const watchlist = await getWatchlist();
-        setWatchList(watchlist);
-      } catch (error) {
-        console.error("Error with fetchWatchlist:", error);
-        setError("Unable to load your watchlist. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const watchList = watchlistQuery.data ?? [];
 
-    void fetchWatchlist();
-  }, []);
+  const handleRemove = (imdbId: string) => {
+    setDeleting(imdbId);
 
-  const handleRemove = async (imdbId: string) => {
-    try {
-      setDeleting(imdbId);
-      await removeFromWatchlist(imdbId);
-      setWatchList((previousWatchlist) =>
-        previousWatchlist.filter((movie) => movie.imdbId !== imdbId),
-      );
-      toast.success("Movie removed from watchlist", {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) {
-        toast.error("Movie does not exist in watchlist.", {
+    removeMutation.mutate(imdbId, {
+      onSuccess: () => {
+        toast.success("Movie removed from watchlist", {
           position: "top-center",
           autoClose: 1500,
           theme: "light",
           transition: Bounce,
         });
+      },
 
-        return;
-      }
+      onError: (error) => {
+        console.error("Error with handleRemove:", error);
 
-      console.error("Error with handleRemove:", error);
+        toast.error("Something went wrong. Please try again later.", {
+          position: "top-center",
+          autoClose: 1500,
+          theme: "light",
+          transition: Bounce,
+        });
+      },
 
-      toast.error("Something went wrong. Please try again later.", {
-        position: "top-center",
-        autoClose: 1500,
-        theme: "light",
-        transition: Bounce,
-      });
-    }
+      onSettled: () => {
+        setDeleting(null);
+      },
+    });
   };
 
-  if (loading) {
+  if (watchlistQuery.isPending) {
     return (
-      <div className="flex justify-center pt-100 bg-secondary">
-        {" "}
-        <ScaleLoader color="#e50914" />
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <p>Loading your watchlist...</p>
       </div>
     );
   }
@@ -93,8 +60,10 @@ const WatchListPage = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Your Watchlist</h2>
 
-        {error ? (
-          <p className="text-red-500 text-center">{error}</p>
+        {watchlistQuery.isError ? (
+          <p className="text-red-500 text-center">
+            Unable to load your watchlist. Please try again.
+          </p>
         ) : watchList.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <p className="text-lg text-muted-foreground mb-4">
@@ -127,7 +96,7 @@ const WatchListPage = () => {
 
                 <button
                   onClick={() => handleRemove(movie.imdbId)}
-                  disabled={deleting === movie.imdbId}
+                  disabled={removeMutation.isPending}
                   className="absolute top-2 right-2 p-2 rounded-full bg-red-600/80 text-white shadow hover:bg-red-700 transition-opacity opacity-0 group-hover:opacity-100"
                 >
                   {deleting === movie.imdbId ? (
