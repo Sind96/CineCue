@@ -5,6 +5,8 @@ import type {
   Movie,
   MoviesResponse,
   MovieResponse,
+  HomepageMovies,
+  HomepageMoviesResponse,
 } from "../types/movie.types";
 
 export const getTopMovies = async (): Promise<Movie[]> => {
@@ -23,4 +25,10 @@ export const getMovieByImdbId = async (imdbId: string): Promise<Movie> => {
   const { data } = await apiClient.get<MovieResponse>(`/movies/${imdbId}`);
 
   return data.movie;
+};
+
+export const getHomepageMovies = async (): Promise<HomepageMovies> => {
+  const { data } = await apiClient.get<HomepageMoviesResponse>("/movies/home");
+
+  return data.homepage;
 };

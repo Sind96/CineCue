@@ -3,10 +3,6 @@ export type Genre = {
   name: string;
 };
 
-export type GenresResponse = {
-  genres: Genre[];
-};
-
 export type StreamingProvider = {
   id: string;
   name: string;
@@ -33,10 +29,28 @@ export type Movie = {
   streamingProviders: StreamingProvider[];
 };
 
+export type GenreGroup = {
+  genre: Genre;
+  movies: Movie[];
+};
+
+export type HomepageMovies = {
+  topMovies: Movie[];
+  genreGroups: GenreGroup[];
+};
+
 export type MoviesResponse = {
   movies: Movie[];
 };
 
 export type MovieResponse = {
   movie: Movie;
+};
+
+export type GenresResponse = {
+  genres: Genre[];
+};
+
+export type HomepageMoviesResponse = {
+  homepage: HomepageMovies;
 };

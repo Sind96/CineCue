@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   getGenresController,
+  getHomepageMoviesController,
   getMovieByImdbIdController,
   getMoviesByGenreController,
   getTopMoviesController,
@@ -13,4 +14,5 @@ movieRouter.get("/top", getTopMoviesController);
 movieRouter.get("/genres", getGenresController);
 movieRouter.get("/genre/:genreId", getMoviesByGenreController);
 movieRouter.get("/search", searchMoviesController);
+movieRouter.get("/home", getHomepageMoviesController);
 movieRouter.get("/:imdbId", getMovieByImdbIdController);

@@ -1,6 +1,8 @@
 import { env } from "../config/env.js";
 import type {
   Genre,
+  GenreGroup,
+  HomepageMoviesResponse,
   StreamingApiGenre,
   MovieSummary,
   StreamingApiShow,
@@ -81,4 +83,43 @@ export const getMovieByImdbId = async (
   );
 
   return mapToMovieSummary(data, countryCode);
+};
+
+const HOMEPAGE_GENRE_IDS = [
+  "action",
+  "comedy",
+  "drama",
+  "crime",
+  "thriller",
+] as const;
+
+export const getHomepageMovies = async (
+  countryCode = "gb",
+): Promise<HomepageMoviesResponse> => {
+  const [topMovies, genres] = await Promise.all([
+    getTopMovies(countryCode),
+    getGenres(),
+  ]);
+
+  const homepageGenres = genres.filter((genre) =>
+    HOMEPAGE_GENRE_IDS.includes(
+      genre.id as (typeof HOMEPAGE_GENRE_IDS)[number],
+    ),
+  );
+
+  const genreGroups: GenreGroup[] = await Promise.all(
+    homepageGenres.map(async (genre) => {
+      const movies = await getMoviesByGenre(genre.id, countryCode);
+
+      return {
+        genre,
+        movies: movies.slice(0, 20),
+      };
+    }),
+  );
+
+  return {
+    topMovies: topMovies.slice(0, 20),
+    genreGroups,
+  };
 };

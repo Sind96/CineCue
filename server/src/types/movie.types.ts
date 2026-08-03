@@ -29,6 +29,16 @@ export type MovieSummary = {
   streamingProviders: StreamingProvider[];
 };
 
+export type GenreGroup = {
+  genre: Genre;
+  movies: MovieSummary[];
+};
+
+export type HomepageMoviesResponse = {
+  topMovies: MovieSummary[];
+  genreGroups: GenreGroup[];
+};
+
 export type StreamingApiGenre = {
   id: string;
   name: string;
