@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeFromWatchlist } from "../api/watchlist.api";
 import type { WatchlistItem } from "../types/watchlist.types";
+import { queryKeys } from "../../../lib/queryKeys";
 
 export const useRemoveFromWatchlist = () => {
   const queryClient = useQueryClient();
@@ -10,15 +11,15 @@ export const useRemoveFromWatchlist = () => {
 
     onMutate: async (imdbId: string) => {
       await queryClient.cancelQueries({
-        queryKey: ["watchlist"],
+        queryKey: queryKeys.watchlist.all,
       });
 
-      const previousWatchlist = queryClient.getQueryData<WatchlistItem[]>([
-        "watchlist",
-      ]);
+      const previousWatchlist = queryClient.getQueryData<WatchlistItem[]>(
+        queryKeys.watchlist.all,
+      );
 
       queryClient.setQueryData<WatchlistItem[]>(
-        ["watchlist"],
+        queryKeys.watchlist.all,
         (currentWatchlist = []) =>
           currentWatchlist.filter((movie) => movie.imdbId !== imdbId),
       );
@@ -30,13 +31,16 @@ export const useRemoveFromWatchlist = () => {
 
     onError: (_error, _imdbId, context) => {
       if (context?.previousWatchlist) {
-        queryClient.setQueryData(["watchlist"], context.previousWatchlist);
+        queryClient.setQueryData(
+          queryKeys.watchlist.all,
+          context.previousWatchlist,
+        );
       }
     },
 
     onSettled: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["watchlist"],
+        queryKey: queryKeys.watchlist.all,
       });
     },
   });

@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { getHomepageMovies } from "../api/movie.api";
+import { queryOptions } from "../../../lib/queryOptions";
+import { queryKeys } from "../../../lib/queryKeys";
 
 export const useHomepageMovies = () => {
   return useQuery({
-    queryKey: ["movies", "homepage"],
+    queryKey: queryKeys.movies.homepage,
     queryFn: getHomepageMovies,
-    staleTime: 1000 * 60 * 10,
+    staleTime: queryOptions.movies.homepageStaleTime,
   });
 };
