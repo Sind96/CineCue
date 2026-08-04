@@ -11,6 +11,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import { ToastContainer } from "react-toastify";
 import ComingSoonPage from "./pages/ComingSoonPage";
 import { AuthProvider } from "./features/auth/context/AuthProvider";
+import GenrePage from "./pages/GenrePage";
 
 const App = () => {
   return (
@@ -24,7 +25,7 @@ const App = () => {
             <Route path="/error" element={<NotFoundPage />} />
             <Route path="/update" element={<ComingSoonPage />} />
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="/genre/:genre" element={<ComingSoonPage />} />
+            <Route path="/genre/:genreId" element={<GenrePage />} />
             <Route
               path="/watchlist"
               element={

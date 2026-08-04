@@ -32,3 +32,11 @@ export const getHomepageMovies = async (): Promise<HomepageMovies> => {
 
   return data.homepage;
 };
+
+export const getMoviesByGenre = async (genreId: string): Promise<Movie[]> => {
+  const { data } = await apiClient.get<MoviesResponse>(
+    `/movies/genre/${genreId}`,
+  );
+
+  return data.movies;
+};
