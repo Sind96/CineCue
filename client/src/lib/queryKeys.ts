@@ -8,4 +8,9 @@ export const queryKeys = {
   watchlist: {
     all: ["watchlist"] as const,
   },
+  collections: {
+    all: ["collections"] as const,
+    detail: (collectionId?: string) =>
+      ["collections", "detail", collectionId] as const,
+  },
 };

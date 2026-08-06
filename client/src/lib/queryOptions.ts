@@ -10,4 +10,8 @@ export const queryOptions = {
   watchlist: {
     staleTime: 0,
   },
+  collections: {
+    listStaleTime: ONE_MINUTE * 5,
+    detailStaleTime: ONE_MINUTE * 5,
+  },
 };
