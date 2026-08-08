@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
-import Navbar from "../../../components/NavBar/_Navbar";
+import Navbar from "../../../components/navigation/Navbar";
 import CreateCollectionForm from "../components/CreateCollectionForm";
 import { useCollections } from "../hooks/useCollections";
 import { useDeleteCollection } from "../hooks/useDeleteCollection";

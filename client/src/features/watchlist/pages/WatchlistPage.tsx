@@ -1,13 +1,13 @@
 import { useState } from "react";
-import Navbar from "../components/NavBar/_Navbar";
-import ImFeelingLuckyButton from "../components/WatchListPage/ImFeelingLuckyButton";
+import Navbar from "../../../components/navigation/Navbar";
+import ImFeelingLuckyButton from "../components/ImFeelingLuckyButton";
 import { Link } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
-import { useWatchlist } from "../features/watchlist/hooks/useWatchlist";
-import { useRemoveFromWatchlist } from "../features/watchlist/hooks/useRemoveFromWatchlist";
+import { useWatchlist } from "../hooks/useWatchlist";
+import { useRemoveFromWatchlist } from "../hooks/useRemoveFromWatchlist";
 
-const WatchListPage = () => {
+const WatchlistPage = () => {
   const [deleting, setDeleting] = useState<string | null>(null);
 
   const watchlistQuery = useWatchlist();
@@ -120,4 +120,4 @@ const WatchListPage = () => {
   );
 };
 
-export default WatchListPage;
+export default WatchlistPage;

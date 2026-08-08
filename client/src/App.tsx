@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import WatchListPage from "./pages/WatchListPage";
-import IndividualMoviePage from "./pages/IndividualMoviePage";
-import SignUpPage from "./pages/loginPages/SignUpPage";
-import Navbar from "./components/NavBar/_Navbar";
+import WatchlistPage from "./features/watchlist/pages/WatchlistPage";
+import IndividualMoviePage from "./features/movies/pages/IndividualMoviePage";
+import SignUpPage from "./features/auth/pages/SignUpPage";
+import Navbar from "./components/navigation/Navbar";
 import HomePage from "./pages/Homepage";
-import SignInPage from "./pages/loginPages/SignInPage";
-import ProtectedRoute from "./pages/loginPages/ProtectedRoute";
+import SignInPage from "./features/auth/pages/SignInPage";
+import RequireAuth from "./features/auth/components/RequireAuth";
 import NotFoundPage from "./pages/NotFoundPage";
 import { ToastContainer } from "react-toastify";
 import ComingSoonPage from "./pages/ComingSoonPage";
 import { AuthProvider } from "./features/auth/context/AuthProvider";
-import GenrePage from "./pages/GenrePage";
+import GenrePage from "./features/movies/pages/GenrePage";
 import CollectionsPage from "./features/collections/pages/CollectionsPage";
 import CollectionPage from "./features/collections/pages/CollectionPage";
 
@@ -31,25 +31,25 @@ const App = () => {
             <Route
               path="/watchlist"
               element={
-                <ProtectedRoute>
-                  <WatchListPage />
-                </ProtectedRoute>
+                <RequireAuth>
+                  <WatchlistPage />
+                </RequireAuth>
               }
             />
             <Route
               path="/collections"
               element={
-                <ProtectedRoute>
+                <RequireAuth>
                   <CollectionsPage />
-                </ProtectedRoute>
+                </RequireAuth>
               }
             />
             <Route
               path="/collections/:collectionId"
               element={
-                <ProtectedRoute>
+                <RequireAuth>
                   <CollectionPage />
-                </ProtectedRoute>
+                </RequireAuth>
               }
             />
             <Route path="/movie/:imdbID" element={<IndividualMoviePage />} />

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import type { AddToWatchlistButtonProps } from "../../features/watchlist/types/watchlist.types";
-import { useAuth } from "../../features/auth/hooks/useAuth";
-import { useAddToWatchlist } from "../../features/watchlist/hooks/useAddToWatchlist";
+import type { AddToWatchlistButtonProps } from "../types/watchlist.types";
+import { useAuth } from "../../auth/hooks/useAuth";
+import { useAddToWatchlist } from "../hooks/useAddToWatchlist";
 import { Bounce, toast } from "react-toastify";
 import { Plus } from "lucide-react";
 import axios from "axios";

@@ -1,12 +1,12 @@
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
-import { useAuth } from "../../features/auth/hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
-type ProtectedRouteProps = {
+type RequireAuthProps = {
   children: ReactNode;
 };
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const RequireAuth = ({ children }: RequireAuthProps) => {
   const { user, authLoading } = useAuth();
 
   if (authLoading) {
@@ -19,4 +19,4 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   return children;
 };
 
-export default ProtectedRoute;
+export default RequireAuth;

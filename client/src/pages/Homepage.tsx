@@ -1,5 +1,5 @@
-import Navbar from "../components/NavBar/_Navbar";
-import MovieList from "../components/HomePage/MovieList";
+import Navbar from "../components/navigation/Navbar";
+import MovieList from "../features/movies/components/MovieList";
 
 const HomePage = () => {
   return (

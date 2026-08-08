@@ -1,10 +1,10 @@
 import { MdOutlineStarOutline } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import Navbar from "../components/NavBar/_Navbar";
-import AddToWatchListButton from "../components/IndividualMoviePage/AddToWatchListButton";
+import Navbar from "../../../components/navigation/Navbar";
+import AddToWatchlistButton from "../../watchlist/components/AddToWatchlistButton";
+import { useMovie } from "../hooks/useMovie";
+import AddToCollectionButton from "../../collections/components/AddToCollectionButton";
 import { ScaleLoader } from "react-spinners";
-import { useMovie } from "../features/movies/hooks/useMovie";
-import AddToCollectionButton from "../features/collections/components/AddToCollectionButton";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
@@ -99,7 +99,7 @@ const IndividualMoviePage = () => {
 
         {movie && (
           <div className="flex flex-wrap justify-center gap-4">
-            <AddToWatchListButton
+            <AddToWatchlistButton
               imdbId={movie.imdbId}
               title={movie.title}
               posterUrl={movie.posterUrl}

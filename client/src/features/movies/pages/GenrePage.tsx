@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
-import Navbar from "../components/NavBar/_Navbar";
-import MovieListItem from "../components/HomePage/MovieListItem";
-import { useMoviesByGenre } from "../features/movies/hooks/useMoviesByGenre";
+import Navbar from "../../../components/navigation/Navbar";
+import MoviePoster from "../components/MoviePoster";
+import { useMoviesByGenre } from "../hooks/useMoviesByGenre";
 
 const GenrePage = () => {
   const { genreId } = useParams();
@@ -17,7 +17,7 @@ const GenrePage = () => {
       </div>
     );
   }
-  
+
   if (genreMoviesQuery.isPending) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-secondary">
@@ -52,7 +52,7 @@ const GenrePage = () => {
             {movies.map((movie) => (
               <li key={movie.imdbId}>
                 <Link to={`/movie/${movie.imdbId}`}>
-                  <MovieListItem
+                  <MoviePoster
                     src={movie.posterUrl ?? ""}
                     alt={movie.title}
                     fixedAspect

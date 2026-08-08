@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/NavBar/_Navbar.js";
+import Navbar from "../../../components/navigation/Navbar";
+import { useAuth } from "../hooks/useAuth";
 import { Bounce, toast } from "react-toastify";
-import { useAuth } from "../../features/auth/hooks/useAuth.js";
 
 const SignInPage = () => {
   const { login } = useAuth();

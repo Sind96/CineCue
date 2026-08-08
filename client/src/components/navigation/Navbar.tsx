@@ -1,9 +1,9 @@
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../features/auth/hooks/useAuth";
-import NavBarItem from "./NavBarItem";
-import SearchBar from "./SearchBar";
-import SignUpAndSignIn from "./SignUpAndSignIn";
-import Title from "./Title";
+import NavLinks from "./NavLinks";
+import SearchBar from "../NavBar/SearchBar";
+import AuthActions from "./AuthActions";
+import Brand from "./Brand";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -18,8 +18,8 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 w-full z-50 bg-secondary bg-opacity-90 backdrop-blur-md shadow-sm">
       <nav className="max-w-8xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         <div className="flex items-center gap-8">
-          <Title />
-          {isAuthenticated && <NavBarItem />}
+          <Brand />
+          {isAuthenticated && <NavLinks />}
         </div>
 
         {!hideSearchBar && (
@@ -30,7 +30,7 @@ const Navbar = () => {
         )}
 
         <div className="flex items-center gap-4">
-          {!isAuthenticated && <SignUpAndSignIn />}
+          {!isAuthenticated && <AuthActions />}
           {isAuthenticated && (
             <>
               {/* <p className="hidden sm:block text-sm text-gray-300">

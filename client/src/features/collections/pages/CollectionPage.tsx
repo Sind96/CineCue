@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { Bounce, toast } from "react-toastify";
-import Navbar from "../../../components/NavBar/_Navbar";
+import Navbar from "../../../components/navigation/Navbar";
 import { useCollection } from "../hooks/useCollection";
 import { useRemoveMovieFromCollection } from "../hooks/useRemoveMovieFromCollection";
 

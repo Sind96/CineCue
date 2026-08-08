@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/NavBar/_Navbar.js";
+import Navbar from "../../../components/navigation/Navbar";
 import { Bounce, toast } from "react-toastify";
-import { registerUser } from "../../features/auth/api/auth.api";
+import { registerUser } from "../api/auth.api";
 import axios from "axios";
 
 const SignUpPage = () => {

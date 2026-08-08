@@ -1,17 +1,10 @@
-interface MovieListItemProps {
+type MoviePosterProps = {
   src: string;
   alt: string;
-}
-
-interface ExtendedMovieListItemProps extends MovieListItemProps {
   fixedAspect?: boolean;
-}
+};
 
-const MovieListItem = ({
-  src,
-  alt,
-  fixedAspect = false,
-}: ExtendedMovieListItemProps) => {
+const MoviePoster = ({ src, alt, fixedAspect = false }: MoviePosterProps) => {
   return (
     <div className="relative min-w-[150px] sm:min-w-[180px] md:min-w-[200px] lg:min-w-[220px] cursor-pointer transition-transform hover:scale-105">
       {fixedAspect ? (
@@ -29,4 +22,4 @@ const MovieListItem = ({
   );
 };
 
-export default MovieListItem;
+export default MoviePoster;
