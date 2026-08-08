@@ -12,6 +12,8 @@ import { ToastContainer } from "react-toastify";
 import ComingSoonPage from "./pages/ComingSoonPage";
 import { AuthProvider } from "./features/auth/context/AuthProvider";
 import GenrePage from "./pages/GenrePage";
+import CollectionsPage from "./features/collections/pages/CollectionsPage";
+import CollectionPage from "./features/collections/pages/CollectionPage";
 
 const App = () => {
   return (
@@ -31,6 +33,22 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <WatchListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/collections"
+              element={
+                <ProtectedRoute>
+                  <CollectionsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/collections/:collectionId"
+              element={
+                <ProtectedRoute>
+                  <CollectionPage />
                 </ProtectedRoute>
               }
             />

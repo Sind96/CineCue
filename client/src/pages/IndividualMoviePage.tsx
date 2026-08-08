@@ -4,6 +4,7 @@ import Navbar from "../components/NavBar/_Navbar";
 import AddToWatchListButton from "../components/IndividualMoviePage/AddToWatchListButton";
 import { ScaleLoader } from "react-spinners";
 import { useMovie } from "../features/movies/hooks/useMovie";
+import AddToCollectionButton from "../features/collections/components/AddToCollectionButton";
 
 const IndividualMoviePage = () => {
   const { imdbID } = useParams();
@@ -97,13 +98,23 @@ const IndividualMoviePage = () => {
         )}
 
         {movie && (
-          <div className="flex justify-center">
+          <div className="flex flex-wrap justify-center gap-4">
             <AddToWatchListButton
               imdbId={movie.imdbId}
               title={movie.title}
               posterUrl={movie.posterUrl}
               releaseYear={movie.releaseYear}
               rating={movie.rating}
+            />
+
+            <AddToCollectionButton
+              imdbId={movie.imdbId}
+              title={movie.title}
+              year={movie.releaseYear}
+              posterUrl={movie.posterUrl}
+              overview={movie.overview}
+              genres={movie.genres.map((genre) => genre.id)}
+              externalSource={movie.externalId}
             />
           </div>
         )}

@@ -10,10 +10,10 @@ const NavBarItem = () => {
         Watch List
       </Link>
       <Link
-        to="/update"
+        to="/collections"
         className="text-gray-300 hover:text-primary transition-colors text-sm font-medium"
       >
-        Trending
+        Collections
       </Link>
       <Link
         to="/update"
