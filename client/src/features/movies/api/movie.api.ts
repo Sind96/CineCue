@@ -40,3 +40,13 @@ export const getMoviesByGenre = async (genreId: string): Promise<Movie[]> => {
 
   return data.movies;
 };
+
+export const searchMovies = async (query: string): Promise<Movie[]> => {
+  const { data } = await apiClient.get<MoviesResponse>("/movies/search", {
+    params: {
+      query,
+    },
+  });
+
+  return data.movies;
+};

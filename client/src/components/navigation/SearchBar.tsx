@@ -1,65 +1,42 @@
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import type { Movie } from "../../features/movies/types/movie.types";
+import { useMovieSearch } from "../../features/movies/hooks/useMovieSearch";
 import { useNavigate } from "react-router-dom";
-
-let debounceTimeout: ReturnType<typeof setTimeout>;
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+
   const navigate = useNavigate();
+
+  const movieSearchQuery = useMovieSearch(debouncedSearchTerm);
+
+  const searchResults = (movieSearchQuery.data ?? []).slice(0, 10);
+  const hasSearchTerm = debouncedSearchTerm.length > 0;
+
   useEffect(() => {
-    clearTimeout(debounceTimeout);
-    debounceTimeout = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm.trim());
-    }, 200);
+    }, 300);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (!debouncedSearchTerm) {
-      setFilteredMovies([]);
-      return;
-    }
+  const handleSearch = () => {
+    const normalisedSearchTerm = searchTerm.trim();
 
-    const fetchMovies = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/title`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ searchTerm: debouncedSearchTerm }),
-        });
-        const data: Movie[] = await response.json();
-
-        const filteredItems = data.filter((movie) =>
-          movie.title
-            .toLowerCase()
-            .startsWith(debouncedSearchTerm.toLowerCase()),
-        );
-        setFilteredMovies(filteredItems.slice(0, 10));
-      } catch (error) {
-        console.error("Error with fetchMovies:", error);
-      }
-    };
-    fetchMovies();
-  }, [debouncedSearchTerm]);
-
-  const handleSearch = async () => {
-    try {
-      if (filteredMovies.length > 0) {
-        navigate(`/movie/${filteredMovies[0].imdbId}`);
-      }
-    } catch (error) {
-      console.error("Error with handleSearch", error);
+    if (
+      normalisedSearchTerm === debouncedSearchTerm &&
+      searchResults.length > 0
+    ) {
+      navigate(`/movie/${searchResults[0].imdbId}`);
     }
   };
 
   const handleMovieClick = (imdbId: string) => {
     setSearchTerm("");
-    setFilteredMovies([]);
     navigate(`/movie/${imdbId}`);
   };
 
@@ -73,9 +50,6 @@ const SearchBar = () => {
           onChange={(e) => {
             const value = e.target.value;
             setSearchTerm(value);
-            if (value.trim() === "") {
-              setFilteredMovies([]);
-            }
           }}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           className="bg-transparent flex-1 text-sm text-white placeholder-gray-400 focus:outline-none"
@@ -88,9 +62,29 @@ const SearchBar = () => {
         </button>
       </div>
 
-      {filteredMovies.length > 0 && (
+      {hasSearchTerm && movieSearchQuery.isPending && (
+        <div className="absolute mt-2 w-full rounded-lg bg-secondary px-4 py-3 text-sm text-gray-300 shadow-lg z-50">
+          Searching...
+        </div>
+      )}
+
+      {hasSearchTerm && movieSearchQuery.isError && (
+        <div className="absolute mt-2 w-full rounded-lg bg-secondary px-4 py-3 text-sm text-red-400 shadow-lg z-50">
+          Unable to search for movies.
+        </div>
+      )}
+
+      {hasSearchTerm &&
+        movieSearchQuery.isSuccess &&
+        searchResults.length === 0 && (
+          <div className="absolute mt-2 w-full rounded-lg bg-secondary px-4 py-3 text-sm text-gray-300 shadow-lg z-50">
+            No movies found.
+          </div>
+        )}
+
+      {searchResults.length > 0 && (
         <ul className="absolute mt-2 w-full bg-secondary rounded-lg shadow-lg max-h-64 overflow-y-auto z-50 custom-scrollbar">
-          {filteredMovies.map((movie) => (
+          {searchResults.map((movie) => (
             <li
               key={movie.imdbId}
               onClick={() => handleMovieClick(movie.imdbId)}

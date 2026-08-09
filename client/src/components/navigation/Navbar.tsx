@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 import NavLinks from "./NavLinks";
-import SearchBar from "../NavBar/SearchBar";
+import SearchBar from "./SearchBar";
 import AuthActions from "./AuthActions";
 import Brand from "./Brand";
 
