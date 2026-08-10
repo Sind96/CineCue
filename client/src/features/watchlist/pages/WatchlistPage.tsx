@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "../../../components/navigation/Navbar";
-import ImFeelingLuckyButton from "../components/ImFeelingLuckyButton";
+import MovieRouletteModal from "../components/MovieRouletteModal";
 import { Link } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
@@ -9,6 +9,7 @@ import { useRemoveFromWatchlist } from "../hooks/useRemoveFromWatchlist";
 
 const WatchlistPage = () => {
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [isRouletteOpen, setIsRouletteOpen] = useState(false);
 
   const watchlistQuery = useWatchlist();
   const removeMutation = useRemoveFromWatchlist();
@@ -111,9 +112,23 @@ const WatchlistPage = () => {
         )}
 
         {watchList.length > 0 && (
-          <div className="mt-12 flex justify-center">
-            <ImFeelingLuckyButton watchList={watchList} />
-          </div>
+          <>
+            <div className="mt-12 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setIsRouletteOpen(true)}
+                className="rounded-xl bg-primary px-6 py-3 font-semibold text-white transition hover:bg-accent"
+              >
+                🎲 Pick a Movie
+              </button>
+            </div>
+
+            <MovieRouletteModal
+              isOpen={isRouletteOpen}
+              onClose={() => setIsRouletteOpen(false)}
+              movies={watchList}
+            />
+          </>
         )}
       </main>
     </div>
