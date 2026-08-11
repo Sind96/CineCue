@@ -6,11 +6,13 @@ import { useCollection } from "../hooks/useCollection";
 import { useRemoveMovieFromCollection } from "../hooks/useRemoveMovieFromCollection";
 import { useState } from "react";
 import EditCollectionModal from "../components/EditCollectionModal";
+import MovieRouletteModal from "../../watchlist/components/MovieRouletteModal";
 
 const CollectionPage = () => {
   const { collectionId } = useParams();
 
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isRouletteOpen, setIsRouletteOpen] = useState(false);
 
   const collectionQuery = useCollection(collectionId);
   const removeMovieMutation = useRemoveMovieFromCollection();
@@ -75,6 +77,12 @@ const CollectionPage = () => {
     );
   }
 
+  const rouletteMovies = collection.movies.map((collectionMovie) => ({
+    imdbId: collectionMovie.movie.imdbId,
+    title: collectionMovie.movie.title,
+    posterUrl: collectionMovie.movie.posterUrl,
+  }));
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
@@ -107,6 +115,24 @@ const CollectionPage = () => {
               type="button"
               onClick={() => setIsEditOpen(true)}
               className="shrink-0 rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700"
+            >
+              Edit Collection
+            </button>
+          </div>
+          <div className="flex shrink-0 gap-3">
+            <button
+              type="button"
+              onClick={() => setIsRouletteOpen(true)}
+              disabled={collection.movies.length === 0}
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              🎲 Pick a Movie
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsEditOpen(true)}
+              className="rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700"
             >
               Edit Collection
             </button>
@@ -173,6 +199,12 @@ const CollectionPage = () => {
             </ul>
           )}
         </section>
+        <MovieRouletteModal
+          isOpen={isRouletteOpen}
+          onClose={() => setIsRouletteOpen(false)}
+          movies={rouletteMovies}
+        />
+
         <EditCollectionModal
           isOpen={isEditOpen}
           onClose={() => setIsEditOpen(false)}
