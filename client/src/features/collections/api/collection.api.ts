@@ -9,6 +9,7 @@ import type {
   CollectionsResponse,
   CreateCollectionInput,
   CreateCollectionResponse,
+  UpdateCollectionInput,
 } from "../types/collection.types";
 
 export const getCollections = async (): Promise<CollectionSummary[]> => {
@@ -65,4 +66,16 @@ export const removeMovieFromCollection = async ({
   imdbId: string;
 }): Promise<void> => {
   await apiClient.delete(`/collections/${collectionId}/movies/${imdbId}`);
+};
+
+export const updateCollection = async ({
+  collectionId,
+  input,
+}: {
+  collectionId: string;
+  input: UpdateCollectionInput;
+}): Promise<CollectionDetail> => {
+  const { data } = await apiClient.patch(`/collections/${collectionId}`, input);
+
+  return data.collection;
 };

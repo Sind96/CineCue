@@ -4,9 +4,13 @@ import { Bounce, toast } from "react-toastify";
 import Navbar from "../../../components/navigation/Navbar";
 import { useCollection } from "../hooks/useCollection";
 import { useRemoveMovieFromCollection } from "../hooks/useRemoveMovieFromCollection";
+import { useState } from "react";
+import EditCollectionModal from "../components/EditCollectionModal";
 
 const CollectionPage = () => {
   const { collectionId } = useParams();
+
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const collectionQuery = useCollection(collectionId);
   const removeMovieMutation = useRemoveMovieFromCollection();
@@ -84,16 +88,28 @@ const CollectionPage = () => {
             ← Back to collections
           </Link>
 
-          <div className="mt-6">
-            <h1 className="text-3xl font-bold text-white">{collection.name}</h1>
+          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                {collection.name}
+              </h1>
 
-            <p className="mt-2 text-gray-400">
-              {collection.description ?? "No description has been added."}
-            </p>
+              <p className="mt-2 text-gray-400">
+                {collection.description ?? "No description has been added."}
+              </p>
 
-            <span className="mt-4 inline-block rounded-full bg-gray-800 px-3 py-1 text-xs text-gray-300">
-              {collection.visibility.toLowerCase()}
-            </span>
+              <span className="mt-4 inline-block rounded-full bg-gray-800 px-3 py-1 text-xs text-gray-300">
+                {collection.visibility.toLowerCase()}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsEditOpen(true)}
+              className="shrink-0 rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700"
+            >
+              Edit Collection
+            </button>
           </div>
         </header>
 
@@ -157,6 +173,11 @@ const CollectionPage = () => {
             </ul>
           )}
         </section>
+        <EditCollectionModal
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+          collection={collection}
+        />
       </main>
     </div>
   );

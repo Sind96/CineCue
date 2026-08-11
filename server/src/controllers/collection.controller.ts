@@ -6,6 +6,7 @@ import {
   getCollection,
   getCollections,
   removeMovieFromCollection,
+  updateCollection,
 } from "../services/collection.service.js";
 import { AppError } from "../utils/AppError.js";
 
@@ -135,6 +136,29 @@ export const deleteCollectionController = async (
 
     res.status(200).json({
       message: "Collection deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateCollectionController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.user) {
+      throw new AppError(401, "Authentication required");
+    }
+
+    const { collectionId } = req.params;
+    const userId = req.user.id;
+
+    const collection = await updateCollection(userId, collectionId, req.body);
+
+    res.status(200).json({
+      collection,
     });
   } catch (error) {
     next(error);

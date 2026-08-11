@@ -74,3 +74,8 @@ export type CreateCollectionResponse = {
 export type AddMovieToCollectionResponse = {
   collectionMovie: CollectionMovie;
 };
+
+export type UpdateCollectionInput = {
+  name?: string;
+  description?: string;
+};

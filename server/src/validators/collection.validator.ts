@@ -21,3 +21,11 @@ export const addMovieToCollectionSchema = z.object({
 export type AddMovieToCollectionInput = z.infer<
   typeof addMovieToCollectionSchema
 >;
+
+export const updateCollectionSchema = z.object({
+  name: z.string().min(1, "Collection name is required").optional(),
+  description: z.string().optional(),
+});
+
+export type UpdateCollectionInput = z.infer<typeof updateCollectionSchema>;
+
