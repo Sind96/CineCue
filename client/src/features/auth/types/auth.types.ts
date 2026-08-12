@@ -22,6 +22,7 @@ export type UserResponse = {
 export type AuthContextValue = {
   user: User | null;
   authLoading: boolean;
+  register: (input: RegisterInput) => Promise<User>;
   login: (input: LoginInput) => Promise<User>;
   logout: () => Promise<void>;
 };

@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../../components/navigation/Navbar";
 import { Bounce, toast } from "react-toastify";
-import { registerUser } from "../api/auth.api";
 import axios from "axios";
+import { useAuth } from "../hooks/useAuth";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  const { register } = useAuth();
+
   const navigate = useNavigate();
 
   const handleSignUp = async (event: React.FormEvent) => {
@@ -27,7 +30,7 @@ const SignUpPage = () => {
     }
 
     try {
-      await registerUser({
+      await register({
         name,
         email,
         password,
@@ -40,7 +43,7 @@ const SignUpPage = () => {
         transition: Bounce,
       });
 
-      navigate("/signin");
+      navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status;

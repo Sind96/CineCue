@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { getCurrentUser, loginUser, logoutUser } from "../api/auth.api";
-import type { LoginInput, User } from "../types/auth.types";
+import {
+  getCurrentUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+} from "../api/auth.api";
+import type { LoginInput, RegisterInput, User } from "../types/auth.types";
 import { AuthContext } from "./AuthContext";
 
 type AuthProviderProps = {
@@ -23,6 +28,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const register = async (input: RegisterInput): Promise<User> => {
+    const registeredUser = await registerUser(input);
+    setUser(registeredUser);
+    return registeredUser;
+  };
+
   const login = async (input: LoginInput): Promise<User> => {
     const loggedInUser = await loginUser(input);
     setUser(loggedInUser);
@@ -41,6 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const value = {
     user,
     authLoading,
+    register,
     login,
     logout,
   };
