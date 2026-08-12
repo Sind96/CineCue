@@ -74,9 +74,9 @@ const IndividualMoviePage = () => {
             <p className="font-bold mb-2">Watch Now On:</p>
 
             <div className="flex flex-wrap gap-4">
-              {movie.streamingProviders.map((provider) => (
+              {movie.streamingProviders.map((provider, index) => (
                 <a
-                  key={`${provider.id}-${provider.type}-${provider.link}`}
+                  key={`${provider.id}-${provider.type}-${provider.link}-${index}`}
                   href={provider.link}
                   target="_blank"
                   rel="noopener noreferrer"
