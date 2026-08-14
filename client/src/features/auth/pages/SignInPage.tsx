@@ -29,55 +29,87 @@ const SignInPage = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
         transition: Bounce,
       });
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-secondary font-sans text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      <main className="flex flex-1 items-center justify-center px-4">
-        <div className="bg-black bg-opacity-70 p-8 rounded-xl shadow-card max-w-md w-full">
-          {/* Heading */}
-          <h1 className="text-3xl font-bold mb-2">
-            Welcome<span className="text-primary">Back</span>
-          </h1>
-          <p className="text-gray-300 mb-6">Enter your credentials to login</p>
+      <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10 sm:px-6">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-card">
+          <div className="mb-8 text-center">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+              Welcome Back
+            </p>
 
-          <form onSubmit={handleSignIn} className="space-y-4">
-            <input
-              type="email"
-              placeholder="email@domain.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
-            />
-            <input
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
-            />
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              Sign in to CineCue
+            </h1>
+
+            <p className="mt-2 text-sm text-muted-foreground">
+              Continue building your watchlist and collections.
+            </p>
+          </div>
+
+          <form onSubmit={handleSignIn} className="space-y-5">
+            <div>
+              <label
+                htmlFor="signin-email"
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
+                Email
+              </label>
+
+              <input
+                id="signin-email"
+                type="email"
+                placeholder="email@domain.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="signin-password"
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
+                Password
+              </label>
+
+              <input
+                id="signin-password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-accent transition-colors duration-200 p-3 rounded-lg font-semibold"
+              className="w-full rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent"
             >
-              Login
+              Sign In
             </button>
           </form>
 
-          <p className="mt-4 text-sm text-gray-400">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             First time?{" "}
-            <Link to="/signup" className="text-primary hover:underline">
-              Sign up now!
+            <Link
+              to="/signup"
+              className="font-medium text-primary transition hover:underline"
+            >
+              Create an account
             </Link>
           </p>
         </div>

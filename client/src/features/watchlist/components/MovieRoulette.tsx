@@ -82,17 +82,82 @@ const MovieRoulette = ({ movies }: MovieRouletteProps) => {
   }, []);
 
   return (
-    <div>
-      <section className="mx-auto mt-12 max-w-2xl rounded-2xl border border-white/10 bg-gray-900/60 p-6 text-center shadow-xl backdrop-blur-sm">
+    <div className="px-6 py-8 text-center sm:px-8">
+      <section>
         {!hasStarted && (
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-white">
+          <div className="mb-8 pt-4">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-2xl">
+              🎲
+            </div>
+
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
               Can't decide what to watch?
             </h2>
 
-            <p className="mt-2 text-sm text-gray-400">
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
               Let CineCue choose for you. You've got three chances.
             </p>
+          </div>
+        )}
+
+        {displayMovie && (
+          <div className="mx-auto mb-7 w-full max-w-[240px] sm:max-w-[260px]">
+            <p className="mb-3 text-sm font-medium text-muted-foreground">
+              {isSpinning ? "Finding your movie..." : "You should watch"}
+            </p>
+
+            <div
+              className={`relative overflow-hidden rounded-2xl border bg-surface-elevated shadow-card transition ${
+                isSpinning
+                  ? "border-primary"
+                  : "border-border hover:border-primary"
+              }`}
+            >
+              {isSpinning ? (
+                <>
+                  {displayMovie.posterUrl ? (
+                    <img
+                      src={displayMovie.posterUrl}
+                      alt={displayMovie.title}
+                      className="aspect-[2/3] w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex aspect-[2/3] w-full items-center justify-center px-4 text-sm text-muted-foreground">
+                      Poster unavailable
+                    </div>
+                  )}
+
+                  <div className="absolute inset-x-0 bottom-0 bg-black/75 py-3 text-sm font-medium text-white">
+                    Choosing...
+                  </div>
+                </>
+              ) : (
+                <Link to={`/movie/${displayMovie.imdbId}`}>
+                  {displayMovie.posterUrl ? (
+                    <img
+                      src={displayMovie.posterUrl}
+                      alt={displayMovie.title}
+                      className="aspect-[2/3] w-full object-cover transition duration-300 hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex aspect-[2/3] w-full items-center justify-center px-4 text-sm text-muted-foreground">
+                      Poster unavailable
+                    </div>
+                  )}
+                </Link>
+              )}
+            </div>
+
+            <div className="mt-4 min-h-8" aria-live="polite">
+              {!isSpinning && (
+                <Link
+                  to={`/movie/${displayMovie.imdbId}`}
+                  className="text-xl font-bold text-foreground transition hover:text-primary"
+                >
+                  {displayMovie.title}
+                </Link>
+              )}
+            </div>
           </div>
         )}
 
@@ -100,7 +165,7 @@ const MovieRoulette = ({ movies }: MovieRouletteProps) => {
           type="button"
           onClick={handleSpin}
           disabled={spinCount >= 3 || isSpinning}
-          className="inline-flex min-w-44 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white shadow-lg transition hover:scale-105 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+          className="inline-flex min-w-44 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
         >
           <span className={isSpinning ? "animate-spin" : ""} aria-hidden="true">
             🎲
@@ -114,75 +179,21 @@ const MovieRoulette = ({ movies }: MovieRouletteProps) => {
                 ? "Spin the Roulette"
                 : "Spin Again"}
         </button>
-        <div className="mb-5 flex justify-center gap-2">
+
+        <div className="mt-6 flex justify-center gap-2">
           {[0, 1, 2].map((spin) => (
             <span
               key={spin}
-              className={`h-2.5 w-2.5 rounded-full ${
-                spin < 3 - spinCount ? "bg-primary" : "bg-gray-700"
+              className={`h-2.5 w-2.5 rounded-full transition ${
+                spin < 3 - spinCount ? "bg-primary" : "bg-surface-elevated"
               }`}
             />
           ))}
         </div>
 
-        <p className="mb-4 text-sm text-gray-400">
+        <p className="mt-3 text-sm text-muted-foreground">
           {3 - spinCount} {3 - spinCount === 1 ? "spin" : "spins"} remaining
         </p>
-
-        {displayMovie && (
-          <div className="mx-auto mb-6 w-full max-w-xs">
-            <p className="mb-3 text-sm font-medium text-gray-400">
-              You should watch
-            </p>
-
-            {isSpinning ? (
-              <div className="relative overflow-hidden rounded-xl border border-primary bg-gray-950 shadow-2xl">
-                {displayMovie.posterUrl ? (
-                  <img
-                    src={displayMovie.posterUrl}
-                    alt={displayMovie.title}
-                    className="aspect-[2/3] w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex aspect-[2/3] w-full items-center justify-center bg-gray-800 px-4 text-gray-400">
-                    Poster unavailable
-                  </div>
-                )}
-
-                <div className="absolute inset-x-0 bottom-0 bg-black/70 py-3 text-sm font-medium text-white">
-                  Choosing...
-                </div>
-              </div>
-            ) : (
-              <Link to={`/movie/${displayMovie.imdbId}`}>
-                <div className="relative overflow-hidden rounded-xl border border-white/10 bg-gray-950 shadow-2xl transition hover:border-primary">
-                  {displayMovie.posterUrl ? (
-                    <img
-                      src={displayMovie.posterUrl}
-                      alt={displayMovie.title}
-                      className="aspect-[2/3] w-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex aspect-[2/3] w-full items-center justify-center bg-gray-800 px-4 text-gray-400">
-                      Poster unavailable
-                    </div>
-                  )}
-                </div>
-              </Link>
-            )}
-
-            <div className="mt-3 h-[32px]" aria-live="polite">
-              {!isSpinning && (
-                <Link
-                  to={`/movie/${displayMovie.imdbId}`}
-                  className="text-xl font-bold text-white transition hover:text-primary"
-                >
-                  {displayMovie.title}
-                </Link>
-              )}
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );

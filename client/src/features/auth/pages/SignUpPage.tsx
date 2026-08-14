@@ -22,7 +22,6 @@ const SignUpPage = () => {
       toast.error("Passwords do not match", {
         position: "top-center",
         autoClose: 1500,
-        theme: "light",
         transition: Bounce,
       });
 
@@ -36,13 +35,6 @@ const SignUpPage = () => {
         password,
       });
 
-      toast.success("Account created. Please log in.", {
-        position: "top-center",
-        autoClose: 1500,
-        theme: "light",
-        transition: Bounce,
-      });
-
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -53,7 +45,6 @@ const SignUpPage = () => {
           toast.error("That email is already registered.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "light",
             transition: Bounce,
           });
 
@@ -68,7 +59,6 @@ const SignUpPage = () => {
             {
               position: "top-center",
               autoClose: 1500,
-              theme: "light",
               transition: Bounce,
             },
           );
@@ -82,72 +72,127 @@ const SignUpPage = () => {
       toast.error("Unable to create your account. Please try again.", {
         position: "top-center",
         autoClose: 1500,
-        theme: "light",
         transition: Bounce,
       });
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-secondary font-sans text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      <main className="flex flex-1 items-center justify-center px-4">
-        <div className="bg-black bg-opacity-70 p-8 rounded-xl shadow-card max-w-md w-full">
-          <h1 className="text-3xl font-bold mb-2">
-            Sign<span className="text-primary">Up</span>
-          </h1>
-          <p className="text-gray-300 mb-6">Create your account</p>
+      <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10 sm:px-6">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 shadow-card">
+          <div className="mb-8 text-center">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+              Join CineCue
+            </p>
 
-          <form onSubmit={handleSignUp} className="space-y-4">
-            <input
-              type="text"
-              placeholder="name"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              required
-              autoComplete="name"
-              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
-            />
-            <input
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
-            />
-            <input
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="new-password"
-              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
-            />
-            <input
-              type="password"
-              placeholder="confirm password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              autoComplete="new-password"
-              className="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary transition"
-            />
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              Create your account
+            </h1>
+
+            <p className="mt-2 text-sm text-muted-foreground">
+              Start saving movies and building your own collections.
+            </p>
+          </div>
+
+          <form onSubmit={handleSignUp} className="space-y-5">
+            <div>
+              <label
+                htmlFor="signup-name"
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
+                Name
+              </label>
+
+              <input
+                id="signup-name"
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+                autoComplete="name"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="signup-email"
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
+                Email
+              </label>
+
+              <input
+                id="signup-email"
+                type="email"
+                placeholder="email@domain.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="signup-password"
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
+                Password
+              </label>
+
+              <input
+                id="signup-password"
+                type="password"
+                placeholder="Create a password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="signup-confirm-password"
+                className="mb-2 block text-sm font-medium text-foreground"
+              >
+                Confirm password
+              </label>
+
+              <input
+                id="signup-confirm-password"
+                type="password"
+                placeholder="Repeat your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-accent transition-colors duration-200 p-3 rounded-lg font-semibold"
+              className="w-full rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent"
             >
-              Sign Up
+              Create Account
             </button>
           </form>
 
-          <p className="mt-4 text-sm text-gray-400">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link to="/signin" className="text-primary hover:underline">
-              Login
+            <Link
+              to="/signin"
+              className="font-medium text-primary transition hover:underline"
+            >
+              Sign in
             </Link>
           </p>
         </div>

@@ -18,7 +18,6 @@ const CreateCollectionForm = () => {
       toast.error("Collection name is required.", {
         position: "top-center",
         autoClose: 1500,
-        theme: "dark",
         transition: Bounce,
       });
 
@@ -38,7 +37,6 @@ const CreateCollectionForm = () => {
           toast.success("Collection created successfully.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
         },
@@ -49,7 +47,6 @@ const CreateCollectionForm = () => {
           toast.error("Unable to create collection. Please try again.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
         },
@@ -58,14 +55,11 @@ const CreateCollectionForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 rounded-xl bg-black/70 p-6 shadow-md"
-    >
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
         <label
           htmlFor="collection-name"
-          className="mb-2 block text-sm font-medium text-white"
+          className="mb-2 block text-sm font-medium text-foreground"
         >
           Collection name
         </label>
@@ -78,14 +72,14 @@ const CreateCollectionForm = () => {
           placeholder="Friday Night Movies"
           maxLength={100}
           disabled={createCollectionMutation.isPending}
-          className="w-full rounded-lg border border-gray-700 bg-gray-800 p-3 text-white outline-none transition focus:border-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60"
         />
       </div>
 
       <div>
         <label
           htmlFor="collection-description"
-          className="mb-2 block text-sm font-medium text-white"
+          className="mb-2 block text-sm font-medium text-foreground"
         >
           Description
         </label>
@@ -95,22 +89,24 @@ const CreateCollectionForm = () => {
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           placeholder="Movies we want to watch together"
-          rows={3}
+          rows={4}
           maxLength={500}
           disabled={createCollectionMutation.isPending}
-          className="w-full resize-none rounded-lg border border-gray-700 bg-gray-800 p-3 text-white outline-none transition focus:border-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60"
         />
       </div>
 
-      <button
-        type="submit"
-        disabled={createCollectionMutation.isPending}
-        className="w-full rounded-lg bg-primary p-3 font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {createCollectionMutation.isPending
-          ? "Creating collection..."
-          : "Create collection"}
-      </button>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          disabled={createCollectionMutation.isPending}
+          className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {createCollectionMutation.isPending
+            ? "Creating collection..."
+            : "Create Collection"}
+        </button>
+      </div>
     </form>
   );
 };

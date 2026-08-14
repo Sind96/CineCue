@@ -5,19 +5,25 @@ type MoviePosterProps = {
 };
 
 const MoviePoster = ({ src, alt, fixedAspect = false }: MoviePosterProps) => {
+  const aspectClass = fixedAspect ? "aspect-[2/3]" : "aspect-video";
+
   return (
-    <div className="relative min-w-[150px] sm:min-w-[180px] md:min-w-[200px] lg:min-w-[220px] cursor-pointer transition-transform hover:scale-105">
-      {fixedAspect ? (
-        <div className="aspect-[2/3] rounded-lg overflow-hidden shadow-md">
-          <img src={src} alt={alt} className="w-full h-full object-cover" />
-        </div>
-      ) : (
+    <div
+      className={`group relative overflow-hidden rounded-xl bg-surface-elevated shadow-card ${aspectClass}`}
+    >
+      {src ? (
         <img
           src={src}
           alt={alt}
-          className="w-full h-auto rounded-lg shadow-md object-cover"
+          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
         />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center px-4 text-center text-sm text-muted-foreground">
+          Poster unavailable
+        </div>
       )}
+
+      <div className="pointer-events-none absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/10" />
     </div>
   );
 };

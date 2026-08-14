@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 
-const SignUpAndSignIn = () => {
+const AuthActions = () => {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
       <Link
         to="/signup"
-        className="bg-primary hover:bg-accent px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors"
+        className="rounded-full px-4 py-2 text-sm font-medium text-foreground transition hover:bg-surface-elevated"
       >
         Sign Up
       </Link>
 
       <Link
         to="/signin"
-        className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors"
+        className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent"
       >
         Sign In
       </Link>
@@ -20,4 +20,4 @@ const SignUpAndSignIn = () => {
   );
 };
 
-export default SignUpAndSignIn;
+export default AuthActions;

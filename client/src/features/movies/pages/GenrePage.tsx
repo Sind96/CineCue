@@ -12,7 +12,7 @@ const GenrePage = () => {
 
   if (!genreId) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-white">
+      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
         Invalid genre.
       </div>
     );
@@ -28,8 +28,41 @@ const GenrePage = () => {
 
   if (genreMoviesQuery.isError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-white">
-        Unable to load this genre. Please try again.
+      <div className="min-h-screen bg-background text-foreground">
+        <Navbar />
+
+        <main className="mx-auto flex min-h-[60vh] w-full max-w-[1900px] items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 text-center shadow-card">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
+              <span className="text-xl text-red-500">!</span>
+            </div>
+
+            <h1 className="mt-5 text-xl font-semibold text-foreground">
+              Movies unavailable
+            </h1>
+
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              We couldn't load the movies in this genre. Please try again.
+            </p>
+
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => genreMoviesQuery.refetch()}
+                className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent"
+              >
+                Try Again
+              </button>
+
+              <Link
+                to="/"
+                className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-surface-elevated"
+              >
+                Back Home
+              </Link>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }

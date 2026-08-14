@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 
-const Title = () => {
+const Brand = () => {
   return (
-    <div className="text-white font-bold text-8xl lg:text-4xl tracking-wide">
-      <Link to="/" className="hover:text-primary transition-colors">
-        Cine<span className="text-primary">Cue</span>
-      </Link>
-    </div>
+    <Link
+      to="/"
+      className="shrink-0 text-xl font-bold tracking-tight text-primary transition-opacity hover:opacity-80"
+    >
+      CineCue
+    </Link>
   );
 };
 
-export default Title;
+export default Brand;

@@ -4,9 +4,16 @@ import NavLinks from "./NavLinks";
 import SearchBar from "./SearchBar";
 import AuthActions from "./AuthActions";
 import Brand from "./Brand";
+import { useTheme } from "../../features/theme/hooks/useTheme";
+import { Moon, Sun } from "lucide-react";
+import ProfileMenu from "./ProfileMenu";
+import MobileMenu from "./MobileMenu";
+import MobileSearch from "./MobileSearch";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+
   const location = useLocation();
 
   const hideSearchBar =
@@ -15,39 +22,41 @@ const Navbar = () => {
   const isAuthenticated = user !== null;
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-secondary bg-opacity-90 backdrop-blur-md shadow-sm">
-      <nav className="max-w-8xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
-        <div className="flex items-center gap-8">
-          <Brand />
-          {isAuthenticated && <NavLinks />}
-        </div>
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
+      <nav className="relative mx-auto flex h-16 max-w-7xl items-center gap-6 px-4 sm:px-6 lg:px-8">
+        <Brand />
+
+        {isAuthenticated && <NavLinks />}
 
         {!hideSearchBar && (
-          <div className="flex-1 max-w-md hidden md:block">
-            {" "}
+          <div className="hidden max-w-md flex-1 md:block">
             <SearchBar />
           </div>
         )}
 
-        <div className="flex items-center gap-4">
-          {!isAuthenticated && <AuthActions />}
-          {isAuthenticated && (
-            <>
-              {/* <p className="hidden sm:block text-sm text-gray-300">
-                Welcome back{" "}
-                <span className="text-white font-semibold">
-                  {" "}
-                  {user?.username}
-                </span>
-              </p> */}
-              <button
-                onClick={logout}
-                className="bg-primary hover:bg-accent px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-              >
-                Logout
-              </button>
-            </>
-          )}
+        <div className="ml-auto flex items-center gap-2">
+          {!hideSearchBar && <MobileSearch />}
+
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-surface-elevated hover:text-foreground"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </button>
+
+          <div className="hidden md:block">
+            {!isAuthenticated && <AuthActions />}
+            {isAuthenticated && <ProfileMenu />}
+          </div>
+
+          <MobileMenu />
         </div>
       </nav>
     </header>

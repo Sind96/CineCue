@@ -7,6 +7,7 @@ import { useRemoveMovieFromCollection } from "../hooks/useRemoveMovieFromCollect
 import { useState } from "react";
 import EditCollectionModal from "../components/EditCollectionModal";
 import MovieRouletteModal from "../../watchlist/components/MovieRouletteModal";
+import { ScaleLoader } from "react-spinners";
 
 const CollectionPage = () => {
   const { collectionId } = useParams();
@@ -34,7 +35,6 @@ const CollectionPage = () => {
           toast.success("Movie removed from collection.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
         },
@@ -45,7 +45,6 @@ const CollectionPage = () => {
           toast.error("Unable to remove movie. Please try again.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
         },
@@ -55,7 +54,7 @@ const CollectionPage = () => {
 
   if (!collectionId) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-white">
+      <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
         Invalid collection.
       </div>
     );
@@ -63,16 +62,60 @@ const CollectionPage = () => {
 
   if (collectionQuery.isPending) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-white">
-        Loading collection...
+      <div className="min-h-screen bg-background text-foreground">
+        <Navbar />
+
+        <main className="mx-auto flex min-h-[60vh] w-full max-w-[1900px] items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <ScaleLoader color="var(--accent)" />
+
+            <p className="mt-4 text-sm text-muted-foreground">
+              Loading collection...
+            </p>
+          </div>
+        </main>
       </div>
     );
   }
 
   if (collectionQuery.isError || !collection) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background text-white">
-        Unable to load this collection.
+      <div className="min-h-screen bg-background text-foreground">
+        <Navbar />
+
+        <main className="mx-auto flex min-h-[60vh] w-full max-w-[1900px] items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 text-center shadow-card">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
+              <span className="text-xl text-red-500">!</span>
+            </div>
+
+            <h1 className="mt-5 text-xl font-semibold text-foreground">
+              Collection unavailable
+            </h1>
+
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              We couldn't load this collection. Please try again or return to
+              your collections.
+            </p>
+
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => collectionQuery.refetch()}
+                className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent"
+              >
+                Try Again
+              </button>
+
+              <Link
+                to="/collections"
+                className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-surface-elevated"
+              >
+                Back to Collections
+              </Link>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
@@ -87,100 +130,116 @@ const CollectionPage = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-[1900px] px-4 py-10 sm:px-6 lg:px-8">
         <header className="mb-10">
           <Link
             to="/collections"
-            className="text-sm text-gray-400 transition hover:text-white"
+            className="text-sm text-muted-foreground transition hover:text-foreground"
           >
             ← Back to collections
           </Link>
 
-          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+                Collection
+              </p>
+
+              <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
                 {collection.name}
               </h1>
 
-              <p className="mt-2 text-gray-400">
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
                 {collection.description ?? "No description has been added."}
               </p>
 
-              <span className="mt-4 inline-block rounded-full bg-gray-800 px-3 py-1 text-xs text-gray-300">
-                {collection.visibility.toLowerCase()}
-              </span>
+              <div className="mt-4 flex items-center gap-3">
+                <span className="rounded-full bg-surface-elevated px-3 py-1 text-xs text-muted-foreground">
+                  {collection.visibility.toLowerCase()}
+                </span>
+
+                <span className="text-sm text-muted-foreground">
+                  {collection.movies.length === 1
+                    ? "1 movie"
+                    : `${collection.movies.length} movies`}
+                </span>
+              </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setIsEditOpen(true)}
-              className="shrink-0 rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700"
-            >
-              Edit Collection
-            </button>
-          </div>
-          <div className="flex shrink-0 gap-3">
-            <button
-              type="button"
-              onClick={() => setIsRouletteOpen(true)}
-              disabled={collection.movies.length === 0}
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              🎲 Pick a Movie
-            </button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => setIsRouletteOpen(true)}
+                disabled={collection.movies.length === 0}
+                className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                🎲 Pick a Movie
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setIsEditOpen(true)}
-              className="rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-700"
-            >
-              Edit Collection
-            </button>
+              <button
+                type="button"
+                onClick={() => setIsEditOpen(true)}
+                className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-surface-elevated"
+              >
+                Edit Collection
+              </button>
+            </div>
           </div>
         </header>
 
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-white">Movies</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-foreground">
+            Movies
+          </h2>
 
           {collection.movies.length === 0 ? (
-            <div className="rounded-xl border border-gray-800 bg-black/40 p-10 text-center">
-              <p className="text-lg text-gray-300">
-                This collection does not contain any movies yet.
-              </p>
+            <div className="flex min-h-64 flex-col items-center justify-center rounded-2xl border border-border bg-surface px-6 text-center">
+              <h3 className="text-xl font-semibold text-foreground">
+                This collection is empty
+              </h3>
 
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-muted-foreground">
                 Add movies from a movie detail page.
               </p>
+
+              <Link
+                to="/"
+                className="mt-6 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent"
+              >
+                Browse Movies
+              </Link>
             </div>
           ) : (
-            <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
               {collection.movies.map((collectionMovie) => (
                 <li key={collectionMovie.id} className="group relative">
                   <Link
                     to={`/movie/${collectionMovie.movie.imdbId}`}
-                    className="block"
+                    className="block transition-transform duration-300 hover:-translate-y-1"
                   >
                     {collectionMovie.movie.posterUrl ? (
                       <img
                         src={collectionMovie.movie.posterUrl}
                         alt={collectionMovie.movie.title}
-                        className="h-72 w-full rounded-lg object-cover shadow-md transition-transform duration-300 group-hover:scale-105"
+                        className="aspect-[2/3] w-full rounded-xl object-cover shadow-card"
                       />
                     ) : (
-                      <div className="flex h-72 w-full items-center justify-center rounded-lg bg-gray-800 px-4 text-center text-sm text-gray-300">
+                      <div className="flex aspect-[2/3] w-full items-center justify-center rounded-xl bg-surface-elevated px-4 text-center text-sm text-muted-foreground">
                         Poster unavailable
                       </div>
                     )}
 
-                    <h3 className="mt-3 font-medium text-white">
-                      {collectionMovie.movie.title}
-                    </h3>
+                    <div className="mt-3">
+                      <h3 className="truncate text-sm font-semibold text-foreground">
+                        {collectionMovie.movie.title}
+                      </h3>
 
-                    {collectionMovie.movie.year && (
-                      <p className="mt-1 text-sm text-gray-400">
-                        {collectionMovie.movie.year}
-                      </p>
-                    )}
+                      {collectionMovie.movie.year && (
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {collectionMovie.movie.year}
+                        </p>
+                      )}
+                    </div>
                   </Link>
 
                   <button
@@ -190,7 +249,7 @@ const CollectionPage = () => {
                     }
                     disabled={removeMovieMutation.isPending}
                     aria-label={`Remove ${collectionMovie.movie.title} from collection`}
-                    className="absolute right-2 top-2 rounded-full bg-red-600/80 p-2 text-white opacity-0 shadow transition hover:bg-red-700 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-white opacity-0 shadow transition hover:bg-red-600 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     <MdDelete className="h-5 w-5" />
                   </button>
@@ -199,6 +258,7 @@ const CollectionPage = () => {
             </ul>
           )}
         </section>
+
         <MovieRouletteModal
           isOpen={isRouletteOpen}
           onClose={() => setIsRouletteOpen(false)}

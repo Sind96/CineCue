@@ -42,7 +42,9 @@ const SearchBar = () => {
 
   return (
     <div className="relative w-full">
-      <div className="flex items-center bg-gray-800 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-primary transition">
+      <div className="flex items-center rounded-full border border-border bg-surface px-4 py-2 shadow-sm transition focus-within:border-primary">
+        <CiSearch className="mr-2 h-5 w-5 shrink-0 text-muted-foreground" />
+
         <input
           type="text"
           placeholder="Search for a movie..."
@@ -52,24 +54,18 @@ const SearchBar = () => {
             setSearchTerm(value);
           }}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          className="bg-transparent flex-1 text-sm text-white placeholder-gray-400 focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
         />
-        <button
-          onClick={handleSearch}
-          className="text-gray-400 hover:text-primary transition-colors"
-        >
-          <CiSearch size={20} />
-        </button>
       </div>
 
       {hasSearchTerm && movieSearchQuery.isPending && (
-        <div className="absolute mt-2 w-full rounded-lg bg-secondary px-4 py-3 text-sm text-gray-300 shadow-lg z-50">
+        <div className="absolute mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-muted-foreground shadow-card z-50">
           Searching...
         </div>
       )}
 
       {hasSearchTerm && movieSearchQuery.isError && (
-        <div className="absolute mt-2 w-full rounded-lg bg-secondary px-4 py-3 text-sm text-red-400 shadow-lg z-50">
+        <div className="absolute mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-red-500 shadow-card z-50">
           Unable to search for movies.
         </div>
       )}
@@ -77,18 +73,18 @@ const SearchBar = () => {
       {hasSearchTerm &&
         movieSearchQuery.isSuccess &&
         searchResults.length === 0 && (
-          <div className="absolute mt-2 w-full rounded-lg bg-secondary px-4 py-3 text-sm text-gray-300 shadow-lg z-50">
+          <div className="absolute mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-muted-foreground shadow-card z-50">
             No movies found.
           </div>
         )}
 
       {searchResults.length > 0 && (
-        <ul className="absolute mt-2 w-full bg-secondary rounded-lg shadow-lg max-h-64 overflow-y-auto z-50 custom-scrollbar">
+        <ul className="absolute mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-border bg-surface py-2 shadow-card z-50 custom-scrollbar">
           {searchResults.map((movie) => (
             <li
               key={movie.imdbId}
               onClick={() => handleMovieClick(movie.imdbId)}
-              className="px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 cursor-pointer transition"
+              className="cursor-pointer px-4 py-2.5 text-sm text-foreground transition hover:bg-surface-elevated"
             >
               {movie.title}
             </li>

@@ -43,6 +43,8 @@ export const mockMovies: Movie[] = [
     rating: 8.8,
     posterUrl:
       "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
+    backdropUrl:
+      "https://image.tmdb.org/t/p/original/s3TBrRGB1iav7gFOCNx3H31MoES.jpg",
     streamingProviders: [],
   },
   {
@@ -61,6 +63,8 @@ export const mockMovies: Movie[] = [
     rating: 9,
     posterUrl:
       "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+    backdropUrl:
+      "https://image.tmdb.org/t/p/original/hkBaDkMWbLaf8B1lsWsKX7Ew3Xq.jpg",
     streamingProviders: [],
   },
   {

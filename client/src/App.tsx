@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./index.css";
 import WatchlistPage from "./features/watchlist/pages/WatchlistPage";
 import IndividualMoviePage from "./features/movies/pages/IndividualMoviePage";
 import SignUpPage from "./features/auth/pages/SignUpPage";
@@ -14,8 +13,11 @@ import { AuthProvider } from "./features/auth/context/AuthProvider";
 import GenrePage from "./features/movies/pages/GenrePage";
 import CollectionsPage from "./features/collections/pages/CollectionsPage";
 import CollectionPage from "./features/collections/pages/CollectionPage";
+import { useTheme } from "./features/theme/hooks/useTheme";
 
 const App = () => {
+  const { theme } = useTheme();
+
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -55,7 +57,11 @@ const App = () => {
             <Route path="/movie/:imdbID" element={<IndividualMoviePage />} />
             <Route path="/test" element={<Navbar />} />
           </Routes>
-          <ToastContainer position="top-center" autoClose={3000} />
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            theme={theme}
+          />
         </>
       </AuthProvider>
     </BrowserRouter>

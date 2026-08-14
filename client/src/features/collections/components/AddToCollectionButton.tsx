@@ -3,6 +3,8 @@ import CollectionPickerModal from "./CollectionPickerModal";
 import { useAddMovieToCollection } from "../hooks/useAddMovieToCollection";
 import { Bounce, toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/hooks/useAuth";
 
 type AddToCollectionButtonProps = {
   imdbId: string;
@@ -26,8 +28,10 @@ const AddToCollectionButton = ({
   externalSource,
 }: AddToCollectionButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
 
   const addMovieMutation = useAddMovieToCollection();
+  const navigate = useNavigate();
 
   const handleCollectionSelect = async (collectionIds: string[]) => {
     try {
@@ -70,7 +74,6 @@ const AddToCollectionButton = ({
           {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           },
         );
@@ -88,7 +91,6 @@ const AddToCollectionButton = ({
           {
             position: "top-center",
             autoClose: 2000,
-            theme: "dark",
             transition: Bounce,
           },
         );
@@ -100,7 +102,6 @@ const AddToCollectionButton = ({
         toast.error("Unable to add movie to the selected collections.", {
           position: "top-center",
           autoClose: 2000,
-          theme: "dark",
           transition: Bounce,
         });
 
@@ -116,7 +117,6 @@ const AddToCollectionButton = ({
         {
           position: "top-center",
           autoClose: 1500,
-          theme: "dark",
           transition: Bounce,
         },
       );
@@ -125,7 +125,6 @@ const AddToCollectionButton = ({
         toast.info("This movie already exists in one of those collections.", {
           position: "top-center",
           autoClose: 1500,
-          theme: "dark",
           transition: Bounce,
         });
 
@@ -137,7 +136,6 @@ const AddToCollectionButton = ({
       toast.error("Unable to add movie to collections.", {
         position: "top-center",
         autoClose: 1500,
-        theme: "dark",
         transition: Bounce,
       });
     }
@@ -147,9 +145,16 @@ const AddToCollectionButton = ({
     <>
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          if (!user) {
+            navigate("/signin");
+            return;
+          }
+
+          setIsOpen(true);
+        }}
         disabled={addMovieMutation.isPending}
-        className="rounded-xl bg-gray-800 px-6 py-3 text-lg font-semibold text-white transition hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-60"
+        className="rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-surface-elevated disabled:cursor-not-allowed disabled:opacity-60"
       >
         {addMovieMutation.isPending ? "Adding..." : "Add to Collection"}
       </button>

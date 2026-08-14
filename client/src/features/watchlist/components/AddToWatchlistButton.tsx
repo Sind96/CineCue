@@ -41,7 +41,6 @@ const AddToWatchListButton = ({
           toast.success("Movie has been added to your watchlist!", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
         },
@@ -51,7 +50,6 @@ const AddToWatchListButton = ({
             toast.info("This movie is already in your watchlist.", {
               position: "top-center",
               autoClose: 1500,
-              theme: "dark",
               transition: Bounce,
             });
 
@@ -61,7 +59,6 @@ const AddToWatchListButton = ({
           toast.error("Something went wrong. Please try again later.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
         },

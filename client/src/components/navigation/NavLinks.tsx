@@ -1,28 +1,29 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const NavBarItem = () => {
+const NavLinks = () => {
+  const linkClasses = ({ isActive }: { isActive: boolean }) =>
+    [
+      "text-sm font-medium transition-colors",
+      isActive
+        ? "text-foreground"
+        : "text-muted-foreground hover:text-foreground",
+    ].join(" ");
+
   return (
-    <div className="flex items-center gap-6">
-      <Link
-        to="/watchlist"
-        className="text-gray-300 hover:text-primary transition-colors text-sm font-medium"
-      >
-        Watch List
-      </Link>
-      <Link
-        to="/collections"
-        className="text-gray-300 hover:text-primary transition-colors text-sm font-medium"
-      >
+    <div className="hidden items-center gap-6 md:flex">
+      <NavLink to="/" className={linkClasses}>
+        Home
+      </NavLink>
+
+      <NavLink to="/watchlist" className={linkClasses}>
+        Watchlist
+      </NavLink>
+
+      <NavLink to="/collections" className={linkClasses}>
         Collections
-      </Link>
-      <Link
-        to="/update"
-        className="text-gray-300 hover:text-primary transition-colors text-sm font-medium"
-      >
-        Settings
-      </Link>
+      </NavLink>
     </div>
   );
 };
 
-export default NavBarItem;
+export default NavLinks;

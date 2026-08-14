@@ -17,33 +17,58 @@ const MovieRow = ({
 }: MovieRowProps) => {
   return (
     <section>
-      {href ? (
-        <Link to={href}>
-          <h2 className="mb-4 text-xl font-bold text-white transition-colors hover:text-accent sm:text-2xl">
+      <div className="mb-4">
+        {href ? (
+          <Link to={href} className="group inline-flex items-center gap-3">
+            <h2 className="text-xl font-bold text-foreground md:text-2xl">
+              {title}
+            </h2>
+
+            <span className="text-sm font-medium text-muted-foreground transition group-hover:text-foreground">
+              View all →
+            </span>
+          </Link>
+        ) : (
+          <h2 className="text-xl font-bold text-foreground md:text-2xl">
             {title}
           </h2>
-        </Link>
-      ) : (
-        <h2 className="mb-4 text-xl font-bold text-white sm:text-2xl">
-          {title}
-        </h2>
-      )}
-      <div className="flex gap-4 overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory">
+        )}
+      </div>
+
+      <div className="no-scrollbar flex gap-3 overflow-x-auto pb-4 sm:gap-4">
         {movies.map((movie) => (
           <Link
             key={movie.imdbId}
             to={`/movie/${movie.imdbId}`}
-            className="snap-start"
+            className={
+              posterStyle === "poster"
+                ? "group w-36 shrink-0 transition-transform duration-300 hover:-translate-y-1 sm:w-40 md:w-44 lg:w-48"
+                : "group w-64 shrink-0 transition-transform duration-300 hover:-translate-y-1 sm:w-72 md:w-80 lg:w-96"
+            }
           >
-            <MoviePoster
-              src={
-                posterStyle === "backdrop"
-                  ? (movie.backdropUrl ?? movie.posterUrl ?? "")
-                  : (movie.posterUrl ?? "")
-              }
-              alt={movie.title}
-              fixedAspect={posterStyle === "poster"}
-            />
+            <div className="relative">
+              <MoviePoster
+                src={
+                  posterStyle === "backdrop"
+                    ? (movie.backdropUrl ?? movie.posterUrl ?? "")
+                    : (movie.posterUrl ?? "")
+                }
+                alt={movie.title}
+                fixedAspect={posterStyle === "poster"}
+              />
+
+              {posterStyle === "backdrop" && (
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-xl bg-gradient-to-t from-black/90 via-black/60 to-transparent px-4 pb-3 pt-10">
+                  <h3 className="truncate text-sm font-semibold text-white sm:text-base">
+                    {movie.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs text-gray-300">
+                    {movie.releaseYear}
+                  </p>
+                </div>
+              )}
+            </div>
           </Link>
         ))}
       </div>

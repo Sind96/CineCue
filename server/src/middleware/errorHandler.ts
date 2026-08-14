@@ -2,6 +2,8 @@ import type { ErrorRequestHandler } from "express";
 import { AppError } from "../utils/AppError.js";
 
 export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
+  void _next;
+
   console.error(error);
 
   if (error instanceof SyntaxError && "body" in error) {

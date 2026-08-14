@@ -36,7 +36,6 @@ const EditCollectionForm = ({
           toast.success("Collection updated.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
 
@@ -49,7 +48,6 @@ const EditCollectionForm = ({
           toast.error("Unable to update collection.", {
             position: "top-center",
             autoClose: 1500,
-            theme: "dark",
             transition: Bounce,
           });
         },
@@ -58,11 +56,11 @@ const EditCollectionForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
         <label
           htmlFor="collection-name"
-          className="mb-1 block text-sm font-medium text-gray-300"
+          className="mb-2 block text-sm font-medium text-foreground"
         >
           Name
         </label>
@@ -73,14 +71,15 @@ const EditCollectionForm = ({
           value={name}
           onChange={(event) => setName(event.target.value)}
           required
-          className="w-full rounded-lg border border-white/10 bg-gray-900 px-3 py-2 text-white outline-none focus:border-primary"
+          disabled={updateMutation.isPending}
+          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60"
         />
       </div>
 
       <div>
         <label
           htmlFor="collection-description"
-          className="mb-1 block text-sm font-medium text-gray-300"
+          className="mb-2 block text-sm font-medium text-foreground"
         >
           Description
         </label>
@@ -90,17 +89,20 @@ const EditCollectionForm = ({
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           rows={4}
-          className="w-full resize-none rounded-lg border border-white/10 bg-gray-900 px-3 py-2 text-white outline-none focus:border-primary"
+          disabled={updateMutation.isPending}
+          className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60"
         />
       </div>
 
-      <button
-        type="submit"
-        disabled={updateMutation.isPending || name.trim().length === 0}
-        className="w-full rounded-lg bg-primary px-4 py-2 font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {updateMutation.isPending ? "Saving..." : "Save Changes"}
-      </button>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          disabled={updateMutation.isPending || name.trim().length === 0}
+          className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {updateMutation.isPending ? "Saving..." : "Save Changes"}
+        </button>
+      </div>
     </form>
   );
 };
