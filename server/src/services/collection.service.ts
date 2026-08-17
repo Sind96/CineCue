@@ -197,7 +197,7 @@ export const updateCollection = async (
   });
 
   if (!collection) {
-    throw new Error("Collection not found");
+    throw new AppError(404, "Collection not found");
   }
 
   return prisma.collection.update({

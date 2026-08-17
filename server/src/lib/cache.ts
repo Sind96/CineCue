@@ -30,3 +30,7 @@ export const setCachedValue = <T>(
     expiresAt: Date.now() + ttlMs,
   });
 };
+
+export const clearCache = (): void => {
+  cache.clear();
+};
