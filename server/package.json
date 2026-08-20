@@ -17,11 +17,12 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.build.json",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "lint": "eslint .",
     "test": "vitest run",
     "prisma:dev": "prisma migrate dev",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "prisma:deploy": "prisma migrate deploy"
   },
   "type": "module",
   "keywords": [],
