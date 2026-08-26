@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      CLIENT_URL: http://localhost:5173
       NODE_ENV: test
       DATABASE_URL: postgresql://ci_user:ci_password@localhost:5432/cinecue_test
       JWT_ACCESS_SECRET: ci-access-secret

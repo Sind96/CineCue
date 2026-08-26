@@ -8,12 +8,13 @@ import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { watchlistRouter } from "./routes/watchlist.routes.js";
 import { collectionRouter } from "./routes/collection.routes.js";
+import { env } from "./config/env.js";
 
 export const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: env.CLIENT_URL,
     credentials: true,
   }),
 );
