@@ -1,18 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./index.css";
-import WatchListPage from "./pages/WatchListPage";
-import IndividualMoviePage from "./pages/IndividualMoviePage";
-import SignUpPage from "./pages/loginPages/SignUpPage";
-import Navbar from "./components/NavBar/_Navbar";
+import WatchlistPage from "./features/watchlist/pages/WatchlistPage";
+import IndividualMoviePage from "./features/movies/pages/IndividualMoviePage";
+import SignUpPage from "./features/auth/pages/SignUpPage";
+import Navbar from "./components/navigation/Navbar";
 import HomePage from "./pages/Homepage";
-import SignInPage from "./pages/loginPages/SignInPage";
-import { AuthProvider } from "./hooks/AuthContext";
-import ProtectedRoute from "./pages/loginPages/ProtectedRoute";
-import ErrorPage from "./pages/ErrorPage";
+import SignInPage from "./features/auth/pages/SignInPage";
+import RequireAuth from "./features/auth/components/RequireAuth";
+import NotFoundPage from "./pages/NotFoundPage";
 import { ToastContainer } from "react-toastify";
-import UpdatePage from "./pages/UpdatePage";
+import ComingSoonPage from "./pages/ComingSoonPage";
+import { AuthProvider } from "./features/auth/context/AuthProvider";
+import GenrePage from "./features/movies/pages/GenrePage";
+import CollectionsPage from "./features/collections/pages/CollectionsPage";
+import CollectionPage from "./features/collections/pages/CollectionPage";
+import { useTheme } from "./features/theme/hooks/useTheme";
 
 const App = () => {
+  const { theme } = useTheme();
+
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -21,22 +26,42 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/signin" element={<SignInPage />} />
-            <Route path="/error" element={<ErrorPage />} />
-            <Route path="/update" element={<UpdatePage />} />
-            <Route path="*" element={<ErrorPage />} />
-            <Route path="/genre/:genre" element={<UpdatePage />} />
+            <Route path="/error" element={<NotFoundPage />} />
+            <Route path="/update" element={<ComingSoonPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/genre/:genreId" element={<GenrePage />} />
             <Route
               path="/watchlist"
               element={
-                <ProtectedRoute>
-                  <WatchListPage />
-                </ProtectedRoute>
+                <RequireAuth>
+                  <WatchlistPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/collections"
+              element={
+                <RequireAuth>
+                  <CollectionsPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/collections/:collectionId"
+              element={
+                <RequireAuth>
+                  <CollectionPage />
+                </RequireAuth>
               }
             />
             <Route path="/movie/:imdbID" element={<IndividualMoviePage />} />
             <Route path="/test" element={<Navbar />} />
           </Routes>
-          <ToastContainer position="top-center" autoClose={3000} />
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            theme={theme}
+          />
         </>
       </AuthProvider>
     </BrowserRouter>

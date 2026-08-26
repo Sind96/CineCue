@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Watchlist" ALTER COLUMN "rating" SET DATA TYPE DOUBLE PRECISION;

@@ -14,7 +14,17 @@ export const register = async (
   next: NextFunction,
 ) => {
   try {
-    const user = await registerUser(req.body);
+    const { user, accessToken, refreshToken } = await registerUser(req.body);
+
+    res.cookie("accessToken", accessToken, {
+      ...baseCookieOptions,
+      maxAge: ACCESS_COOKIE_MAX_AGE,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      ...baseCookieOptions,
+      maxAge: REFRESH_COOKIE_MAX_AGE,
+    });
 
     res.status(201).json({
       user,

@@ -15,7 +15,9 @@ type LoginResponse = {
   refreshToken: string;
 };
 
-export const registerUser = async (input: RegisterInput): Promise<AuthUser> => {
+export const registerUser = async (
+  input: RegisterInput,
+): Promise<LoginResponse> => {
   const existingUser = await prisma.user.findUnique({
     where: {
       email: input.email,
@@ -36,7 +38,22 @@ export const registerUser = async (input: RegisterInput): Promise<AuthUser> => {
     },
     select: publicUserSelect,
   });
-  return user;
+
+  const accessToken = signAccessToken({
+    userId: user.id,
+    type: "access",
+  });
+
+  const refreshToken = signRefreshToken({
+    userId: user.id,
+    type: "refresh",
+  });
+
+  return {
+    user,
+    accessToken,
+    refreshToken,
+  };
 };
 
 export const loginUser = async (input: LoginInput): Promise<LoginResponse> => {

@@ -3,6 +3,7 @@ import { prisma } from "../lib/prisma.js";
 import { AppError } from "../utils/AppError.js";
 import { verifyAccessToken } from "../utils/token.js";
 import { publicUserSelect } from "../lib/prisma-selects.js";
+import jwt from "jsonwebtoken";
 
 export const requireAuth = async (
   req: Request,
@@ -16,7 +17,20 @@ export const requireAuth = async (
       throw new AppError(401, "Authentication required");
     }
 
-    const payload = verifyAccessToken(token);
+    let payload;
+
+    try {
+      payload = verifyAccessToken(token);
+    } catch (error) {
+      if (
+        error instanceof jwt.TokenExpiredError ||
+        error instanceof jwt.JsonWebTokenError
+      ) {
+        throw new AppError(401, "Authentication required");
+      }
+
+      throw error;
+    }
 
     const user = await prisma.user.findUnique({
       where: {

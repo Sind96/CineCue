@@ -3,6 +3,7 @@ import { AppError } from "../utils/AppError.js";
 import type {
   AddMovieToCollectionInput,
   CreateCollectionInput,
+  UpdateCollectionInput,
 } from "../validators/collection.validator.js";
 
 export const createCollection = async (
@@ -180,5 +181,29 @@ export const deleteCollection = async (
     where: {
       id: collectionId,
     },
+  });
+};
+
+export const updateCollection = async (
+  userId: string,
+  collectionId: string,
+  input: UpdateCollectionInput,
+) => {
+  const collection = await prisma.collection.findFirst({
+    where: {
+      id: collectionId,
+      ownerId: userId,
+    },
+  });
+
+  if (!collection) {
+    throw new AppError(404, "Collection not found");
+  }
+
+  return prisma.collection.update({
+    where: {
+      id: collectionId,
+    },
+    data: input,
   });
 };

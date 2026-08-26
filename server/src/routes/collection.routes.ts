@@ -6,11 +6,13 @@ import {
   getCollectionController,
   getCollectionsController,
   removeMovieFromCollectionController,
+  updateCollectionController,
 } from "../controllers/collection.controller.js";
 import { requireAuth } from "../middleware/requireAuth.js";
 import {
   validateAddMovieToCollection,
   validateCreateCollection,
+  validateUpdateCollection,
 } from "../middleware/validateCollection.js";
 
 export const collectionRouter = Router();
@@ -29,6 +31,11 @@ collectionRouter.post(
   addMovieToCollectionController,
 );
 collectionRouter.get("/:collectionId", getCollectionController);
+collectionRouter.patch(
+  "/:collectionId",
+  validateUpdateCollection,
+  updateCollectionController,
+);
 collectionRouter.delete(
   "/:collectionId/movies/:imdbId",
   removeMovieFromCollectionController,

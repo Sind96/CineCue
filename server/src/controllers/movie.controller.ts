@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import {
   getGenres,
+  getHomepageMovies,
   getMovieByImdbId,
   getMoviesByGenre,
   getTopMovies,
@@ -99,6 +100,25 @@ export const getMovieByImdbIdController = async (
 
     res.status(200).json({
       movie,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getHomepageMoviesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const countryCode =
+      typeof req.query.country === "string" ? req.query.country : "gb";
+
+    const homepage = await getHomepageMovies(countryCode);
+
+    res.status(200).json({
+      homepage,
     });
   } catch (error) {
     next(error);

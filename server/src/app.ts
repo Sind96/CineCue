@@ -6,7 +6,7 @@ import { authRouter } from "./routes/auth.routes.js";
 import { movieRouter } from "./routes/movie.routes.js";
 import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { errorHandler } from "./middleware/errorHandler.js";
-import { favouriteRouter } from "./routes/favourite.routes.js";
+import { watchlistRouter } from "./routes/watchlist.routes.js";
 import { collectionRouter } from "./routes/collection.routes.js";
 
 export const app = express();
@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use("/health", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/movies", movieRouter);
-app.use("/api/favourites", favouriteRouter);
+app.use("/api/watchlist", watchlistRouter);
 app.use("/api/collections", collectionRouter);
 
 app.use(notFoundHandler);
