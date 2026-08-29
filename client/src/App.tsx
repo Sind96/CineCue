@@ -14,12 +14,14 @@ import GenrePage from "./features/movies/pages/GenrePage";
 import CollectionsPage from "./features/collections/pages/CollectionsPage";
 import CollectionPage from "./features/collections/pages/CollectionPage";
 import { useTheme } from "./features/theme/hooks/useTheme";
+import ScrollToTop from "./components/navigation/ScrollToTop";
 
 const App = () => {
   const { theme } = useTheme();
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <>
           <Routes>

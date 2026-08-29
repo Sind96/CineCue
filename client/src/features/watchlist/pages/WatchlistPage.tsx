@@ -171,7 +171,7 @@ const WatchlistPage = () => {
                   onClick={() => handleRemove(movie.imdbId)}
                   disabled={removeMutation.isPending}
                   aria-label={`Remove ${movie.title} from watchlist`}
-                  className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-white opacity-0 shadow transition hover:bg-red-600 group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-white opacity-100 shadow transition hover:bg-red-600 md:opacity-0 md:group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {deleting === movie.imdbId ? (
                     <span className="text-xs">...</span>
