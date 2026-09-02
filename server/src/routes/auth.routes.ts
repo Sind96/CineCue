@@ -11,11 +11,12 @@ import {
   validateRegister,
 } from "../validators/auth.validator.js";
 import { requireAuth } from "../middleware/requireAuth.js";
+import { authLimiter } from "../middleware/rateLimiter.js";
 
 export const authRouter = Router();
 
-authRouter.post("/register", validateRegister, register);
-authRouter.post("/login", validateLogin, login);
+authRouter.post("/register", authLimiter, validateRegister, register);
+authRouter.post("/login", authLimiter, validateLogin, login);
 authRouter.get("/me", requireAuth, me);
 authRouter.post("/logout", logout);
 authRouter.post("/refresh", refresh);

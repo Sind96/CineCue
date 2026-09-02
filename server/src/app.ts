@@ -8,6 +8,7 @@ import { notFoundHandler } from "./middleware/notFoundHandler.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { watchlistRouter } from "./routes/watchlist.routes.js";
 import { collectionRouter } from "./routes/collection.routes.js";
+import { apiLimiter } from "./middleware/rateLimiter.js";
 import { env } from "./config/env.js";
 
 export const app = express();
@@ -23,6 +24,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/health", healthRouter);
+
+app.use("/api", apiLimiter);
+
 app.use("/api/auth", authRouter);
 app.use("/api/movies", movieRouter);
 app.use("/api/watchlist", watchlistRouter);
