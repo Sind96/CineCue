@@ -1,4 +1,4 @@
-# 🎬 CineCue
+# CineCue
 
 ### Find it. Save it. Spin it. Watch it.
 
