@@ -41,7 +41,7 @@ Built with React, TypeScript, Express, PostgreSQL and Prisma.
 | **Backend**        | Node.js, Express, TypeScript                                               |
 | **Database**       | PostgreSQL, Prisma ORM                                                     |
 | **Authentication** | JWT, HTTP-only cookies, bcrypt                                             |
-| **Testing**        | Vitest, React Testing Library, Jest, Supertest                             |
+| **Testing**        | Vitest, React Testing Library, Supertest                                   |
 | **Infrastructure** | Docker, Docker Compose, Nginx                                              |
 | **CI**             | GitHub Actions                                                             |
 | **Deployment**     | Vercel, Render                                                             |
@@ -72,8 +72,8 @@ flowchart TD
 
 - JWT authentication using HTTP-only access and refresh-token cookies.
 - Feature-based React architecture with TanStack Query for server state.
-- Layered Express backend using routes, controllers, services, repositories and validation.
-- Frontend and backend automated testing with Vitest, React Testing Library, Jest and Supertest.
+- Layered Express backend using routes, controllers, services and Zod validation, with an in-memory TTL cache in front of the third-party movie API.
+- Frontend and backend automated testing with Vitest, React Testing Library and Supertest.
 - Docker Compose for the local stack and GitHub Actions for automated test, lint and build checks.
 
 ## Running Locally
@@ -83,7 +83,7 @@ flowchart TD
 Before running CineCue locally, ensure you have:
 
 - [Docker](https://www.docker.com/) and Docker Compose
-- A valid API key for the configured movie-data provider
+- A [RapidAPI](https://rapidapi.com/) key subscribed to the [Streaming Availability API](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) (set as `MOVIE_API_KEY` in `server/.env`)
 
 ### 1. Clone the repository
 
